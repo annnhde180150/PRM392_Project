@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">HomeHelperFinder</string>
+    <string name="welcome_title">Welcome to CleanHome</string>
+    <string name="welcome_subtitle">Find trusted professionals for all your home service needs.</string>
+    <string name="get_started">Get Started</string>
+    <string name="person_cleaning_description">Welcome illustration - Person cleaning home</string>
+
+    <!-- User Type Screen -->
+    <string name="user_type_title">Find the right help for your home</string>
+    <string name="btn_customer">I\'m a customer</string>
+    <string name="btn_helper">I\'m a helper</string>
+    <string name="btn_admin">I\'m an administration</string>
+    <string name="user_type_illustration_desc">Home cleaning service illustration</string>
+    <string name="find_trusted_professionals_for_all_your_home_service_needs">Find trusted professionals for all your home service needs.</string>
+
 </resources>

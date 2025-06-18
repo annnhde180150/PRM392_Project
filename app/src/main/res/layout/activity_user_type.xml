@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/user_type_background"
+    android:padding="24dp">
+
+    <!-- Top spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8" />
+
+    <!-- Illustration -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:src="@drawable/user_type_illustration"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/user_type_illustration_desc" />
+
+    </FrameLayout>
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/user_type_title"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:gravity="center"
+        android:layout_marginBottom="48dp"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="4dp" />
+
+    <!-- Middle spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Button Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="32dp">
+
+        <!-- Customer Button -->
+        <Button
+            android:id="@+id/btn_customer"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/btn_customer"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_bg"
+            android:elevation="2dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Helper Button -->
+        <Button
+            android:id="@+id/btn_helper"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/btn_helper"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_bg"
+            android:elevation="2dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Admin Button -->
+        <Button
+            android:id="@+id/btn_admin"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/btn_admin"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_bg"
+            android:elevation="2dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
