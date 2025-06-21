@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <!-- Background colors -->
     <color name="background_color">#FFFFFF</color>
+    <color name="background_primary">#FFFFFF</color>
     <color name="user_type_background">#F5F5DC</color>
+    <color name="divider_color">#E0E0E0</color>
 
     <!-- Text colors -->
     <color name="text_primary">#121417</color>
