@@ -13,6 +13,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnUserType;
     private Button btnLogin;
     private Button btnDashboard;
+    private Button btnProfileManagement;
     private Button btnTestCustomer;
     private Button btnTestHelper;
     private Button btnTestAdmin;
@@ -36,6 +37,7 @@ public class MenuActivity extends AppCompatActivity {
         btnUserType = findViewById(R.id.btn_user_type);
         btnLogin = findViewById(R.id.btn_login);
         btnDashboard = findViewById(R.id.btn_dashboard);
+        btnProfileManagement = findViewById(R.id.btn_profile_management);
         btnTestCustomer = findViewById(R.id.btn_test_customer);
         btnTestHelper = findViewById(R.id.btn_test_helper);
         btnTestAdmin = findViewById(R.id.btn_test_admin);
@@ -61,6 +63,11 @@ public class MenuActivity extends AppCompatActivity {
 
         btnDashboard.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, DashboardActivity.class);
+            startActivity(intent);
+        });
+
+        btnProfileManagement.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.profile.ProfileManagementActivity.class);
             startActivity(intent);
         });
 

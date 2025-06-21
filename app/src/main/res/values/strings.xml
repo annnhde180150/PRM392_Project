@@ -39,6 +39,19 @@
     <string name="messages">Messages</string>
     <string name="profile">Profile</string>
 
+    <!-- Profile Management -->
+    <string name="profile_management">Profile Management</string>
+    <string name="active_profiles">Active Profiles</string>
+    <string name="banned_profiles">Banned Profiles</string>
+    <string name="no_profiles_found">No profiles found</string>
+    <string name="failed_to_load_profiles">Failed to load profiles</string>
+    <string name="profile_id">Profile ID: %1$d</string>
+    <string name="profile_type">Type: %1$s</string>
+    <string name="profile_status">Status: %1$s</string>
+    <string name="ban_reason">Ban Reason: %1$s</string>
+    <string name="banned_at">Banned At: %1$s</string>
+    <string name="ban_duration">Ban Duration: %1$s</string>
+
     <!-- Content Descriptions -->
     <string name="profile_description">Profile icon</string>
     <string name="users_description">Users icon</string>
