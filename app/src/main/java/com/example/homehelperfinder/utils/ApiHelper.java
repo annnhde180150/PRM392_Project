@@ -1,10 +1,16 @@
 package com.example.homehelperfinder.utils;
 
 import android.content.Context;
+
 import com.example.homehelperfinder.data.remote.BaseApiService;
 
 public class ApiHelper {
-    
+
+    // Private constructor to prevent instantiation
+    private ApiHelper() {
+        throw new UnsupportedOperationException("ApiHelper class cannot be instantiated");
+    }
+
     // Quick success callback
     public static <T> BaseApiService.ApiCallback<T> onSuccess(OnSuccessCallback<T> callback) {
         return new BaseApiService.ApiCallback<T>() {
@@ -14,17 +20,17 @@ public class ApiHelper {
                     callback.onSuccess(data);
                 }
             }
-            
+
             @Override
             public void onError(String errorMessage, Throwable throwable) {
                 Logger.e("ApiHelper", "API Error: " + errorMessage, throwable);
             }
         };
     }
-    
+
     // Full callback with error handling
     public static <T> BaseApiService.ApiCallback<T> callback(
-            OnSuccessCallback<T> onSuccess, 
+            OnSuccessCallback<T> onSuccess,
             OnErrorCallback onError) {
         return new BaseApiService.ApiCallback<T>() {
             @Override
@@ -33,7 +39,7 @@ public class ApiHelper {
                     onSuccess.onSuccess(data);
                 }
             }
-            
+
             @Override
             public void onError(String errorMessage, Throwable throwable) {
                 if (onError != null) {
@@ -44,11 +50,11 @@ public class ApiHelper {
             }
         };
     }
-    
+
     // Callback with context for UI operations
     public static <T> BaseApiService.ApiCallback<T> callbackWithContext(
             Context context,
-            OnSuccessCallback<T> onSuccess, 
+            OnSuccessCallback<T> onSuccess,
             OnErrorCallback onError) {
         return new BaseApiService.ApiCallback<T>() {
             @Override
@@ -57,7 +63,7 @@ public class ApiHelper {
                     onSuccess.onSuccess(data);
                 }
             }
-            
+
             @Override
             public void onError(String errorMessage, Throwable throwable) {
                 if (onError != null) {
@@ -72,18 +78,13 @@ public class ApiHelper {
             }
         };
     }
-    
+
     // Simple interfaces for callbacks
     public interface OnSuccessCallback<T> {
         void onSuccess(T data);
     }
-    
+
     public interface OnErrorCallback {
         void onError(String errorMessage, Throwable throwable);
-    }
-    
-    // Private constructor to prevent instantiation
-    private ApiHelper() {
-        throw new UnsupportedOperationException("ApiHelper class cannot be instantiated");
     }
 }

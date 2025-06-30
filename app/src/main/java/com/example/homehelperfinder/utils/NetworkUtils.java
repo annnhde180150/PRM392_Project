@@ -6,10 +6,18 @@ import android.net.NetworkInfo;
 
 public class NetworkUtils {
 
+    // Logging configuration
+    public static final String LOG_TAG = "ProfileAPI";
+
+    // Private constructor to prevent instantiation
+    private NetworkUtils() {
+        throw new UnsupportedOperationException("NetworkUtils class cannot be instantiated");
+    }
+
     // Check if network is available
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager =
-            (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -21,7 +29,7 @@ public class NetworkUtils {
     // Check if WiFi is connected
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connectivityManager =
-            (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
             NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -33,7 +41,7 @@ public class NetworkUtils {
     // Check if mobile data is connected
     public static boolean isMobileDataConnected(Context context) {
         ConnectivityManager connectivityManager =
-            (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
             NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -45,7 +53,7 @@ public class NetworkUtils {
     // Get network type
     public static String getNetworkType(Context context) {
         ConnectivityManager connectivityManager =
-            (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager != null) {
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -69,12 +77,4 @@ public class NetworkUtils {
     public static String buildProfileApiUrl(String endpoint) {
         return Constants.BASE_URL + Constants.API_BASE_PATH + Constants.PROFILE_MANAGEMENT_PATH + endpoint;
     }
-
-    // Private constructor to prevent instantiation
-    private NetworkUtils() {
-        throw new UnsupportedOperationException("NetworkUtils class cannot be instantiated");
-    }
-    
-    // Logging configuration
-    public static final String LOG_TAG = "ProfileAPI";
 } 

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:orientation="vertical">
 
     <!-- Main Content Container -->
     <LinearLayout
@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="16dp"
             android:paddingBottom="8dp">
 
@@ -33,12 +33,12 @@
                     android:id="@+id/tv_dashboard_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/dashboard"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:fontFamily="sans-serif-medium" />
+                    android:text="@string/dashboard"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -52,8 +52,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_profile"
-                    android:contentDescription="@string/profile_description" />
+                    android:contentDescription="@string/profile_description"
+                    android:src="@drawable/ic_profile" />
 
             </FrameLayout>
 
@@ -69,19 +69,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
                 <!-- Users Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_users"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/card_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/card_background">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -92,30 +92,30 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="@string/users"
-                            android:textSize="16sp"
-                            android:textStyle="normal"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/tv_users_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="1,234"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_users_growth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="+10%"
+                            android:textColor="@color/growth_positive"
                             android:textSize="16sp"
-                            android:textStyle="normal"
-                            android:textColor="@color/growth_positive" />
+                            android:textStyle="normal" />
 
                     </LinearLayout>
 
@@ -126,11 +126,11 @@
                     android:id="@+id/card_orders"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/card_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/card_background">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -141,30 +141,30 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="@string/new_orders"
-                            android:textSize="16sp"
-                            android:textStyle="normal"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/tv_orders_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="56"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_orders_growth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="+5%"
+                            android:textColor="@color/growth_positive"
                             android:textSize="16sp"
-                            android:textStyle="normal"
-                            android:textColor="@color/growth_positive" />
+                            android:textStyle="normal" />
 
                     </LinearLayout>
 
@@ -182,11 +182,11 @@
                     android:id="@+id/card_revenue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/card_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/card_background">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -197,30 +197,30 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="@string/revenue"
-                            android:textSize="16sp"
-                            android:textStyle="normal"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/tv_revenue_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="$12,345"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_revenue_growth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="+15%"
+                            android:textColor="@color/growth_positive"
                             android:textSize="16sp"
-                            android:textStyle="normal"
-                            android:textColor="@color/growth_positive" />
+                            android:textStyle="normal" />
 
                     </LinearLayout>
 
@@ -231,11 +231,11 @@
                     android:id="@+id/card_helpers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/card_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/card_background">
+                    app:cardElevation="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -246,30 +246,30 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="@string/active_helpers"
-                            android:textSize="16sp"
-                            android:textStyle="normal"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/tv_helpers_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:text="234"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
                             android:textColor="@color/text_primary"
-                            android:layout_marginBottom="8dp" />
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_helpers_growth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="+8%"
+                            android:textColor="@color/growth_positive"
                             android:textSize="16sp"
-                            android:textStyle="normal"
-                            android:textColor="@color/growth_positive" />
+                            android:textStyle="normal" />
 
                     </LinearLayout>
 
@@ -291,12 +291,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/manage"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
                 android:layout_marginBottom="16dp"
-                android:fontFamily="sans-serif-medium" />
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/manage"
+                android:textColor="@color/text_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <!-- Management Cards Grid -->
             <LinearLayout
@@ -307,43 +307,43 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
 
                     <!-- Users Management -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_manage_users"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/background_color"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="1dp"
-                        app:cardBackgroundColor="@color/background_color"
                         app:strokeColor="@color/card_border"
                         app:strokeWidth="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             android:padding="16dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_users"
                                 android:layout_marginEnd="12dp"
-                                android:contentDescription="@string/users_description" />
+                                android:contentDescription="@string/users_description"
+                                android:src="@drawable/ic_users" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/users"
+                                android:textColor="@color/text_primary"
                                 android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -354,35 +354,35 @@
                         android:id="@+id/card_manage_orders"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/background_color"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="1dp"
-                        app:cardBackgroundColor="@color/background_color"
                         app:strokeColor="@color/card_border"
                         app:strokeWidth="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             android:padding="16dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_orders"
                                 android:layout_marginEnd="12dp"
-                                android:contentDescription="@string/orders_description" />
+                                android:contentDescription="@string/orders_description"
+                                android:src="@drawable/ic_orders" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/orders"
+                                android:textColor="@color/text_primary"
                                 android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -400,35 +400,35 @@
                         android:id="@+id/card_manage_payments"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/background_color"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="1dp"
-                        app:cardBackgroundColor="@color/background_color"
                         app:strokeColor="@color/card_border"
                         app:strokeWidth="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             android:padding="16dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_payments"
                                 android:layout_marginEnd="12dp"
-                                android:contentDescription="@string/payments_description" />
+                                android:contentDescription="@string/payments_description"
+                                android:src="@drawable/ic_payments" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/payments"
+                                android:textColor="@color/text_primary"
                                 android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -439,35 +439,35 @@
                         android:id="@+id/card_manage_support"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/background_color"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="1dp"
-                        app:cardBackgroundColor="@color/background_color"
                         app:strokeColor="@color/card_border"
                         app:strokeWidth="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             android:padding="16dp">
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_support"
                                 android:layout_marginEnd="12dp"
-                                android:contentDescription="@string/support_description" />
+                                android:contentDescription="@string/support_description"
+                                android:src="@drawable/ic_support" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/support"
+                                android:textColor="@color/text_primary"
                                 android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -485,8 +485,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        android:orientation="vertical">
 
         <!-- Top border -->
         <View
@@ -508,10 +508,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
+                android:background="@drawable/nav_item_selected_bg"
                 android:gravity="center"
-                android:padding="4dp"
-                android:background="@drawable/nav_item_selected_bg">
+                android:orientation="vertical"
+                android:padding="4dp">
 
                 <FrameLayout
                     android:layout_width="32dp"
@@ -523,8 +523,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_home"
-                        android:contentDescription="@string/home_description" />
+                        android:contentDescription="@string/home_description"
+                        android:src="@drawable/ic_home" />
 
                 </FrameLayout>
 
@@ -533,9 +533,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/home"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp"
-                    android:textStyle="normal"
-                    android:textColor="@color/text_primary" />
+                    android:textStyle="normal" />
 
             </LinearLayout>
 
@@ -545,8 +545,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:padding="4dp">
 
                 <FrameLayout
@@ -559,8 +559,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_orders"
-                        android:contentDescription="@string/orders_description" />
+                        android:contentDescription="@string/orders_description"
+                        android:src="@drawable/ic_orders" />
 
                 </FrameLayout>
 
@@ -569,9 +569,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/orders"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp"
-                    android:textStyle="normal"
-                    android:textColor="@color/text_secondary" />
+                    android:textStyle="normal" />
 
             </LinearLayout>
 
@@ -581,8 +581,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:padding="4dp">
 
                 <FrameLayout
@@ -595,8 +595,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_messages"
-                        android:contentDescription="@string/messages_description" />
+                        android:contentDescription="@string/messages_description"
+                        android:src="@drawable/ic_messages" />
 
                 </FrameLayout>
 
@@ -605,9 +605,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/messages"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp"
-                    android:textStyle="normal"
-                    android:textColor="@color/text_secondary" />
+                    android:textStyle="normal" />
 
             </LinearLayout>
 
@@ -617,8 +617,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:padding="4dp">
 
                 <FrameLayout
@@ -631,8 +631,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_profile"
-                        android:contentDescription="@string/profile_description" />
+                        android:contentDescription="@string/profile_description"
+                        android:src="@drawable/ic_profile" />
 
                 </FrameLayout>
 
@@ -641,9 +641,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp"
-                    android:textStyle="normal"
-                    android:textColor="@color/text_secondary" />
+                    android:textStyle="normal" />
 
             </LinearLayout>
 

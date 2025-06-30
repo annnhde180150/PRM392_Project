@@ -1,6 +1,7 @@
 package com.example.homehelperfinder.data.model;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,10 +32,11 @@ public class ProfileModel {
     @SerializedName("lastLoginDate")
     private String lastLoginDate;
 
-    public ProfileModel() {}
+    public ProfileModel() {
+    }
 
     public ProfileModel(int profileId, String profileType, String fullName, String email,
-                       String phoneNumber, Boolean isActive) {
+                        String phoneNumber, Boolean isActive) {
         this.profileId = profileId;
         this.profileType = profileType;
         this.fullName = fullName;

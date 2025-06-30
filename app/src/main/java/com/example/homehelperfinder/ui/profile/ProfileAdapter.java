@@ -21,11 +21,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     private List<ProfileModel> profiles;
     private OnProfileActionListener listener;
 
-    public interface OnProfileActionListener {
-        void onBanProfile(ProfileModel profile);
-        void onUnbanProfile(ProfileModel profile);
-    }
-
     public ProfileAdapter(List<ProfileModel> profiles) {
         this.profiles = profiles;
     }
@@ -56,6 +51,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     public void updateProfiles(List<ProfileModel> newProfiles) {
         this.profiles = newProfiles;
         notifyDataSetChanged();
+    }
+
+    public interface OnProfileActionListener {
+        void onBanProfile(ProfileModel profile);
+
+        void onUnbanProfile(ProfileModel profile);
     }
 
     static class ProfileViewHolder extends RecyclerView.ViewHolder {

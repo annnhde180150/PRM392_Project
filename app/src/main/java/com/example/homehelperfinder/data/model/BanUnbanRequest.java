@@ -12,7 +12,8 @@ public class BanUnbanRequest {
     @SerializedName("reason")
     private String reason;
 
-    public BanUnbanRequest() {}
+    public BanUnbanRequest() {
+    }
 
     public BanUnbanRequest(int profileId, String profileType, String reason) {
         this.profileId = profileId;
@@ -43,6 +44,7 @@ public class BanUnbanRequest {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
     @Override
     public String toString() {
         return "BanUnbanRequest{" +

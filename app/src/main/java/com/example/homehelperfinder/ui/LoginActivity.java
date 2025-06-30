@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         // This is a mock implementation
         if (email.equals("test@example.com") && password.equals("password")) {
             Toast.makeText(this, "Login successful as " + userType, Toast.LENGTH_SHORT).show();
-            
+
             // Navigate to appropriate main screen based on user type
             Intent intent;
             if ("admin".equals(userType)) {

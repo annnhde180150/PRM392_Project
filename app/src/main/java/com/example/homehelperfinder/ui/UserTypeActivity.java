@@ -26,7 +26,7 @@ public class UserTypeActivity extends AppCompatActivity {
 
         initViews();
         setupClickListeners();
-        
+
         // Check for auto-selection from menu
         checkAutoSelection();
     }

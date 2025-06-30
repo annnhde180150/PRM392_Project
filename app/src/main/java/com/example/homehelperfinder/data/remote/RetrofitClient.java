@@ -3,12 +3,12 @@ package com.example.homehelperfinder.data.remote;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
     private static final String BASE_URL = Constants.RETROFIT_BASE_URL;

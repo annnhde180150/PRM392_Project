@@ -7,12 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.ui.base.BaseActivity;
-import com.example.homehelperfinder.utils.Constants;
-import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class DashboardActivity extends BaseActivity {
 
@@ -184,7 +181,7 @@ public class DashboardActivity extends BaseActivity {
 
     private void resetBottomNavItems() {
         int defaultColor = getResources().getColor(R.color.text_secondary);
-        
+
         tvNavHome.setTextColor(defaultColor);
         tvNavOrders.setTextColor(defaultColor);
         tvNavMessages.setTextColor(defaultColor);

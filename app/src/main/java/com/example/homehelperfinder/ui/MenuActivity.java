@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.homehelperfinder.R;
 
 public class MenuActivity extends AppCompatActivity {
@@ -93,7 +95,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void testUserFlow(String userType) {
         Toast.makeText(this, "Testing " + userType + " flow...", Toast.LENGTH_SHORT).show();
-        
+
         Intent intent = new Intent(MenuActivity.this, UserTypeActivity.class);
         intent.putExtra("auto_select_user_type", userType);
         startActivity(intent);

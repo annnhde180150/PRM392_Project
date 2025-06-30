@@ -1,8 +1,10 @@
 package com.example.homehelperfinder.data.remote;
 
 import android.content.Context;
+
 import com.example.homehelperfinder.data.model.BanUnbanRequest;
 import com.example.homehelperfinder.data.model.ProfileModel;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,7 +27,7 @@ public class ProfileApiService extends BaseApiService {
     public void getBannedProfiles(Context context, ApiCallback<List<ProfileModel>> callback) {
         handleApiResponse(context, getBannedProfiles(context), callback);
     }
-    
+
     public void getActiveProfiles(Context context, ApiCallback<List<ProfileModel>> callback) {
         handleApiResponse(context, getActiveProfiles(context), callback);
     }

@@ -2,8 +2,6 @@ package com.example.homehelperfinder.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Generic API response wrapper
  */
@@ -27,7 +25,8 @@ public class ApiResponse<T> {
     private String requestId;
 
     // Default constructor
-    public ApiResponse() {}
+    public ApiResponse() {
+    }
 
     // Getters and Setters
     public boolean isSuccess() {

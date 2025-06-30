@@ -43,21 +43,21 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    
+
     // Retrofit for API calls
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    
+
     // HTTP client for logging
     implementation(libs.logging.interceptor)
-    
+
     // JSON parsing
     implementation(libs.gson)
-    
+
     // RecyclerView and CardView
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
-    
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
