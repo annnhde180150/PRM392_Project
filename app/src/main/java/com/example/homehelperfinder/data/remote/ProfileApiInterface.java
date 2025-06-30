@@ -8,22 +8,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-/**
- * Retrofit interface for ProfileManagement API endpoints
- */
 public interface ProfileApiInterface {
-
-    /**
-     * Get all banned profiles
-     * @return Call containing API response with list of banned profiles
-     */
-    @GET("banned")
+    @GET("ProfileManagement/banned")
     Call<ApiResponse<List<ProfileModel>>> getBannedProfiles();
 
-    /**
-     * Get all active profiles
-     * @return Call containing API response with list of active profiles
-     */
-    @GET("active")
+    @GET("ProfileManagement/active")
     Call<ApiResponse<List<ProfileModel>>> getActiveProfiles();
 } 

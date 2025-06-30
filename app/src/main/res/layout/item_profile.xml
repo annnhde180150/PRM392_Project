@@ -17,7 +17,6 @@
             android:id="@+id/textViewProfileId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ID: 123"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
@@ -26,7 +25,6 @@
             android:id="@+id/textViewProfileType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Type: User"
             android:textSize="14sp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/black" />
@@ -35,7 +33,6 @@
             android:id="@+id/textViewFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name: Alice Wonderland"
             android:textSize="14sp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/black"
@@ -45,7 +42,6 @@
             android:id="@+id/textViewEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email: user@example.com"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/darker_gray" />
@@ -54,7 +50,6 @@
             android:id="@+id/textViewPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Phone: 1234567890"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/darker_gray" />
@@ -63,7 +58,6 @@
             android:id="@+id/textViewStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status: Active"
             android:textSize="14sp"
             android:layout_marginTop="8dp"
             android:textColor="@android:color/holo_green_dark" />
@@ -72,41 +66,17 @@
             android:id="@+id/textViewRegistrationDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registered: 20/06/2025 16:33"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/darker_gray" />
 
-        <!-- Ban Information Section -->
         <TextView
-            android:id="@+id/textViewBanReason"
+            android:id="@+id/textViewLastLoginDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ban Reason: N/A"
-            android:textSize="12sp"
-            android:layout_marginTop="8dp"
-            android:textColor="@android:color/holo_red_dark"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/textViewBannedAt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Banned At: N/A"
             android:textSize="12sp"
             android:layout_marginTop="4dp"
-            android:textColor="@android:color/darker_gray"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/textViewBanDuration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ban Duration: N/A"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/darker_gray"
-            android:visibility="gone" />
+            android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
 

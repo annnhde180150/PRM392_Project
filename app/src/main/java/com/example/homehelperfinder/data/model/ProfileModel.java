@@ -1,10 +1,11 @@
 package com.example.homehelperfinder.data.model;
 
 import com.google.gson.annotations.SerializedName;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-/**
- * Model class representing a Profile from the API
- */
 public class ProfileModel {
     @SerializedName("profileId")
     private int profileId;
@@ -22,7 +23,7 @@ public class ProfileModel {
     private String phoneNumber;
 
     @SerializedName("isActive")
-    private boolean isActive;
+    private Boolean isActive;
 
     @SerializedName("registrationDate")
     private String registrationDate;
@@ -30,31 +31,10 @@ public class ProfileModel {
     @SerializedName("lastLoginDate")
     private String lastLoginDate;
 
-    // Legacy fields (for banned profiles - might be null in some responses)
-    @SerializedName("isBanned")
-    private Boolean isBanned;
-
-    @SerializedName("banReason")
-    private String banReason;
-
-    @SerializedName("bannedAt")
-    private String bannedAt;
-
-    @SerializedName("bannedBy")
-    private Integer bannedBy;
-
-    @SerializedName("banDuration")
-    private Integer banDuration;
-
-    @SerializedName("status")
-    private String status;
-
-    // Default constructor
     public ProfileModel() {}
 
-    // Constructor with main fields
-    public ProfileModel(int profileId, String profileType, String fullName, String email, 
-                       String phoneNumber, boolean isActive) {
+    public ProfileModel(int profileId, String profileType, String fullName, String email,
+                       String phoneNumber, Boolean isActive) {
         this.profileId = profileId;
         this.profileType = profileType;
         this.fullName = fullName;
@@ -104,12 +84,12 @@ public class ProfileModel {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
     public String getRegistrationDate() {
@@ -128,58 +108,35 @@ public class ProfileModel {
         this.lastLoginDate = lastLoginDate;
     }
 
-    // Legacy fields getters/setters
-    public Boolean isBanned() {
-        return isBanned;
+    public Date getRegistrationDateAsDate() {
+        return parseApiDate(registrationDate);
     }
 
-    public void setBanned(Boolean banned) {
-        isBanned = banned;
+    public Date getLastLoginDateAsDate() {
+        return parseApiDate(lastLoginDate);
     }
 
-    public String getBanReason() {
-        return banReason;
-    }
+    private Date parseApiDate(String dateString) {
+        if (dateString == null || dateString.trim().isEmpty()) {
+            return null;
+        }
 
-    public void setBanReason(String banReason) {
-        this.banReason = banReason;
-    }
-
-    public String getBannedAt() {
-        return bannedAt;
-    }
-
-    public void setBannedAt(String bannedAt) {
-        this.bannedAt = bannedAt;
-    }
-
-    public Integer getBannedBy() {
-        return bannedBy;
-    }
-
-    public void setBannedBy(Integer bannedBy) {
-        this.bannedBy = bannedBy;
-    }
-
-    public Integer getBanDuration() {
-        return banDuration;
-    }
-
-    public void setBanDuration(Integer banDuration) {
-        this.banDuration = banDuration;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    // Helper method to determine if profile is banned
-    public boolean getIsBanned() {
-        return isBanned != null ? isBanned : !isActive;
+        try {
+            SimpleDateFormat inputFormat;
+            if (dateString.contains(".")) {
+                // Format with milliseconds: 2025-06-20T16:33:01.85
+                inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.getDefault());
+            } else if (dateString.contains("T")) {
+                // Format without milliseconds: 2025-06-20T16:33:01
+                inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            } else {
+                // Simple date format: 2025-06-20
+                inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            }
+            return inputFormat.parse(dateString);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     @Override
@@ -191,14 +148,8 @@ public class ProfileModel {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", isActive=" + isActive +
-                ", registrationDate='" + registrationDate + '\'' +
-                ", lastLoginDate='" + lastLoginDate + '\'' +
-                ", isBanned=" + isBanned +
-                ", banReason='" + banReason + '\'' +
-                ", bannedAt='" + bannedAt + '\'' +
-                ", bannedBy=" + bannedBy +
-                ", banDuration=" + banDuration +
-                ", status='" + status + '\'' +
+                ", registrationDate=" + registrationDate +
+                ", lastLoginDate=" + lastLoginDate +
                 '}';
     }
 } 

@@ -6,12 +6,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.utils.Constants;
+import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends BaseActivity {
 
     // Header
     private TextView tvDashboardTitle;

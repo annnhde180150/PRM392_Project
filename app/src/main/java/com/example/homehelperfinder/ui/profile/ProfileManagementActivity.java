@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.ProfileModel;
+import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.repository.ProfileRepository;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Activity for managing and displaying profiles (active and banned)
  */
-public class ProfileManagementActivity extends AppCompatActivity {
+public class ProfileManagementActivity extends BaseActivity {
     private static final String TAG = "ProfileManagement";
     
     private TabLayout tabLayout;
@@ -76,42 +77,58 @@ public class ProfileManagementActivity extends AppCompatActivity {
     }
 
     private void loadActiveProfiles() {
-        repository.getActiveProfiles()
-                .thenAccept(profiles -> runOnUiThread(() -> {
+        showProgressDialog("Loading active profiles...");
+
+        repository.getActiveProfiles(this, new BaseApiService.ApiCallback<List<ProfileModel>>() {
+            @Override
+            public void onSuccess(List<ProfileModel> profiles) {
+                runOnUiThread(() -> {
+                    hideProgressDialog();
                     if (profiles != null) {
                         allProfiles.clear();
                         allProfiles.addAll(profiles);
                         adapter.updateProfiles(allProfiles);
-                        Log.d(TAG, "Loaded " + profiles.size() + " active profiles");
+                        logInfo("Loaded " + profiles.size() + " active profiles");
                     }
-                }))
-                .exceptionally(throwable -> {
-                    runOnUiThread(() -> {
-                        String errorMessage = "Failed to load active profiles: " + throwable.getMessage();
-                        Toast.makeText(ProfileManagementActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-                        Log.e(TAG, errorMessage, throwable);
-                    });
-                    return null;
                 });
+            }
+
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+                    showLongToast("Failed to load active profiles: " + errorMessage);
+                    logError("Failed to load active profiles", throwable);
+                });
+            }
+        });
     }
 
     private void loadBannedProfiles() {
-        repository.getBannedProfiles()
-                .thenAccept(profiles -> runOnUiThread(() -> {
+        showProgressDialog("Loading banned profiles...");
+
+        repository.getBannedProfiles(this, new BaseApiService.ApiCallback<List<ProfileModel>>() {
+            @Override
+            public void onSuccess(List<ProfileModel> profiles) {
+                runOnUiThread(() -> {
+                    hideProgressDialog();
                     if (profiles != null) {
                         allProfiles.clear();
                         allProfiles.addAll(profiles);
                         adapter.updateProfiles(allProfiles);
-                        Log.d(TAG, "Loaded " + profiles.size() + " banned profiles");
+                        logInfo("Loaded " + profiles.size() + " banned profiles");
                     }
-                }))
-                .exceptionally(throwable -> {
-                    runOnUiThread(() -> {
-                        String errorMessage = "Failed to load banned profiles: " + throwable.getMessage();
-                        Toast.makeText(ProfileManagementActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-                        Log.e(TAG, errorMessage, throwable);
-                    });
-                    return null;
                 });
+            }
+
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+                    showLongToast("Failed to load banned profiles: " + errorMessage);
+                    logError("Failed to load banned profiles", throwable);
+                });
+            }
+        });
     }
 } 
