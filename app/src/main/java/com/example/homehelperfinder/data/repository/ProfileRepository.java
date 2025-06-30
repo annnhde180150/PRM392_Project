@@ -1,6 +1,7 @@
 package com.example.homehelperfinder.data.repository;
 
 import android.content.Context;
+import com.example.homehelperfinder.data.model.BanUnbanRequest;
 import com.example.homehelperfinder.data.model.ProfileModel;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.ProfileApiService;
@@ -31,4 +32,21 @@ public class ProfileRepository {
     public void getActiveProfiles(Context context, BaseApiService.ApiCallback<List<ProfileModel>> callback) {
         apiService.getActiveProfiles(context, callback);
     }
-} 
+
+    // Ban/Unban methods
+    public CompletableFuture<ProfileModel> banProfile(Context context, BanUnbanRequest request) {
+        return apiService.banProfile(context, request);
+    }
+
+    public CompletableFuture<ProfileModel> unbanProfile(Context context, BanUnbanRequest request) {
+        return apiService.unbanProfile(context, request);
+    }
+
+    public void banProfile(Context context, BanUnbanRequest request, BaseApiService.ApiCallback<ProfileModel> callback) {
+        apiService.banProfile(context, request, callback);
+    }
+
+    public void unbanProfile(Context context, BanUnbanRequest request, BaseApiService.ApiCallback<ProfileModel> callback) {
+        apiService.unbanProfile(context, request, callback);
+    }
+}

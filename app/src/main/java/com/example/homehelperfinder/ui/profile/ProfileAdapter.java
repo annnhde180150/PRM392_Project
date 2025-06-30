@@ -3,6 +3,7 @@ package com.example.homehelperfinder.ui.profile;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,19 @@ import java.util.Locale;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
     private List<ProfileModel> profiles;
+    private OnProfileActionListener listener;
+
+    public interface OnProfileActionListener {
+        void onBanProfile(ProfileModel profile);
+        void onUnbanProfile(ProfileModel profile);
+    }
 
     public ProfileAdapter(List<ProfileModel> profiles) {
         this.profiles = profiles;
+    }
+
+    public void setOnProfileActionListener(OnProfileActionListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,7 +45,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @Override
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
         ProfileModel profile = profiles.get(position);
-        holder.bind(profile);
+        holder.bind(profile, listener);
     }
 
     @Override
@@ -56,6 +67,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         private final TextView textViewStatus;
         private final TextView textViewRegistrationDate;
         private final TextView textViewLastLoginDate;
+        private final Button buttonBan;
+        private final Button buttonUnban;
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,9 +80,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
             textViewRegistrationDate = itemView.findViewById(R.id.textViewRegistrationDate);
             textViewLastLoginDate = itemView.findViewById(R.id.textViewLastLoginDate);
+            buttonBan = itemView.findViewById(R.id.buttonBan);
+            buttonUnban = itemView.findViewById(R.id.buttonUnban);
         }
 
-        public void bind(ProfileModel profile) {
+        public void bind(ProfileModel profile, OnProfileActionListener listener) {
             textViewProfileId.setText("ID: " + profile.getProfileId());
             textViewProfileType.setText("Type: " + (profile.getProfileType() != null ? profile.getProfileType() : "N/A"));
             textViewFullName.setText("Name: " + (profile.getFullName() != null ? profile.getFullName() : "N/A"));
@@ -83,6 +98,30 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
             textViewRegistrationDate.setText("Registered: " + formatDate(profile.getRegistrationDate()));
             textViewLastLoginDate.setText("Last Login: " + formatDate(profile.getLastLoginDate()));
+
+            // Show/hide buttons based on profile status
+            if (isActive != null && isActive) {
+                // Profile is active - show Ban button
+                buttonBan.setVisibility(View.VISIBLE);
+                buttonUnban.setVisibility(View.GONE);
+            } else {
+                // Profile is inactive/banned - show Unban button
+                buttonBan.setVisibility(View.GONE);
+                buttonUnban.setVisibility(View.VISIBLE);
+            }
+
+            // Set click listeners
+            buttonBan.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onBanProfile(profile);
+                }
+            });
+
+            buttonUnban.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onUnbanProfile(profile);
+                }
+            });
         }
 
         private String formatDate(String dateString) {

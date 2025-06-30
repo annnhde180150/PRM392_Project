@@ -11,6 +11,8 @@ public class Constants {
     // API Endpoints
     public static final String ENDPOINT_BANNED_PROFILES = "banned";
     public static final String ENDPOINT_ACTIVE_PROFILES = "active";
+    public static final String ENDPOINT_BAN_PROFILE = "ban";
+    public static final String ENDPOINT_UNBAN_PROFILE = "unban";
     
     // Network Timeouts (seconds)
     public static final int CONNECTION_TIMEOUT = 30;
