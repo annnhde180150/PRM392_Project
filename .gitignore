@@ -1,15 +1,62 @@
+# Android Studio
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+
+# Local config
 local.properties
+.DS_Store
+*.keystore
+*.jks
+
+# OS-specific
+Thumbs.db
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# IntelliJ/Android Studio cache
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/.name
+
+# Auto-generated files
+gen/
+out/
+
+# Kotlin build
+*.class
+*.kt~ 
+*.kts~
+
+# NDK / CMake
+.cxx/
+
+# Crashlytics/Firebase
+fabric.properties
+crashlytics-build.properties
+
+# Signing
+**/release.keystore
+**/debug.keystore
+
+# Gradle Wrapper logs
+gradle-wrapper.log
+
+# Jetpack Compose Preview cache
+.idea/preview.cache
+
+# Google Services (keep `google-services.json` only if needed)
+# google-services.json (if secret, uncomment this line)
+
+# Misc
+*.tmp
