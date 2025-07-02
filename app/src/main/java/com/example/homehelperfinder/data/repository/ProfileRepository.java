@@ -51,4 +51,21 @@ public class ProfileRepository {
     public void unbanProfile(Context context, BanUnbanRequest request, BaseApiService.ApiCallback<ProfileModel> callback) {
         apiService.unbanProfile(context, request, callback);
     }
+
+    // Bulk Ban/Unban methods
+    public CompletableFuture<List<ProfileModel>> bulkBanProfiles(Context context, List<BanUnbanRequest> request) {
+        return apiService.bulkBanProfiles(context, request);
+    }
+
+    public CompletableFuture<List<ProfileModel>> bulkUnbanProfiles(Context context, List<BanUnbanRequest> request) {
+        return apiService.bulkUnbanProfiles(context, request);
+    }
+
+    public void bulkBanProfiles(Context context, List<BanUnbanRequest> request, BaseApiService.ApiCallback<List<ProfileModel>> callback) {
+        apiService.bulkBanProfiles(context, request, callback);
+    }
+
+    public void bulkUnbanProfiles(Context context, List<BanUnbanRequest> request, BaseApiService.ApiCallback<List<ProfileModel>> callback) {
+        apiService.bulkUnbanProfiles(context, request, callback);
+    }
 }

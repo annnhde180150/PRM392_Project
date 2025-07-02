@@ -47,4 +47,21 @@ public class ProfileApiService extends BaseApiService {
     public void unbanProfile(Context context, BanUnbanRequest request, ApiCallback<ProfileModel> callback) {
         handleApiResponse(context, unbanProfile(context, request), callback);
     }
+
+    // Bulk Ban/Unban methods
+    public CompletableFuture<List<ProfileModel>> bulkBanProfiles(Context context, List<BanUnbanRequest> request) {
+        return executeCall(context, apiInterface.bulkBanProfiles(request), "bulkBanProfiles");
+    }
+
+    public CompletableFuture<List<ProfileModel>> bulkUnbanProfiles(Context context, List<BanUnbanRequest> request) {
+        return executeCall(context, apiInterface.bulkUnbanProfiles(request), "bulkUnbanProfiles");
+    }
+
+    public void bulkBanProfiles(Context context, List<BanUnbanRequest> request, ApiCallback<List<ProfileModel>> callback) {
+        handleApiResponse(context, bulkBanProfiles(context, request), callback);
+    }
+
+    public void bulkUnbanProfiles(Context context, List<BanUnbanRequest> request, ApiCallback<List<ProfileModel>> callback) {
+        handleApiResponse(context, bulkUnbanProfiles(context, request), callback);
+    }
 }

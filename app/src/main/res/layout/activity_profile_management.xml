@@ -25,6 +25,51 @@
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@android:color/white" />
 
+    <LinearLayout
+        android:id="@+id/layoutBulkActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/buttonSelectAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:text="Select All"
+            android:textSize="12sp"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/buttonBulkBan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:text="Bulk Ban"
+            android:textSize="12sp"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/buttonBulkUnban"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:text="Bulk Unban"
+            android:textSize="12sp"
+            android:background="@android:color/holo_green_dark"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProfiles"
         android:layout_width="match_parent"

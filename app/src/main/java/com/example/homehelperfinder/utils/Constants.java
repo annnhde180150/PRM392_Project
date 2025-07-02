@@ -13,6 +13,8 @@ public class Constants {
     public static final String ENDPOINT_ACTIVE_PROFILES = "active";
     public static final String ENDPOINT_BAN_PROFILE = "ban";
     public static final String ENDPOINT_UNBAN_PROFILE = "unban";
+    public static final String ENDPOINT_BULK_BAN_PROFILE = "bulk-ban";
+    public static final String ENDPOINT_BULK_UNBAN_PROFILE = "bulk-unban";
 
     // Network Timeouts (seconds)
     public static final int CONNECTION_TIMEOUT = 30;

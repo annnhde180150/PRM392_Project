@@ -23,4 +23,10 @@ public interface ProfileApiInterface {
 
     @POST("ProfileManagement/unban")
     Call<ApiResponse<ProfileModel>> unbanProfile(@Body BanUnbanRequest request);
+
+    @POST("ProfileManagement/bulk-ban")
+    Call<ApiResponse<List<ProfileModel>>> bulkBanProfiles(@Body List<BanUnbanRequest> request);
+
+    @POST("ProfileManagement/bulk-unban")
+    Call<ApiResponse<List<ProfileModel>>> bulkUnbanProfiles(@Body List<BanUnbanRequest> request);
 }
