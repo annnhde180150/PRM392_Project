@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/user_type_background"
+    android:background="@color/background_color"
     tools:context=".activities.HelperWalletActivity">
 
     <!-- Greeting Section -->
@@ -51,7 +51,7 @@
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_dialog_info"
             android:contentDescription="Notification"
-            android:tint="@color/text_secondary" />
+            app:tint="@color/text_secondary" />
     </LinearLayout>
 
     <!-- Wallet Card -->
@@ -127,7 +127,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@android:drawable/ic_menu_view"
-                    android:tint="@color/text_secondary"
+                    app:tint="@color/text_secondary"
                     android:layout_marginStart="6dp"
                     android:contentDescription="Show/Hide Balance" />
             </LinearLayout>
@@ -181,7 +181,7 @@
                     android:background="@android:color/transparent"
                     android:src="@android:drawable/ic_menu_sort_by_size"
                     android:contentDescription="Menu"
-                    android:tint="@color/text_secondary" />
+                    app:tint="@color/text_secondary" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
