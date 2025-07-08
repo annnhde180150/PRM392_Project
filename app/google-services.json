@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837913658808",
+    "project_id": "homehelperfinderfirebase",
+    "storage_bucket": "homehelperfinderfirebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837913658808:android:8b6ea372ebd2e8befc3b4d",
+        "android_client_info": {
+          "package_name": "com.example.homehelperfinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq8BGnNQVgVBJKgRHLhT1UZd_LVi9-RZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
