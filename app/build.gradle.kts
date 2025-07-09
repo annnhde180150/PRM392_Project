@@ -13,7 +13,6 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
 }
 
-
 android {
     namespace = "com.example.homehelperfinder"
     compileSdk = 35
@@ -31,7 +30,6 @@ android {
         manifestPlaceholders["MAPS_API_KEY"] = MAPS_API_KEY
     }
 
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -48,6 +46,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildToolsVersion = "35.0.0"
 }
 
 dependencies {
@@ -57,15 +56,30 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation("androidx.gridlayout:gridlayout:1.0.0")
+
+    // Retrofit for API calls
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // HTTP client for logging
+    implementation(libs.logging.interceptor)
+
+    // JSON parsing
+    implementation(libs.gson)
+
+    // RecyclerView and CardView
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
+
+    implementation(libs.androidx.gridlayout)
     implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.libraries.places:places:3.3.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
 
 }

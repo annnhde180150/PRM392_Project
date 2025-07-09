@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.activities;
+package com.example.homehelperfinder.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,9 @@ public class UserTypeActivity extends AppCompatActivity {
 
         initViews();
         setupClickListeners();
+
+        // Check for auto-selection from menu
+        checkAutoSelection();
     }
 
     private void initViews() {
@@ -49,5 +52,14 @@ public class UserTypeActivity extends AppCompatActivity {
         intent.putExtra("user_type", userType);
         startActivity(intent);
         finish();
+    }
+
+    private void checkAutoSelection() {
+        // Check if auto-selection is requested from menu
+        String autoSelectUserType = getIntent().getStringExtra("auto_select_user_type");
+        if (autoSelectUserType != null) {
+            // Automatically navigate based on the selected user type
+            navigateToUserFlow(autoSelectUserType);
+        }
     }
 }

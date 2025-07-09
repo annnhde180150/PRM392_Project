@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.activities;
+package com.example.homehelperfinder.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import com.example.homehelperfinder.R;
 public class WelcomeActivity extends AppCompatActivity {
 
     private Button btnGetStarted;
+    private Button btnMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void initViews() {
         btnGetStarted = findViewById(R.id.btn_get_started);
+        btnMenu = findViewById(R.id.btn_menu);
     }
 
     private void setupClickListeners() {
@@ -36,6 +38,12 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(WelcomeActivity.this, UserTypeActivity.class);
             startActivity(intent);
             finish(); // Close welcome screen
+        });
+
+        btnMenu.setOnClickListener(v -> {
+            // Navigate to developer menu
+            Intent intent = new Intent(WelcomeActivity.this, MenuActivity.class);
+            startActivity(intent);
         });
     }
 }
