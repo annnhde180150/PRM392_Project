@@ -1,8 +1,18 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+val MAPS_API_KEY = localProperties.getProperty("MAPS_API_KEY") ?: ""
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
 }
+
 
 android {
     namespace = "com.example.homehelperfinder"
@@ -16,7 +26,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildFeatures { buildConfig = true }
+        buildConfigField("String", "MAPS_API_KEY", "\"${MAPS_API_KEY}\"")
+        manifestPlaceholders["MAPS_API_KEY"] = MAPS_API_KEY
     }
+
 
     buildTypes {
         release {
