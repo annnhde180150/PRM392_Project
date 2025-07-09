@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tvWorkAreaInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="City, District, Ward"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/btnEditWorkArea"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_edit"
+        android:background="@android:color/transparent"
+        android:contentDescription="Edit Work Area"
+        android:layout_marginStart="4dp" />
+
+    <ImageButton
+        android:id="@+id/btnDeleteWorkArea"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_delete"
+        android:background="@android:color/transparent"
+        android:contentDescription="Delete Work Area" />
+
+</LinearLayout> 

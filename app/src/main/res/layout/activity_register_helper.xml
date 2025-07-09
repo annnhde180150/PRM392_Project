@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterHelperActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- User Icon -->
+            <ImageView
+                android:id="@+id/ivHelperIcon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_guest_icon"
+                android:backgroundTint="#6C5DD3"
+                android:background="@drawable/round_purple_background"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Greeting -->
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello Helper !"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/ivHelperIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Subtitle -->
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register as a Helper"
+                android:textAlignment="center"
+                android:textColor="#888888"
+                android:textSize="15sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/tvGreeting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Full Name Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilFullName"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:endIconDrawable="@drawable/ic_person"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Full Name"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Date of Birth Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDateOfBirth"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:endIconDrawable="@drawable/ic_calendar"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/tilFullName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDateOfBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Date of Birth"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Gender Label -->
+            <TextView
+                android:id="@+id/tvGenderLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/tilDateOfBirth"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp" />
+
+            <!-- Gender Selection (RadioButtons) -->
+            <RadioGroup
+                android:id="@+id/rgGender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/tvGenderLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male" />
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:layout_marginStart="24dp" />
+                <RadioButton
+                    android:id="@+id/rbOthers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Others"
+                    android:layout_marginStart="24dp" />
+            </RadioGroup>
+
+            <!-- Email Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:endIconDrawable="@drawable/ic_email"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/rgGender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Phone Number Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPhoneNumber"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:endIconDrawable="@drawable/ic_phone"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/tilEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:endIconMode="password_toggle"
+                app:layout_constraintTop_toBottomOf="@id/tilPhoneNumber"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- Bio Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBio"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:endIconDrawable="@drawable/ic_info"
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@id/tilPassword"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bio (optional)"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <!-- Skills Section (addable list) -->
+            <TextView
+                android:id="@+id/tvSkillsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skills"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tilBio"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp" />
+
+            <Button
+                android:id="@+id/btnAddSkill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Skill"
+                android:textColor="#6C5DD3"
+                android:backgroundTint="#E0E0E0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tilBio"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="32dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSkills"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/btnAddSkill"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp" />
+
+            <!-- Work Areas Section (addable list) -->
+            <TextView
+                android:id="@+id/tvWorkAreasLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Work Areas"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/rvSkills"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp" />
+
+            <Button
+                android:id="@+id/btnAddWorkArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Work Area"
+                android:textColor="#6C5DD3"
+                android:backgroundTint="#E0E0E0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/rvSkills"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="32dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvWorkAreas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/btnAddWorkArea"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp" />
+
+            <!-- Document Upload Section -->
+            <TextView
+                android:id="@+id/tvDocumentsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Documents"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/rvWorkAreas"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp" />
+
+            <Button
+                android:id="@+id/btnUploadId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Upload ID Document"
+                android:textColor="#6C5DD3"
+                android:backgroundTint="#E0E0E0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tvDocumentsLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnUploadCV"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="32dp" />
+
+            <Button
+                android:id="@+id/btnUploadCV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Upload CV"
+                android:textColor="#6C5DD3"
+                android:backgroundTint="#E0E0E0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/tvDocumentsLabel"
+                app:layout_constraintStart_toEndOf="@id/btnUploadId"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="32dp" />
+
+            <!-- Signup Button -->
+            <Button
+                android:id="@+id/btnSignup"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:text="SIGNUP"
+                android:textAllCaps="true"
+                android:backgroundTint="#6C5DD3"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/btnUploadCV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>
