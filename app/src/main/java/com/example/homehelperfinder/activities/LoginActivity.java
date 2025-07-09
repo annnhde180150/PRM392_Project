@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -13,7 +14,6 @@ import com.example.homehelperfinder.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView tvGreeting;
     private String userType;
 
     @Override
@@ -33,28 +33,47 @@ public class LoginActivity extends AppCompatActivity {
 
         userType = getIntent().getStringExtra("user_type");
         initViews();
+        setUpClickListeners();
     }
 
     private void initViews() {
-        tvGreeting = findViewById(R.id.tvGreeting);
+        TextView tvGreeting = findViewById(R.id.tvGreeting);
+        String greeting = "Hello User!";
         if (userType != null) {
             switch (userType) {
                 case "customer":
-                    tvGreeting.setText("Hello Customer!");
+                    greeting = "Hello Customer!";
                     break;
                 case "helper":
-                    tvGreeting.setText("Hello Helper!");
+                    greeting = "Hello Helper!";
                     break;
                 case "admin":
-                    tvGreeting.setText("Hello Admin!");
-                    break;
-                default:
-                    tvGreeting.setText("Hello User!");
+                    greeting = "Hello Admin!";
                     break;
             }
-        } else {
-            tvGreeting.setText("Hello User!");
         }
+        tvGreeting.setText(greeting);
+    }
+    private void setUpClickListeners() {
+        TextView tvSignUpLink = findViewById(R.id.tvSignUpLink);
+        tvSignUpLink.setOnClickListener(v -> {
+            Class<?> targetActivity = getRegisterActivityByUserType();
+            if (targetActivity != null) {
+                startActivity(new Intent(this, targetActivity));
+                finish();
+            }
+        });
+    }
 
+    private Class<?> getRegisterActivityByUserType() {
+        if (userType == null) return null;
+        switch (userType) {
+            case "customer":
+                return RegisterCustomerActivity.class;
+            case "helper":
+                return RegisterHelperActivity.class;
+            default:
+                return null;
+        }
     }
 }

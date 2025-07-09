@@ -13,4 +13,8 @@
     <string name="user_type_illustration_desc">Home cleaning service illustration</string>
     <string name="find_trusted_professionals_for_all_your_home_service_needs">Find trusted professionals for all your home service needs.</string>
 
+    <string name="pick_location_on_map">Pick Location on Map</string>
+    <string name="no_location_selected">No location selected</string>
+    <string name="select_this_location">Select This Location</string>
+
 </resources>
