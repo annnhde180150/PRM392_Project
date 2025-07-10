@@ -19,7 +19,8 @@ places = "3.3.0"
 recyclerview = "1.4.0"
 retrofit = "3.0.0"
 googleGmsGoogleServices = "4.4.3"
-firebaseStorage = "21.0.2"
+firebaseBom = "33.16.0"
+glide = "4.16.0"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -40,7 +41,10 @@ places = { module = "com.google.android.libraries.places:places", version.ref = 
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 projectlombok-lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-storage = { module = "com.google.firebase:firebase-storage" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
