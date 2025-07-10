@@ -17,4 +17,10 @@
         <item name="android:statusBarColor">@color/background_color</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+<!--    rounded corner for image-->
+    <style name="RoundedImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
 </resources>
