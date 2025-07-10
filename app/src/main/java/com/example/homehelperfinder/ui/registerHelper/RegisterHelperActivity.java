@@ -27,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
 import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
+import com.example.homehelperfinder.data.remote.BaseApiService;
+import com.example.homehelperfinder.data.repository.ServiceRepository;
 import com.example.homehelperfinder.ui.LocationPickerActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -50,10 +52,12 @@ import android.graphics.BitmapFactory;
 import com.bumptech.glide.Glide;
 import android.widget.ImageView;
 import java.util.function.Consumer;
+import com.example.homehelperfinder.data.model.response.ServiceResponse;
 
 public class RegisterHelperActivity extends AppCompatActivity {
     private SkillAdapter skillAdapter;
     private WorkAreaAdapter workAreaAdapter;
+    private ServiceRepository serviceRepository;
 
     private final List<HelperSkillResponse> skillList = new ArrayList<>();
     private final List<HelperWorkAreaResponse> workAreaList = new ArrayList<>();
@@ -101,6 +105,8 @@ public class RegisterHelperActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        serviceRepository = new ServiceRepository();
+
         getSelectedGender();
         setupDatePicker();
 
@@ -241,6 +247,9 @@ public class RegisterHelperActivity extends AppCompatActivity {
     private void setupSignUpButton() {
         Button btnSignup = findViewById(R.id.btnSignup);
         btnSignup.setOnClickListener(v -> {
+            if (!validateRegistrationForm()) {
+                return;
+            }
             if (idFileUri != null) {
                 uploadIdFileToFirebase(idFileUri, idUrl -> {
                     if (cvFileUri != null) {
@@ -277,18 +286,38 @@ public class RegisterHelperActivity extends AppCompatActivity {
 
         initSkillDialogFields(dialogView);
 
-        //TODO: fetch from server or database
-        String[] services = {"Cleaning", "Cooking", "Gardening", "Babysitting"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, services);
-        actvService.setAdapter(adapter);
+        // showProgressDialog("Loading services...");
 
-        // If editing, pre-fill fields
-        if (skillToEdit != null) {
-            actvService.setText(skillToEdit.getServiceName(), false);
-            etYearsOfExperience.setText(skillToEdit.getYearsOfExperience() == null ? "" : String.valueOf(skillToEdit.getYearsOfExperience()));
-            cbIsPrimarySkill.setChecked(skillToEdit.isPrimarySkill());
-            btnAdd.setText("Update");
-        }
+        serviceRepository.getActiveServices(this, new BaseApiService.ApiCallback<List<ServiceResponse>>() {
+            @Override
+            public void onSuccess(List<ServiceResponse> services) {
+                runOnUiThread(() -> {
+                    // hideProgressDialog();
+                    List<String> serviceNames = new ArrayList<>();
+                    for (ServiceResponse service : services) {
+                        serviceNames.add(service.getServiceName());
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(RegisterHelperActivity.this, android.R.layout.simple_dropdown_item_1line, serviceNames);
+                    actvService.setAdapter(adapter);
+
+                    // If editing, pre-fill fields
+                    if (skillToEdit != null) {
+                        actvService.setText(skillToEdit.getServiceName(), false);
+                        etYearsOfExperience.setText(skillToEdit.getYearsOfExperience() == null ? "" : String.valueOf(skillToEdit.getYearsOfExperience()));
+                        cbIsPrimarySkill.setChecked(skillToEdit.isPrimarySkill());
+                        btnAdd.setText("Update");
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+                runOnUiThread(() -> {
+                    // hideProgressDialog();
+                    Toast.makeText(RegisterHelperActivity.this, "Failed to load services: " + errorMessage, Toast.LENGTH_LONG).show();
+                });
+            }
+        });
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
@@ -546,5 +575,86 @@ public class RegisterHelperActivity extends AppCompatActivity {
         // TODO: Implement your registration logic here.
         // Use idFileUrl and cvFileUrl as the uploaded file URLs (or null if not uploaded)
         Toast.makeText(this, "Proceeding with registration.\nID: " + idFileUrl + "\nCV: " + cvFileUrl, Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean validateRegistrationForm() {
+        boolean valid = true;
+
+        // Full Name
+        TextInputEditText etFullName = findViewById(R.id.etFullName);
+        String fullName = etFullName.getText().toString().trim();
+        if (fullName.isEmpty()) {
+            ((TextInputLayout) findViewById(R.id.tilFullName)).setError("Full name is required");
+            valid = false;
+        } else {
+            ((TextInputLayout) findViewById(R.id.tilFullName)).setError(null);
+        }
+
+        // Date of Birth
+        TextInputEditText etDateOfBirth = findViewById(R.id.etDateOfBirth);
+        String dob = etDateOfBirth.getText().toString().trim();
+        if (dob.isEmpty()) {
+            ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError("Date of birth is required");
+            valid = false;
+        } else {
+            ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError(null);
+        }
+
+        // Gender
+        RadioGroup rgGender = findViewById(R.id.rgGender);
+        if (rgGender.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, "Please select a gender", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        // Email
+        TextInputEditText etEmail = findViewById(R.id.etEmail);
+        String email = etEmail.getText().toString().trim();
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Valid email is required");
+            valid = false;
+        } else {
+            ((TextInputLayout) findViewById(R.id.tilEmail)).setError(null);
+        }
+
+        // Phone Number
+        TextInputEditText etPhone = findViewById(R.id.etPhoneNumber);
+        String phone = etPhone.getText().toString().trim();
+        if (phone.isEmpty() || phone.length() < 8) {
+            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Valid phone number is required");
+            valid = false;
+        } else {
+            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError(null);
+        }
+
+        // Password
+        TextInputEditText etPassword = findViewById(R.id.etPassword);
+        String password = etPassword.getText().toString();
+        if (password.isEmpty() || password.length() < 6) {
+            ((TextInputLayout) findViewById(R.id.tilPassword)).setError("Password must be at least 6 characters");
+            valid = false;
+        } else {
+            ((TextInputLayout) findViewById(R.id.tilPassword)).setError(null);
+        }
+
+        // Skills
+        if (skillList.isEmpty()) {
+            Toast.makeText(this, "Please add at least one skill", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        // Work Areas
+        if (workAreaList.isEmpty()) {
+            Toast.makeText(this, "Please add at least one work area", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        // Documents
+        if (idFileUri == null) {
+            Toast.makeText(this, "Please upload your ID document", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        return valid;
     }
 }
