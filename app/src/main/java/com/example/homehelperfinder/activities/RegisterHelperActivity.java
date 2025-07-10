@@ -33,6 +33,17 @@ import android.content.Intent;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import android.widget.TextView;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import android.net.Uri;
+import android.widget.Toast;
+import android.database.Cursor;
+import android.provider.OpenableColumns;
+import android.graphics.BitmapFactory;
+import com.bumptech.glide.Glide;
+import android.widget.ImageView;
+import java.util.function.Consumer;
 
 public class RegisterHelperActivity extends AppCompatActivity {
     private SkillAdapter skillAdapter;
@@ -43,13 +54,24 @@ public class RegisterHelperActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> locationPickerLauncher;
     private AutoCompleteTextView actvService;
+    private ActivityResultLauncher<Intent> filePickerLauncher;
+
 
     private CheckBox cbIsPrimarySkill;
     private TextInputLayout tilService, tilYears;
-    private TextInputEditText etYearsOfExperience;
-    private TextInputEditText etCity, etDistrict, etWard, etLatitude, etLongitude, etRadiusKm;
-    private Button btnAdd, btnCancel, btnPickLocation;
+    private TextInputEditText etCity, etDistrict, etWard, etLatitude, etLongitude, etRadiusKm, etYearsOfExperience;
+    private Button btnAdd, btnCancel, btnPickLocation, btnViewIdFile;
     private TextView tvSelectedLocation;
+    private Uri idFileUri;
+    private ImageView ivIdPreview;
+    private String idFileDownloadUrl; // will be set after upload
+    private String idFileMimeType;
+
+    private Uri cvFileUri;
+    private String cvFileDownloadUrl;
+    private String cvFileMimeType;
+    private ImageView ivCvPreview;
+    private ActivityResultLauncher<Intent> cvFilePickerLauncher;
 
 
     @Override
@@ -69,6 +91,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
 
         initViews();
 
+
     }
 
     private void initViews() {
@@ -80,6 +103,14 @@ public class RegisterHelperActivity extends AppCompatActivity {
         setupWorkAreasRecyclerView();
         setupAddWorkAreaButton();
         setupLocationPickerButton();
+
+        setupBtnUploadId();
+        setupBtnUploadCV();
+        
+        setupIdFilePicker();
+        setupCvFilePicker();
+
+        setupSignUpButton();
     }
 
     //region for Setup
@@ -196,6 +227,25 @@ public class RegisterHelperActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void setupSignUpButton() {
+        Button btnSignup = findViewById(R.id.btnSignup);
+        btnSignup.setOnClickListener(v -> {
+            if (idFileUri != null) {
+                uploadIdFileToFirebase(idFileUri, idUrl -> {
+                    if (cvFileUri != null) {
+                        uploadCvFileToFirebase(cvFileUri, cvUrl -> proceedWithRegistration(idUrl, cvUrl));
+                    } else {
+                        proceedWithRegistration(idUrl, null);
+                    }
+                });
+            } else if (cvFileUri != null) {
+                uploadCvFileToFirebase(cvFileUri, cvUrl -> proceedWithRegistration(null, cvUrl));
+            } else {
+                proceedWithRegistration(null, null);
+            }
+        });
     }
     //endregion
 
@@ -371,5 +421,120 @@ public class RegisterHelperActivity extends AppCompatActivity {
 
     //endregion
 
+    private void setupIdFilePicker() {
+        filePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    idFileUri = result.getData().getData();
+                    if (idFileUri != null) {
+                        idFileMimeType = getContentResolver().getType(idFileUri);
+                        if (idFileMimeType != null && idFileMimeType.startsWith("image/")) {
+                            ivIdPreview.setVisibility(View.VISIBLE);
+                            Glide.with(this).load(idFileUri).into(ivIdPreview);
+                        } else {
+                            ivIdPreview.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+        );
+    }
 
+    private void setupCvFilePicker() {
+        cvFilePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    cvFileUri = result.getData().getData();
+                    if (cvFileUri != null) {
+                        cvFileMimeType = getContentResolver().getType(cvFileUri);
+                        if (cvFileMimeType != null && cvFileMimeType.startsWith("image/")) {
+                            ivCvPreview.setVisibility(View.VISIBLE);
+                            Glide.with(this).load(cvFileUri).into(ivCvPreview);
+                        } else {
+                            ivCvPreview.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    private void setupBtnUploadId() {
+        ivIdPreview = findViewById(R.id.ivIdPreview);
+        Button btnUploadId = findViewById(R.id.btnUploadId);
+        btnUploadId.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            String[] mimeTypes = {"application/pdf", "image/*"};
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            filePickerLauncher.launch(Intent.createChooser(intent, "Select ID Document"));
+        });
+    }
+
+    private void setupBtnUploadCV() {
+        ivCvPreview = findViewById(R.id.ivCvPreview);
+        Button btnUploadCV = findViewById(R.id.btnUploadCV);
+        btnUploadCV.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*"); // or "application/pdf" or "image/*" as you prefer
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            cvFilePickerLauncher.launch(Intent.createChooser(intent, "Select CV File"));
+        });
+    }
+
+    private void uploadIdFileToFirebase(Uri fileUri, Consumer<String> onComplete) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        String fileName = "ids/" + System.currentTimeMillis() + "_" + fileUri.getLastPathSegment();
+        StorageReference fileRef = storageRef.child(fileName);
+        UploadTask uploadTask = fileRef.putFile(fileUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Toast.makeText(this, "ID uploaded successfully!", Toast.LENGTH_SHORT).show();
+            idFileDownloadUrl = uri.toString();
+            onComplete.accept(idFileDownloadUrl);
+        })).addOnFailureListener(e -> {
+            Toast.makeText(this, "Failed to upload ID: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            onComplete.accept(null);
+        });
+    }
+
+    private void uploadCvFileToFirebase(Uri fileUri, java.util.function.Consumer<String> onComplete) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        String fileName = "cvs/" + System.currentTimeMillis() + "_" + fileUri.getLastPathSegment();
+        StorageReference fileRef = storageRef.child(fileName);
+        UploadTask uploadTask = fileRef.putFile(fileUri);
+        uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Toast.makeText(this, "CV uploaded successfully!", Toast.LENGTH_SHORT).show();
+            cvFileDownloadUrl = uri.toString();
+            onComplete.accept(cvFileDownloadUrl);
+        })).addOnFailureListener(e -> {
+            Toast.makeText(this, "Failed to upload CV: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            onComplete.accept(null);
+        });
+    }
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (nameIndex >= 0) {
+                        result = cursor.getString(nameIndex);
+                    }
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
+    }
+
+    private void proceedWithRegistration(String idFileUrl, String cvFileUrl) {
+        // TODO: Implement your registration logic here.
+        // Use idFileUrl and cvFileUrl as the uploaded file URLs (or null if not uploaded)
+        Toast.makeText(this, "Proceeding with registration.\nID: " + idFileUrl + "\nCV: " + cvFileUrl, Toast.LENGTH_SHORT).show();
+    }
 }

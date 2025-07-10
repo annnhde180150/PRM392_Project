@@ -329,7 +329,7 @@
                 android:id="@+id/btnUploadId"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Upload ID Document"
+                android:text="Upload ID"
                 android:textColor="#6C5DD3"
                 android:backgroundTint="#E0E0E0"
                 android:layout_marginTop="8dp"
@@ -338,6 +338,17 @@
                 app:layout_constraintEnd_toStartOf="@id/btnUploadCV"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="32dp" />
+
+            <ImageView
+                android:id="@+id/ivIdPreview"
+                android:layout_width="170dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toBottomOf="@id/btnUploadId"
+                app:layout_constraintStart_toStartOf="@id/btnUploadId"
+                app:layout_constraintEnd_toEndOf="@id/btnUploadId" />
 
             <Button
                 android:id="@+id/btnUploadCV"
@@ -353,6 +364,25 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="32dp" />
 
+            <ImageView
+                android:id="@+id/ivCvPreview"
+                android:layout_width="170dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toBottomOf="@id/btnUploadCV"
+                app:layout_constraintStart_toStartOf="@id/btnUploadCV"
+                app:layout_constraintEnd_toEndOf="@id/btnUploadCV" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierPreviews"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="ivIdPreview,ivCvPreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
             <!-- Signup Button -->
             <Button
                 android:id="@+id/btnSignup"
@@ -362,7 +392,7 @@
                 android:textAllCaps="true"
                 android:backgroundTint="#6C5DD3"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@id/btnUploadCV"
+                app:layout_constraintTop_toBottomOf="@id/barrierPreviews"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="32dp"
