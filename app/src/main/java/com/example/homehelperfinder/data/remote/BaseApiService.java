@@ -2,7 +2,7 @@ package com.example.homehelperfinder.data.remote;
 
 import android.content.Context;
 
-import com.example.homehelperfinder.data.model.ApiResponse;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.utils.ErrorHandler;
 import com.example.homehelperfinder.utils.Logger;
 import com.example.homehelperfinder.utils.NetworkUtils;
