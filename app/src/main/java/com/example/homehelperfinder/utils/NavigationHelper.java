@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.homehelperfinder.ui.DashboardActivity;
+import com.example.homehelperfinder.ui.HelperDashboardActivity;
 import com.example.homehelperfinder.ui.LoginActivity;
 import com.example.homehelperfinder.ui.MenuActivity;
 import com.example.homehelperfinder.ui.UserTypeActivity;
@@ -66,6 +67,20 @@ public class NavigationHelper {
         }
         context.startActivity(intent);
         Logger.d("NavigationHelper", "Navigated to Dashboard");
+    }
+
+    // Navigate to Helper Dashboard
+    public static void navigateToHelperDashboard(Context context) {
+        navigateToHelperDashboard(context, false);
+    }
+
+    public static void navigateToHelperDashboard(Context context, boolean clearStack) {
+        Intent intent = new Intent(context, HelperDashboardActivity.class);
+        if (clearStack) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Helper Dashboard");
     }
 
     // Navigate to Profile Management
@@ -133,12 +148,20 @@ public class NavigationHelper {
             Logger.d("NavigationHelper", "User is logged in as: " + userType);
 
             // Navigate based on user type
-            if (Constants.USER_TYPE_ADMIN.equals(userType)) {
-                navigateToDashboard(context, true);
-            } else {
-                // For customer and helper, navigate to appropriate screen
-                // For now, navigate to dashboard
-                navigateToDashboard(context, true);
+            switch (userType) {
+                case Constants.USER_TYPE_CUSTOMER:
+                    navigateToDashboard(context, true);
+                    break;
+                case Constants.USER_TYPE_HELPER:
+                    navigateToHelperDashboard(context, true);
+                    break;
+                case Constants.USER_TYPE_ADMIN:
+                    navigateToMenu(context, true);
+                    break;
+                default:
+                    Logger.w("NavigationHelper", "Unknown user type: " + userType);
+                    navigateToDashboard(context, true);
+                    break;
             }
         } else {
             Logger.d("NavigationHelper", "User is not logged in");

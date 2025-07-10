@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
 import com.example.homehelperfinder.utils.Constants;
@@ -89,5 +90,10 @@ public class RetrofitClient {
     public static ChatApiInterface getChatApiService() {
         Logger.d("RetrofitClient", "Creating ChatApiInterface service");
         return getChatClient().create(ChatApiInterface.class);
+    }
+
+    public static AuthApiInterface getAuthApiService() {
+        Logger.d("RetrofitClient", "Creating AuthApiInterface service");
+        return getClient().create(AuthApiInterface.class);
     }
 }

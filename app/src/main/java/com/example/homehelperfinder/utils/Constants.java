@@ -8,6 +8,7 @@ public class Constants {
     public static final String RETROFIT_BASE_URL = BASE_URL + API_BASE_PATH;
     public static final String PROFILE_MANAGEMENT_PATH = "ProfileManagement/";
     public static final String CHAT_PATH = "chat/";
+    public static final String AUTHENTICATION_PATH = "Authentication/";
 
     // API Endpoints - Profile Management
     public static final String ENDPOINT_BANNED_PROFILES = "banned";
@@ -16,6 +17,12 @@ public class Constants {
     public static final String ENDPOINT_UNBAN_PROFILE = "unban";
     public static final String ENDPOINT_BULK_BAN_PROFILE = "bulk-ban";
     public static final String ENDPOINT_BULK_UNBAN_PROFILE = "bulk-unban";
+
+    // API Endpoints - Authentication
+    public static final String ENDPOINT_LOGIN_USER = "login/user";
+    public static final String ENDPOINT_LOGIN_HELPER = "login/helper";
+    public static final String ENDPOINT_LOGIN_ADMIN = "login/admin";
+    public static final String ENDPOINT_LOGOUT = "logout";
 
     // API Endpoints - Chat
     public static final String ENDPOINT_SEND_MESSAGE = "send";
