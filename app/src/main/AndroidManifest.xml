@@ -32,26 +32,7 @@
 
         <!-- Launcher Activity -->
         <activity
-            android:name=".activities.MakePaymentActivity"
-            android:exported="false" >
-        </activity>
-        <activity
-            android:name=".activities.HelperDashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.EditRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.PostRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.UserTypeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.WelcomeActivity"
+            android:name=".ui.MenuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
