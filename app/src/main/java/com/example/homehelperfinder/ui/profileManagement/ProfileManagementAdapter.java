@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.ui.profile;
+package com.example.homehelperfinder.ui.profileManagement;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.data.model.ProfileModel;
+import com.example.homehelperfinder.data.model.response.ProfileResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
-    private List<ProfileModel> profiles;
+public class ProfileManagementAdapter extends RecyclerView.Adapter<ProfileManagementAdapter.ProfileViewHolder> {
+    private List<ProfileResponse> profiles;
     private OnProfileActionListener listener;
-    private Set<Integer> selectedProfiles;
+    private final Set<Integer> selectedProfiles;
     private boolean isSelectionMode = false;
     private boolean isUpdatingSelection = false;
 
-    public ProfileAdapter(List<ProfileModel> profiles) {
+    public ProfileManagementAdapter(List<ProfileResponse> profiles) {
         this.profiles = profiles;
         this.selectedProfiles = new HashSet<>();
     }
@@ -47,7 +47,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     @Override
     public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
-        ProfileModel profile = profiles.get(position);
+        ProfileResponse profile = profiles.get(position);
         boolean isSelected = selectedProfiles.contains(profile.getProfileId());
         holder.bind(profile, listener, isSelectionMode, isSelected, this);
     }
@@ -57,10 +57,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         return profiles != null ? profiles.size() : 0;
     }
 
-    public void updateProfiles(List<ProfileModel> newProfiles) {
+    public void updateProfiles(List<ProfileResponse> newProfiles) {
         this.profiles = newProfiles;
         selectedProfiles.clear();
         notifyDataSetChanged();
+    }
+
+    public boolean isSelectionMode() {
+        return isSelectionMode;
     }
 
     // Selection methods
@@ -73,10 +77,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
             notifyDataSetChanged();
         });
-    }
-
-    public boolean isSelectionMode() {
-        return isSelectionMode;
     }
 
     public void toggleSelection(int profileId) {
@@ -105,7 +105,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     public void selectAll() {
         selectedProfiles.clear();
-        for (ProfileModel profile : profiles) {
+        for (ProfileResponse profile : profiles) {
             selectedProfiles.add(profile.getProfileId());
         }
         if (listener != null) {
@@ -128,9 +128,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         });
     }
 
-    public List<ProfileModel> getSelectedProfiles() {
-        List<ProfileModel> selected = new ArrayList<>();
-        for (ProfileModel profile : profiles) {
+    public List<ProfileResponse> getSelectedProfiles() {
+        List<ProfileResponse> selected = new ArrayList<>();
+        for (ProfileResponse profile : profiles) {
             if (selectedProfiles.contains(profile.getProfileId())) {
                 selected.add(profile);
             }
@@ -143,9 +143,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     public interface OnProfileActionListener {
-        void onBanProfile(ProfileModel profile);
+        void onBanProfile(ProfileResponse profile);
 
-        void onUnbanProfile(ProfileModel profile);
+        void onUnbanProfile(ProfileResponse profile);
 
         void onSelectionChanged(int selectedCount);
     }
@@ -178,7 +178,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             buttonUnban = itemView.findViewById(R.id.buttonUnban);
         }
 
-        public void bind(ProfileModel profile, OnProfileActionListener listener, boolean isSelectionMode, boolean isSelected, ProfileAdapter adapter) {
+        public void bind(ProfileResponse profile, OnProfileActionListener listener, boolean isSelectionMode, boolean isSelected, ProfileManagementAdapter adapter) {
             // Handle checkbox visibility and state
             checkBoxSelect.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
 

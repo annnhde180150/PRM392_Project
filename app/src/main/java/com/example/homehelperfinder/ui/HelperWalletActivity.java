@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.activities;
+package com.example.homehelperfinder.ui;
 
 import android.os.Bundle;
 

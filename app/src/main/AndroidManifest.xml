@@ -28,34 +28,40 @@
            android:value="${MAPS_API_KEY}"/>
 
         <activity
-            android:name=".activities.RegisterHelperActivity"
+            android:name=".ui.MenuActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterCustomerActivity"
+            android:name=".ui.RegisterCustomerActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.HelperDashboardActivity"
+            android:name=".ui.HelperDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.EditRequestActivity"
+            android:name=".ui.EditRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.PostRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.LocationPickerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.ProfileManagementActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.DashboardActivity"
+            android:name=".ui.PostRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LocationPickerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profileManagement.ProfileManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".ui.UserTypeActivity"

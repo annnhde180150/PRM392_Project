@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.data.remote;
 
+import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 
@@ -40,8 +41,8 @@ public class RetrofitClient {
         return retrofit;
     }
 
-    public static ProfileApiInterface getProfileApiService() {
+    public static ProfileManagementApiInterface getProfileApiService() {
         Logger.d("RetrofitClient", "Creating ProfileApiInterface service");
-        return getClient().create(ProfileApiInterface.class);
+        return getClient().create(ProfileManagementApiInterface.class);
     }
 } 

@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 public class SharedPrefsHelper {
 
     private static SharedPrefsHelper instance;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
     private SharedPrefsHelper(Context context) {
         sharedPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);

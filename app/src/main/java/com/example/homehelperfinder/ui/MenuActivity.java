@@ -69,7 +69,7 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         btnProfileManagement.setOnClickListener(v -> {
-            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.profile.ProfileManagementActivity.class);
+            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.profileManagement.ProfileManagementActivity.class);
             startActivity(intent);
         });
 

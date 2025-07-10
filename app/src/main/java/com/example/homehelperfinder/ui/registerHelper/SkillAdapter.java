@@ -1,26 +1,24 @@
-package com.example.homehelperfinder.adapters;
+package com.example.homehelperfinder.ui.registerHelper;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.models.HelperSkill;
+import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
+
 import java.util.List;
 
 public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHolder> {
-    private List<HelperSkill> skillList;
+    private final List<HelperSkillResponse> skillList;
     private SkillActionListener actionListener;
 
-    public interface SkillActionListener {
-        void onEdit(int position);
-        void onDelete(int position);
-    }
-
-    public SkillAdapter(List<HelperSkill> skillList) {
+    public SkillAdapter(List<HelperSkillResponse> skillList) {
         this.skillList = skillList;
     }
 
@@ -37,7 +35,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHol
 
     @Override
     public void onBindViewHolder(@NonNull SkillViewHolder holder, int position) {
-        HelperSkill skill = skillList.get(position);
+        HelperSkillResponse skill = skillList.get(position);
         holder.tvServiceName.setText(skill.getServiceName());
         holder.tvYears.setText(skill.getYearsOfExperience() == null ? "" : skill.getYearsOfExperience() + " years");
         holder.tvPrimary.setVisibility(skill.isPrimarySkill() ? View.VISIBLE : View.GONE);
@@ -54,12 +52,12 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHol
         return skillList.size();
     }
 
-    public void addSkill(HelperSkill skill) {
+    public void addSkill(HelperSkillResponse skill) {
         skillList.add(skill);
         notifyItemInserted(skillList.size() - 1);
     }
 
-    public void updateSkill(int position, HelperSkill skill) {
+    public void updateSkill(int position, HelperSkillResponse skill) {
         skillList.set(position, skill);
         notifyItemChanged(position);
     }
@@ -69,13 +67,20 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHol
         notifyItemRemoved(position);
     }
 
-    public HelperSkill getSkill(int position) {
+    public HelperSkillResponse getSkill(int position) {
         return skillList.get(position);
+    }
+
+    public interface SkillActionListener {
+        void onEdit(int position);
+
+        void onDelete(int position);
     }
 
     public static class SkillViewHolder extends RecyclerView.ViewHolder {
         TextView tvServiceName, tvYears, tvPrimary;
         ImageButton btnEdit, btnDelete;
+
         public SkillViewHolder(@NonNull View itemView) {
             super(itemView);
             tvServiceName = itemView.findViewById(R.id.tvServiceName);

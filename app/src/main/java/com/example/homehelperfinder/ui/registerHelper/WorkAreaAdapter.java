@@ -1,26 +1,24 @@
-package com.example.homehelperfinder.adapters;
+package com.example.homehelperfinder.ui.registerHelper;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.models.HelperWorkArea;
+import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
+
 import java.util.List;
 
 public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAreaViewHolder> {
-    private List<HelperWorkArea> workAreaList;
+    private final List<HelperWorkAreaResponse> workAreaList;
     private WorkAreaActionListener actionListener;
 
-    public interface WorkAreaActionListener {
-        void onEdit(int position);
-        void onDelete(int position);
-    }
-
-    public WorkAreaAdapter(List<HelperWorkArea> workAreaList) {
+    public WorkAreaAdapter(List<HelperWorkAreaResponse> workAreaList) {
         this.workAreaList = workAreaList;
     }
 
@@ -37,7 +35,7 @@ public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAr
 
     @Override
     public void onBindViewHolder(@NonNull WorkAreaViewHolder holder, int position) {
-        HelperWorkArea area = workAreaList.get(position);
+        HelperWorkAreaResponse area = workAreaList.get(position);
         String info = area.getCity() + ", " + area.getDistrict();
         if (area.getWard() != null && !area.getWard().isEmpty()) {
             info += ", " + area.getWard();
@@ -56,12 +54,12 @@ public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAr
         return workAreaList.size();
     }
 
-    public void addWorkArea(HelperWorkArea area) {
+    public void addWorkArea(HelperWorkAreaResponse area) {
         workAreaList.add(area);
         notifyItemInserted(workAreaList.size() - 1);
     }
 
-    public void updateWorkArea(int position, HelperWorkArea area) {
+    public void updateWorkArea(int position, HelperWorkAreaResponse area) {
         workAreaList.set(position, area);
         notifyItemChanged(position);
     }
@@ -71,13 +69,20 @@ public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAr
         notifyItemRemoved(position);
     }
 
-    public HelperWorkArea getWorkArea(int position) {
+    public HelperWorkAreaResponse getWorkArea(int position) {
         return workAreaList.get(position);
+    }
+
+    public interface WorkAreaActionListener {
+        void onEdit(int position);
+
+        void onDelete(int position);
     }
 
     public static class WorkAreaViewHolder extends RecyclerView.ViewHolder {
         TextView tvWorkAreaInfo;
         ImageButton btnEdit, btnDelete;
+
         public WorkAreaViewHolder(@NonNull View itemView) {
             super(itemView);
             tvWorkAreaInfo = itemView.findViewById(R.id.tvWorkAreaInfo);

@@ -10,7 +10,7 @@ import com.example.homehelperfinder.ui.LoginActivity;
 import com.example.homehelperfinder.ui.MenuActivity;
 import com.example.homehelperfinder.ui.UserTypeActivity;
 import com.example.homehelperfinder.ui.WelcomeActivity;
-import com.example.homehelperfinder.ui.profile.ProfileManagementActivity;
+import com.example.homehelperfinder.ui.profileManagement.ProfileManagementActivity;
 
 public class NavigationHelper {
 

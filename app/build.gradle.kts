@@ -50,12 +50,12 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.storage)
 
     // Retrofit for API calls
     implementation(libs.retrofit)
@@ -72,7 +72,6 @@ dependencies {
     implementation(libs.androidx.cardview)
 
     implementation(libs.androidx.gridlayout)
-    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -81,5 +80,6 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.play.services.maps)
     implementation(libs.places)
-
+    compileOnly(libs.projectlombok.lombok)
+    annotationProcessor(libs.projectlombok.lombok)
 }

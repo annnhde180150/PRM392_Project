@@ -94,12 +94,9 @@ public class ErrorHandler {
             int code = ((HttpException) throwable).code();
             // Retry for server errors (5xx) and some client errors
             return code >= 500 || code == 408 || code == 429;
-        } else if (throwable instanceof ConnectException ||
+        } else return throwable instanceof ConnectException ||
                 throwable instanceof SocketTimeoutException ||
-                throwable instanceof UnknownHostException) {
-            return true;
-        }
-        return false;
+                throwable instanceof UnknownHostException;
     }
 
     // Log error with context
@@ -114,9 +111,9 @@ public class ErrorHandler {
     }
 
     public static class ErrorResult {
-        private String message;
-        private int code;
-        private boolean isNetworkError;
+        private final String message;
+        private final int code;
+        private final boolean isNetworkError;
 
         public ErrorResult(String message, int code, boolean isNetworkError) {
             this.message = message;

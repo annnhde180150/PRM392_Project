@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.ui.profile;
+package com.example.homehelperfinder.ui.profileManagement;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.data.model.BanUnbanRequest;
-import com.example.homehelperfinder.data.model.ProfileModel;
+import com.example.homehelperfinder.data.model.request.BanUnbanRequest;
+import com.example.homehelperfinder.data.model.response.ProfileResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
-import com.example.homehelperfinder.data.repository.ProfileRepository;
+import com.example.homehelperfinder.data.repository.ProfileManagementRepository;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
@@ -27,14 +27,14 @@ import java.util.List;
 /**
  * Activity for managing and displaying profiles (active and banned)
  */
-public class ProfileManagementActivity extends BaseActivity implements ProfileAdapter.OnProfileActionListener {
+public class ProfileManagementActivity extends BaseActivity implements ProfileManagementAdapter.OnProfileActionListener {
     private static final String TAG = "ProfileManagement";
 
     private TabLayout tabLayout;
     private RecyclerView recyclerView;
-    private ProfileAdapter adapter;
-    private ProfileRepository repository;
-    private List<ProfileModel> allProfiles;
+    private ProfileManagementAdapter adapter;
+    private ProfileManagementRepository repository;
+    private List<ProfileResponse> allProfiles;
     private int currentTabPosition = 0;
 
     // Bulk action UI components
@@ -65,7 +65,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         buttonSelectAll = findViewById(R.id.buttonSelectAll);
         buttonBulkBan = findViewById(R.id.buttonBulkBan);
         buttonBulkUnban = findViewById(R.id.buttonBulkUnban);
-        repository = new ProfileRepository();
+        repository = new ProfileManagementRepository();
         allProfiles = new ArrayList<>();
     }
 
@@ -78,7 +78,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
     }
 
     private void setupRecyclerView() {
-        adapter = new ProfileAdapter(allProfiles);
+        adapter = new ProfileManagementAdapter(allProfiles);
         adapter.setOnProfileActionListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -129,7 +129,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         });
 
         buttonBulkBan.setOnClickListener(v -> {
-            List<ProfileModel> selectedProfiles = adapter.getSelectedProfiles();
+            List<ProfileResponse> selectedProfiles = adapter.getSelectedProfiles();
             if (selectedProfiles.isEmpty()) {
                 showToast("Please select profiles to ban");
                 return;
@@ -138,7 +138,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         });
 
         buttonBulkUnban.setOnClickListener(v -> {
-            List<ProfileModel> selectedProfiles = adapter.getSelectedProfiles();
+            List<ProfileResponse> selectedProfiles = adapter.getSelectedProfiles();
             if (selectedProfiles.isEmpty()) {
                 showToast("Please select profiles to unban");
                 return;
@@ -150,9 +150,9 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
     private void loadActiveProfiles() {
         showProgressDialog("Loading active profiles...");
 
-        repository.getActiveProfiles(this, new BaseApiService.ApiCallback<List<ProfileModel>>() {
+        repository.getActiveProfiles(this, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
-            public void onSuccess(List<ProfileModel> profiles) {
+            public void onSuccess(List<ProfileResponse> profiles) {
                 runOnUiThread(() -> {
                     hideProgressDialog();
                     if (profiles != null) {
@@ -178,9 +178,9 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
     private void loadBannedProfiles() {
         showProgressDialog("Loading banned profiles...");
 
-        repository.getBannedProfiles(this, new BaseApiService.ApiCallback<List<ProfileModel>>() {
+        repository.getBannedProfiles(this, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
-            public void onSuccess(List<ProfileModel> profiles) {
+            public void onSuccess(List<ProfileResponse> profiles) {
                 runOnUiThread(() -> {
                     hideProgressDialog();
                     if (profiles != null) {
@@ -204,12 +204,12 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
     }
 
     @Override
-    public void onBanProfile(ProfileModel profile) {
+    public void onBanProfile(ProfileResponse profile) {
         showBanDialog(profile);
     }
 
     @Override
-    public void onUnbanProfile(ProfileModel profile) {
+    public void onUnbanProfile(ProfileResponse profile) {
         showUnbanDialog(profile);
     }
 
@@ -224,7 +224,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         }
     }
 
-    private void showBanDialog(ProfileModel profile) {
+    private void showBanDialog(ProfileResponse profile) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ban Profile");
         builder.setMessage("Are you sure you want to ban " + profile.getFullName() + "?");
@@ -247,7 +247,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         builder.show();
     }
 
-    private void showUnbanDialog(ProfileModel profile) {
+    private void showUnbanDialog(ProfileResponse profile) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Unban Profile");
         builder.setMessage("Are you sure you want to unban " + profile.getFullName() + "?");
@@ -270,7 +270,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         builder.show();
     }
 
-    private void performBanProfile(ProfileModel profile, String reason) {
+    private void performBanProfile(ProfileResponse profile, String reason) {
         showProgressDialog("Banning profile...");
 
         BanUnbanRequest request = new BanUnbanRequest(
@@ -279,9 +279,9 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
                 reason
         );
 
-        repository.banProfile(this, request, new BaseApiService.ApiCallback<ProfileModel>() {
+        repository.banProfile(this, request, new BaseApiService.ApiCallback<ProfileResponse>() {
             @Override
-            public void onSuccess(ProfileModel updatedProfile) {
+            public void onSuccess(ProfileResponse updatedProfile) {
                 runOnUiThread(() -> {
                     hideProgressDialog();
                     showToast("Profile banned successfully");
@@ -300,7 +300,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         });
     }
 
-    private void performUnbanProfile(ProfileModel profile, String reason) {
+    private void performUnbanProfile(ProfileResponse profile, String reason) {
         showProgressDialog("Unbanning profile...");
         BanUnbanRequest request = new BanUnbanRequest(
                 profile.getProfileId(),
@@ -308,9 +308,9 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
                 reason
         );
 
-        repository.unbanProfile(this, request, new BaseApiService.ApiCallback<ProfileModel>() {
+        repository.unbanProfile(this, request, new BaseApiService.ApiCallback<ProfileResponse>() {
             @Override
-            public void onSuccess(ProfileModel updatedProfile) {
+            public void onSuccess(ProfileResponse updatedProfile) {
                 runOnUiThread(() -> {
                     hideProgressDialog();
                     showToast("Profile unbanned successfully");
@@ -360,7 +360,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         }
     }
 
-    private void showBulkBanDialog(List<ProfileModel> profiles) {
+    private void showBulkBanDialog(List<ProfileResponse> profiles) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Bulk Ban Profiles");
         builder.setMessage("Are you sure you want to ban " + profiles.size() + " profiles?");
@@ -382,7 +382,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         builder.show();
     }
 
-    private void showBulkUnbanDialog(List<ProfileModel> profiles) {
+    private void showBulkUnbanDialog(List<ProfileResponse> profiles) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Bulk Unban Profiles");
         builder.setMessage("Are you sure you want to unban " + profiles.size() + " profiles?");
@@ -404,11 +404,11 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         builder.show();
     }
 
-    private void performBulkBanProfiles(List<ProfileModel> profiles, String reason) {
+    private void performBulkBanProfiles(List<ProfileResponse> profiles, String reason) {
         showProgressDialog("Banning " + profiles.size() + " profiles...");
 
         List<BanUnbanRequest> requests = new ArrayList<>();
-        for (ProfileModel profile : profiles) {
+        for (ProfileResponse profile : profiles) {
             requests.add(new BanUnbanRequest(
                     profile.getProfileId(),
                     profile.getProfileType(),
@@ -416,9 +416,9 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
             ));
         }
 
-        repository.bulkBanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileModel>>() {
+        repository.bulkBanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
-            public void onSuccess(List<ProfileModel> updatedProfiles) {
+            public void onSuccess(List<ProfileResponse> updatedProfiles) {
                 runOnUiThread(() -> {
                     hideProgressDialog();
                     showToast("Successfully banned " + updatedProfiles.size() + " profiles");
@@ -439,11 +439,11 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         });
     }
 
-    private void performBulkUnbanProfiles(List<ProfileModel> profiles, String reason) {
+    private void performBulkUnbanProfiles(List<ProfileResponse> profiles, String reason) {
         showProgressDialog("Unbanning " + profiles.size() + " profiles...");
 
         List<BanUnbanRequest> requests = new ArrayList<>();
-        for (ProfileModel profile : profiles) {
+        for (ProfileResponse profile : profiles) {
             requests.add(new BanUnbanRequest(
                     profile.getProfileId(),
                     profile.getProfileType(),
@@ -452,9 +452,9 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileAd
         }
 
 
-        repository.bulkUnbanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileModel>>() {
+        repository.bulkUnbanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
-            public void onSuccess(List<ProfileModel> updatedProfiles) {
+            public void onSuccess(List<ProfileResponse> updatedProfiles) {
                 runOnUiThread(() -> {
                     hideProgressDialog();
                     showToast("Successfully unbanned " + updatedProfiles.size() + " profiles");

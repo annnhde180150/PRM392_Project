@@ -1,7 +1,8 @@
-package com.example.homehelperfinder.activities;
+package com.example.homehelperfinder.ui.registerHelper;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,37 +10,37 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import com.google.android.material.textfield.TextInputEditText;
-import com.example.homehelperfinder.R;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.homehelperfinder.adapters.SkillAdapter;
-import com.example.homehelperfinder.models.HelperSkill;
+
+import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
+import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
+import com.example.homehelperfinder.ui.LocationPickerActivity;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.example.homehelperfinder.adapters.WorkAreaAdapter;
-import com.example.homehelperfinder.models.HelperWorkArea;
-import android.widget.EditText;
-import java.util.Calendar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import android.widget.RadioGroup;
-import android.content.Intent;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import android.widget.TextView;
 
 public class RegisterHelperActivity extends AppCompatActivity {
     private SkillAdapter skillAdapter;
     private WorkAreaAdapter workAreaAdapter;
 
-    private List<HelperSkill> skillList = new ArrayList<>();
-    private List<HelperWorkArea> workAreaList = new ArrayList<>();
+    private final List<HelperSkillResponse> skillList = new ArrayList<>();
+    private final List<HelperWorkAreaResponse> workAreaList = new ArrayList<>();
 
     private ActivityResultLauncher<Intent> locationPickerLauncher;
     private AutoCompleteTextView actvService;
@@ -91,9 +92,10 @@ public class RegisterHelperActivity extends AppCompatActivity {
         skillAdapter.setSkillActionListener(new SkillAdapter.SkillActionListener() {
             @Override
             public void onEdit(int position) {
-                HelperSkill skill = skillAdapter.getSkill(position);
+                HelperSkillResponse skill = skillAdapter.getSkill(position);
                 showAddSkillDialog(skill, position);
             }
+
             @Override
             public void onDelete(int position) {
                 skillAdapter.removeSkill(position);
@@ -109,9 +111,10 @@ public class RegisterHelperActivity extends AppCompatActivity {
         workAreaAdapter.setWorkAreaActionListener(new WorkAreaAdapter.WorkAreaActionListener() {
             @Override
             public void onEdit(int position) {
-                HelperWorkArea area = workAreaAdapter.getWorkArea(position);
+                HelperWorkAreaResponse area = workAreaAdapter.getWorkArea(position);
                 showAddWorkAreaDialog(area, position);
             }
+
             @Override
             public void onDelete(int position) {
                 workAreaAdapter.removeWorkArea(position);
@@ -145,6 +148,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
             }
         });
     }
+
     private String getSelectedGender() {
         RadioGroup rgGender = findViewById(R.id.rgGender);
         int checkedId = rgGender.getCheckedRadioButtonId();
@@ -184,7 +188,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
                         String city = result.getData().getStringExtra("city");
                         String district = result.getData().getStringExtra("district");
                         String ward = result.getData().getStringExtra("ward");
-                        if (etLatitude != null && etLongitude!= null && tvSelectedLocation != null) {
+                        if (etLatitude != null && etLongitude != null && tvSelectedLocation != null) {
                             etLatitude.setText(String.valueOf(lat));
                             etLongitude.setText(String.valueOf(lng));
                             tvSelectedLocation.setText("Lat: " + lat + ", Lng: " + lng);
@@ -192,7 +196,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
                         // Set city, district, ward if available
                         if (etCity != null && city != null) etCity.setText(city);
                         if (etDistrict != null && district != null) etDistrict.setText(district);
-                        if (etWard!= null && ward != null) etWard.setText(ward);
+                        if (etWard != null && ward != null) etWard.setText(ward);
                     }
                 }
         );
@@ -212,7 +216,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
     }
 
 
-    private void showAddSkillDialog(HelperSkill skillToEdit, int position) {
+    private void showAddSkillDialog(HelperSkillResponse skillToEdit, int position) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.dialog_add_skill, null);
 
@@ -242,7 +246,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void handleAddSkillClick(AlertDialog dialog, HelperSkill skillToEdit, int position) {
+    private void handleAddSkillClick(AlertDialog dialog, HelperSkillResponse skillToEdit, int position) {
         boolean valid = true;
         String selectedService = actvService.getText().toString().trim();
         String yearsStr = etYearsOfExperience.getText().toString().trim();
@@ -263,7 +267,8 @@ public class RegisterHelperActivity extends AppCompatActivity {
             try {
                 years = Integer.parseInt(yearsStr);
                 if (years <= 0 || years >= 100) {
-                    if (tilYears != null) tilYears.setError("Years of experience must be between 1 and 99");
+                    if (tilYears != null)
+                        tilYears.setError("Years of experience must be between 1 and 99");
                     valid = false;
                 }
             } catch (NumberFormatException e) {
@@ -275,7 +280,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
         if (!valid) return;
 
         boolean isPrimary = cbIsPrimarySkill.isChecked();
-        HelperSkill newSkill = new HelperSkill(selectedService, years, isPrimary);
+        HelperSkillResponse newSkill = new HelperSkillResponse(selectedService, years, isPrimary);
 
         if (skillToEdit != null && position >= 0) {
             skillAdapter.updateSkill(position, newSkill);
@@ -302,7 +307,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
 
     }
 
-    private void showAddWorkAreaDialog(HelperWorkArea areaToEdit, int position) {
+    private void showAddWorkAreaDialog(HelperWorkAreaResponse areaToEdit, int position) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.dialog_add_work_area, null);
 
@@ -322,7 +327,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
             etLongitude.setText(areaToEdit.getLongitude() == null ? "" : String.valueOf(areaToEdit.getLongitude()));
             etRadiusKm.setText(areaToEdit.getRadiusKm() == null ? "" : String.valueOf(areaToEdit.getRadiusKm()));
             tvSelectedLocation.setText((areaToEdit.getLatitude() != null && areaToEdit.getLongitude() != null) ?
-                ("Lat: " + areaToEdit.getLatitude() + ", Lng: " + areaToEdit.getLongitude()) : "No location selected");
+                    ("Lat: " + areaToEdit.getLatitude() + ", Lng: " + areaToEdit.getLongitude()) : "No location selected");
             btnAdd.setText("Update");
         }
 
@@ -336,7 +341,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void handleAddWorkArea(HelperWorkArea areaToEdit, int position, AlertDialog dialog) {
+    private void handleAddWorkArea(HelperWorkAreaResponse areaToEdit, int position, AlertDialog dialog) {
         String city = etCity.getText().toString().trim();
         String district = etDistrict.getText().toString().trim();
         String ward = etWard.getText().toString().trim();
@@ -357,7 +362,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
         Double longitude = lngStr.isEmpty() ? null : Double.parseDouble(lngStr);
         Double radiusKm = radiusStr.isEmpty() ? null : Double.parseDouble(radiusStr);
 
-        HelperWorkArea newArea = new HelperWorkArea(city, district, ward, latitude, longitude, radiusKm);
+        HelperWorkAreaResponse newArea = new HelperWorkAreaResponse(city, district, ward, latitude, longitude, radiusKm);
 
         if (areaToEdit != null && position >= 0) {
             workAreaAdapter.updateWorkArea(position, newArea);
