@@ -13,4 +13,61 @@
     <string name="user_type_illustration_desc">Home cleaning service illustration</string>
     <string name="find_trusted_professionals_for_all_your_home_service_needs">Find trusted professionals for all your home service needs.</string>
 
+    <string name="pick_location_on_map">Pick Location on Map</string>
+    <string name="no_location_selected">No location selected</string>
+    <string name="select_this_location">Select This Location</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Sign in to continue your journey</string>
+    <string name="email">Email</string>
+    <string name="email_hint">Enter your email address</string>
+    <string name="password">Password</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+
+    <!-- Dashboard Screen -->
+    <string name="dashboard">Dashboard</string>
+    <string name="users">Users</string>
+    <string name="new_orders">New Orders</string>
+    <string name="revenue">Revenue</string>
+    <string name="active_helpers">Active Helpers</string>
+    <string name="manage">Manage</string>
+    <string name="orders">Orders</string>
+    <string name="payments">Payments</string>
+    <string name="support">Support</string>
+    <string name="home">Home</string>
+    <string name="messages">Messages</string>
+    <string name="profile">Profile</string>
+
+    <!-- Profile Management -->
+    <string name="profile_management">Profile Management</string>
+    <string name="active_profiles">Active Profiles</string>
+    <string name="banned_profiles">Banned Profiles</string>
+    <string name="no_profiles_found">No profiles found</string>
+    <string name="failed_to_load_profiles">Failed to load profiles</string>
+    <string name="profile_id">Profile ID: %1$d</string>
+    <string name="profile_type">Type: %1$s</string>
+    <string name="profile_status">Status: %1$s</string>
+    <string name="ban_reason">Ban Reason: %1$s</string>
+    <string name="banned_at">Banned At: %1$s</string>
+    <string name="ban_duration">Ban Duration: %1$s</string>
+
+    <!-- Content Descriptions -->
+    <string name="profile_description">Profile icon</string>
+    <string name="users_description">Users icon</string>
+    <string name="orders_description">Orders icon</string>
+    <string name="payments_description">Payments icon</string>
+    <string name="support_description">Support icon</string>
+    <string name="home_description">Home icon</string>
+    <string name="messages_description">Messages icon</string>
+
+    <!-- Error Messages -->
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_invalid_password">Password must be at least 6 characters</string>
+
 </resources>

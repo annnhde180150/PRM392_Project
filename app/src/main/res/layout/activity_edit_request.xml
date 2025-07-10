@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".activities.EditRequestActivity">
+    tools:context=".ui.EditRequestActivity">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -38,8 +38,8 @@
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription="Close"
-            android:tint="@color/white"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            app:tint="@color/white" />
     </LinearLayout>
 
     <!-- Service Info Row -->
@@ -118,7 +118,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_calendar"
                     android:layout_marginStart="12dp"
-                    android:tint="@color/text_secondary"/>
+                    app:tint="@color/text_secondary" />
 
                 <EditText
                     android:id="@+id/etDateTime"

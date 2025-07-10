@@ -1,6 +1,16 @@
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+val MAPS_API_KEY = localProperties.getProperty("MAPS_API_KEY") ?: ""
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -15,6 +25,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildFeatures { buildConfig = true }
+        buildConfigField("String", "MAPS_API_KEY", "\"${MAPS_API_KEY}\"")
+        manifestPlaceholders["MAPS_API_KEY"] = MAPS_API_KEY
     }
 
     buildTypes {
@@ -33,9 +46,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildToolsVersion = "35.0.0"
 }
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -43,16 +56,42 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("androidx.gridlayout:gridlayout:1.0.0")
     implementation(libs.support.annotations)
+    implementation(libs.firebase.storage)
+
+    // Retrofit for API calls
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // HTTP client for logging
+    implementation(libs.logging.interceptor)
+
+    // JSON parsing
+    implementation(libs.gson)
+
+    // RecyclerView and CardView
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
+
+    implementation(libs.androidx.gridlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
 
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("com.squareup.okhttp3:okhttp:3.14.1")
 
     implementation(files("libs/merchant-1.0.25.aar"))
 
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.storage)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+    compileOnly(libs.projectlombok.lombok)
+    annotationProcessor(libs.projectlombok.lombok)
 }
