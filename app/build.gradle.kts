@@ -34,7 +34,6 @@ android {
         jvmTarget = "11"
     }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -43,11 +42,17 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation("androidx.gridlayout:gridlayout:1.0.0")
+    implementation(libs.support.annotations)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
+
+    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("com.squareup.okhttp3:okhttp:3.14.1")
+
+    implementation(files("libs/merchant-1.0.25.aar"))
 
 }

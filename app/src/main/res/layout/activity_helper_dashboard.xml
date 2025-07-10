@@ -155,7 +155,8 @@
                         android:layout_marginStart="6dp"
                         android:contentDescription="Earning Icon"
                         android:src="@android:drawable/ic_menu_recent_history"
-                        app:tint="@color/purple_200" />
+                        app:tint="@color/purple_200"
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
 
                 <TextView
@@ -164,7 +165,8 @@
                     android:layout_marginTop="4dp"
                     android:text="Total Earning"
                     android:textColor="@color/text_secondary"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
