@@ -28,6 +28,8 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
 import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
 import com.example.homehelperfinder.ui.LocationPickerActivity;
+import com.example.homehelperfinder.ui.registerHelper.adapter.SkillAdapter;
+import com.example.homehelperfinder.ui.registerHelper.adapter.WorkAreaAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

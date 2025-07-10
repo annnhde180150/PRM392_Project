@@ -88,6 +88,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    protected void showLoading(String message) {
+        showProgressDialog(message);
+    }
+
+    protected void hideLoading() {
+        hideProgressDialog();
+    }
+
     protected Context getContext() {
         return this;
     }

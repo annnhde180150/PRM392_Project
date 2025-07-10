@@ -126,7 +126,9 @@ public class DashboardActivity extends BaseActivity {
 
         navMessages.setOnClickListener(v -> {
             setBottomNavSelected(2);
-            // TODO: Navigate to messages screen
+            // Navigate to conversations screen
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.chat.ConversationsActivity.class);
+            startActivity(intent);
         });
 
         navProfile.setOnClickListener(v -> {

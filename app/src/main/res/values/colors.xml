@@ -46,4 +46,13 @@
     <color name="person_skin">#FDBCB4</color>
     <color name="cleaning_tool">#FFB347</color>
     <color name="floor_color">#D2B48C</color>
+
+    <!-- Chat colors -->
+    <color name="chat_background">#F5F5F5</color>
+    <color name="message_received_background">#FFFFFF</color>
+    <color name="message_input_background">#FFFFFF</color>
+    <color name="message_input_border">#E0E0E0</color>
+    <color name="profile_picture_background">#E0E0E0</color>
+    <color name="unread_count_background">#FF4444</color>
+    <color name="icon_placeholder_color">#9E9E9E</color>
 </resources>
