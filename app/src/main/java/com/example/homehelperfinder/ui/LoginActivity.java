@@ -20,7 +20,6 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.Admin;
 import com.example.homehelperfinder.data.model.Helper;
 import com.example.homehelperfinder.data.model.User;
-import com.example.homehelperfinder.data.model.request.AdminLoginRequest;
 import com.example.homehelperfinder.data.model.request.LoginRequest;
 import com.example.homehelperfinder.data.model.response.AdminLoginResponse;
 import com.example.homehelperfinder.data.model.response.HelperLoginResponse;
@@ -242,8 +241,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loginAdmin(String username, String password) {
-        AdminLoginRequest request = new AdminLoginRequest(username, password);
+    private void loginAdmin(String email, String password) {
+        LoginRequest request = new LoginRequest(email, password);
 
         authApiService.loginAdmin(this, request, new AuthApiService.AuthCallback<AdminLoginResponse>() {
             @Override
