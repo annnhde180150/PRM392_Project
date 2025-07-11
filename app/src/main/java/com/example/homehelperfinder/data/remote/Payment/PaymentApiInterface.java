@@ -1,6 +1,6 @@
 package com.example.homehelperfinder.data.remote.Payment;
 
-import com.example.homehelperfinder.data.model.ApiResponse;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
 
 import retrofit2.Call;

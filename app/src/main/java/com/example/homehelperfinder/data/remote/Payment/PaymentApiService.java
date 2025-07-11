@@ -2,7 +2,7 @@ package com.example.homehelperfinder.data.remote.Payment;
 
 import android.content.Context;
 
-import com.example.homehelperfinder.data.model.ApiResponse;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
 import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
