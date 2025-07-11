@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.data.remote;
 
+import com.example.homehelperfinder.data.remote.authentication.AuthenticationApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
 import com.example.homehelperfinder.utils.Constants;
@@ -50,5 +51,9 @@ public class RetrofitClient {
     public static ServiceApiInterface getServiceApiService() {
         Logger.d("RetrofitClient", "Creating ServiceApiInterface service");
         return getClient().create(ServiceApiInterface.class);
+    }
+    public static AuthenticationApiInterface getAuthenticationApiService() {
+        Logger.d("RetrofitClient", "Creating AuthenticationApiInterface service");
+        return getClient().create(AuthenticationApiInterface.class);
     }
 } 
