@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.remote.Payment.PaymentApiInterface;
 import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
@@ -144,4 +145,12 @@ public class RetrofitClient {
         Logger.w("RetrofitClient", "getChatClient() is deprecated. Use getAuthenticatedClient()");
         return getAuthenticatedClient();
     }
+
+
+    public static PaymentApiInterface getPaymentApiService() {
+        Logger.d("RetrofitClient", "Creating PaymentApiInterface service");
+        return getClient().create(PaymentApiInterface.class);
+
+    }
 }
+
