@@ -29,7 +29,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
+        <meta-data
+            android:name="HASH_SECRET"
+            android:value="${HASH_SECRET}" />
         <!-- Launcher Activity -->
         <activity
             android:name=".ui.MenuActivity"
@@ -42,6 +44,16 @@
         <activity
             android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.MakePaymentActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="makepaymentactivity" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.RegisterCustomerActivity"
             android:exported="false" />

@@ -1,13 +1,19 @@
 package com.example.homehelperfinder.ui;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
+import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
+import com.example.homehelperfinder.data.remote.Payment.PaymentApiService;
 import com.vnpay.authentication.VNP_AuthenticationActivity;
 import com.vnpay.authentication.VNP_SdkCompletedCallback;
 import com.example.homehelperfinder.R;
@@ -22,12 +28,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TimeZone;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import retrofit2.Call;
+
 public class MakePaymentActivity extends AppCompatActivity {
+    private static final String TAG = "MakePaymentActivity";
+    private static final String KEY_PAYMENT_INITIATED = "payment_initiated";
+    private static final String KEY_PAYMENT_COMPLETED = "payment_completed";
+
+    private boolean isPaymentInitiated = false;
+    private boolean isPaymentCompleted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +53,131 @@ public class MakePaymentActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Khôi phục trạng thái nếu có
+        if (savedInstanceState != null) {
+            isPaymentInitiated = savedInstanceState.getBoolean(KEY_PAYMENT_INITIATED, false);
+            isPaymentCompleted = savedInstanceState.getBoolean(KEY_PAYMENT_COMPLETED, false);
+        }
+
+        // Kiểm tra xem có phải từ deep link không
+        if (handleDeepLink()) {
+            return;
+        }
+
+        // Chỉ khởi tạo thanh toán nếu chưa được khởi tạo và chưa hoàn thành
+        if (!isPaymentInitiated && !isPaymentCompleted) {
+            int currentUserId = getIntent().getIntExtra("USER_ID", 1);
+            int currentBookingId = getIntent().getIntExtra("BOOKING_ID", 3);
+
+            if (currentUserId != -1 && currentBookingId != -1) {
+                Log.e(TAG, "Call payment api");
+                isPaymentInitiated = true;
+                fetchPaymentDetailsFromServer(currentUserId, currentBookingId);
+            } else {
+                Log.e(TAG, "User ID hoặc Booking ID không hợp lệ.");
+                Toast.makeText(this, "Không thể tải thông tin thanh toán.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_PAYMENT_INITIATED, isPaymentInitiated);
+        outState.putBoolean(KEY_PAYMENT_COMPLETED, isPaymentCompleted);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleDeepLink();
+    }
+
+    private boolean handleDeepLink() {
+        Intent intent = getIntent();
+        if (intent != null && intent.getData() != null) {
+            String scheme = intent.getData().getScheme();
+            if ("makepaymentactivity".equals(scheme)) {
+                Log.d(TAG, "Received deep link from VNPay: " + intent.getData().toString());
+
+                // Xử lý kết quả thanh toán từ deep link
+                String responseCode = intent.getData().getQueryParameter("vnp_ResponseCode");
+                if ("00".equals(responseCode)) {
+                    // Thanh toán thành công
+                    handlePaymentSuccess();
+                } else {
+                    // Thanh toán thất bại
+                    handlePaymentFailure();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void handlePaymentSuccess() {
+        isPaymentCompleted = true;
+        Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
+
+        // Chuyển về màn hình chính
+        Intent intent = new Intent(MakePaymentActivity.this, MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void handlePaymentFailure() {
+        isPaymentCompleted = true;
+        Toast.makeText(this, "Thanh toán thất bại!", Toast.LENGTH_SHORT).show();
+        // Chuyển về màn hình chính
+        Intent intent = new Intent(MakePaymentActivity.this, MenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void fetchPaymentDetailsFromServer(int userId, int bookingId) {
+        Log.d(TAG, "Đang gọi API getPaymentDetails với userId: " + userId + ", bookingId: " + bookingId);
+        PaymentApiService paymentApiService = new PaymentApiService(this);
+        GetPaymentRequest getPaymentRequest = new GetPaymentRequest();
+        getPaymentRequest.setUserId(userId);
+        getPaymentRequest.setBookingId(bookingId);
+        paymentApiService.getPaymentDetails(this, getPaymentRequest, new PaymentApiService.ApiCallback<GetPaymentResponse>() {
+            @Override
+            public void onSuccess(GetPaymentResponse data) {
+                handlerSuccess(data);
+            }
+
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+                Log.e(TAG, "Error getting payment details: " + errorMessage);
+                Toast.makeText(MakePaymentActivity.this, "Lỗi khi tải thông tin thanh toán", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void handlerSuccess(GetPaymentResponse data) {
+        ApplicationInfo ai = null;
+        try {
+            ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String hashSecret = ai.metaData.getString("HASH_SECRET");
+        Log.i(TAG, "Lấy thông tin thanh toán thành công: " + data.toString());
+
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_OrderInfo = "Thanh+toan+don+hang+123";
+        String vnp_OrderInfo = "Thanh+toan+don+hang";
         String orderType = "other";
-        String vnp_TxnRef = "124437";
+        String vnp_TxnRef = generateRandom6DigitNumber();
         String vnp_IpAddr = "13.67.12.10";
         String vnp_TmnCode = "XL9GZ0FP";
-        int amount = 10000 *  100;
+        int amount = data.getAmount() * 100;
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
@@ -67,7 +198,7 @@ public class MakePaymentActivity extends AppCompatActivity {
         } else {
             vnp_Params.put("vnp_Locale", "vn");
         }
-        vnp_Params.put("vnp_ReturnUrl", "mainactivity://vnpay_return");
+        vnp_Params.put("vnp_ReturnUrl", "makepaymentactivity://vnpay_return");
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 
@@ -106,11 +237,10 @@ public class MakePaymentActivity extends AppCompatActivity {
                         hashData.append('&');
                     }
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace(); // Ghi log nếu cần
+                    e.printStackTrace();
                 }
             }
         }
-        String hashSecret = "W4QW5YJI25H8K537YIZ5027QFGFN8K98";
         String queryUrl = query.toString();
         String vnp_SecureHash = hmacSHA512(hashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
@@ -118,38 +248,65 @@ public class MakePaymentActivity extends AppCompatActivity {
     }
 
     public void openSdk(String url) {
-        Intent intent = new Intent(this, VNP_AuthenticationActivity.class);
-        intent.putExtra("url","https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" + url); //bắt buộc, VNPAY cung cấp
-        intent.putExtra("tmn_code", "XL9GZ0FP"); //bắt buộc, VNPAY cung cấp
-        intent.putExtra("scheme", "mainactivity"); //bắt buộc, scheme để mở lại app khi có kết quả thanh toán từ mobile banking
-        intent.putExtra("is_sandbox", true); //bắt buộc, true <=> môi trường test, true <=> môi trường live
+        // Set callback TRƯỚC khi start activity
         VNP_AuthenticationActivity.setSdkCompletedCallback(new VNP_SdkCompletedCallback() {
             @Override
             public void sdkAction(String action) {
-                Log.wtf("SplashActivity", "action: " + action);
-                //action == AppBackAction
-                //Người dùng nhấn back từ sdk để quay lại
+                Log.wtf(TAG, "SDK Action received: " + action);
 
-                //action == CallMobileBankingApp
-                //Người dùng nhấn chọn thanh toán qua app thanh toán (Mobile Banking, Ví...)
-                //lúc này app tích hợp sẽ cần lưu lại cái PNR, khi nào người dùng mở lại app tích hợp thì sẽ gọi kiểm tra trạng thái thanh toán của PNR Đó xem đã thanh toán hay chưa.
+                // Chạy trên UI thread để đảm bảo an toàn
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (action) {
+                            case "SuccessBackAction":
+                                Log.d(TAG, "Payment successful via SDK callback");
+                                handlePaymentSuccess();
+                                break;
 
-                //action == WebBackAction
-                //Người dùng nhấn back từ trang thanh toán thành công khi thanh toán qua thẻ khi url có chứa: cancel.sdk.merchantbackapp
+                            case "FaildBackAction":
+                                Log.d(TAG, "Payment failed via SDK callback");
+                                handlePaymentFailure();
+                                break;
 
-                //action == FaildBackAction
-                //giao dịch thanh toán bị failed
+                            case "CallMobileBankingApp":
+                                Log.d(TAG, "User switched to mobile banking app");
+                                // Lưu trạng thái đang chờ thanh toán
+                                break;
 
-                //action == SuccessBackAction
-                //thanh toán thành công trên webview
+                            case "AppBackAction":
+                                Log.d(TAG, "User pressed back from SDK");
+                                // Có thể người dùng hủy thanh toán
+                                Toast.makeText(MakePaymentActivity.this, "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
+                                finish();
+                                break;
+
+                            case "WebBackAction":
+                                Log.d(TAG, "User pressed back from web payment");
+                                // Kiểm tra nếu URL chứa thông tin thành công
+                                finish();
+                                break;
+
+                            default:
+                                Log.d(TAG, "Unknown action: " + action);
+                                break;
+                        }
+                    }
+                });
             }
         });
+
+        Intent intent = new Intent(this, VNP_AuthenticationActivity.class);
+        intent.putExtra("url", "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" + url);
+        intent.putExtra("tmn_code", "XL9GZ0FP");
+        intent.putExtra("scheme", "makepaymentactivity");
+        intent.putExtra("is_sandbox", true);
+
         startActivity(intent);
     }
 
     public static String hmacSHA512(final String key, final String data) {
         try {
-
             if (key == null || data == null) {
                 throw new NullPointerException();
             }
@@ -164,11 +321,19 @@ public class MakePaymentActivity extends AppCompatActivity {
                 sb.append(String.format("%02x", b & 0xff));
             }
             return sb.toString();
-
         } catch (Exception ex) {
             return "";
         }
     }
 
+    public static String generateRandom6DigitNumber() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(6);
 
+        for (int i = 0; i < 5; i++) {
+            int randomNumber = random.nextInt(9) + 1;
+            sb.append(randomNumber);
+        }
+        return sb.toString();
+    }
 }
