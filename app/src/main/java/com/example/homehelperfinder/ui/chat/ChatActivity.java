@@ -62,6 +62,7 @@ public class ChatActivity extends BaseActivity {
         initData();
         setupRecyclerView();
         setupClickListeners();
+        setupMenuNavigation();
         loadConversation();
     }
 

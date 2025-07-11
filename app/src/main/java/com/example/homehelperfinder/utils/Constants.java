@@ -47,6 +47,11 @@ public class Constants {
     public static final String PREF_IS_LOGGED_IN = "is_logged_in";
     public static final String PREF_AUTH_TOKEN = "auth_token";
 
+    // Remember Me functionality
+    public static final String PREF_REMEMBER_ME = "remember_me";
+    public static final String PREF_SAVED_EMAIL = "saved_email";
+    public static final String PREF_SAVED_USER_TYPE = "saved_user_type";
+
     // User Types
     public static final String USER_TYPE_CUSTOMER = "customer";
     public static final String USER_TYPE_HELPER = "helper";

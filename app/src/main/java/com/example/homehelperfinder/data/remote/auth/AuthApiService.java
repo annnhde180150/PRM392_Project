@@ -26,11 +26,13 @@ import retrofit2.Response;
  */
 public class AuthApiService {
     private static final String TAG = "AuthApiService";
-    private final AuthApiInterface apiInterface;
+    private final AuthApiInterface publicApiInterface;  // For login (no auth needed)
+    private final AuthApiInterface authenticatedApiInterface;  // For logout (auth needed)
     private final Gson gson;
 
     public AuthApiService() {
-        this.apiInterface = RetrofitClient.getAuthApiService();
+        this.publicApiInterface = RetrofitClient.getAuthApiService();
+        this.authenticatedApiInterface = RetrofitClient.getAuthenticatedAuthApiService();
         this.gson = new Gson();
     }
 
@@ -43,7 +45,7 @@ public class AuthApiService {
 
         Logger.d(TAG, "Starting user login for email: " + request.getEmail());
 
-        Call<ApiResponse<UserLoginResponse>> call = apiInterface.loginUser(request);
+        Call<ApiResponse<UserLoginResponse>> call = publicApiInterface.loginUser(request);
         executeWrappedAuthCall(call, "User Login", callback);
     }
 
@@ -56,7 +58,7 @@ public class AuthApiService {
 
         Logger.d(TAG, "Starting helper login for email: " + request.getEmail());
 
-        Call<ApiResponse<HelperLoginResponse>> call = apiInterface.loginHelper(request);
+        Call<ApiResponse<HelperLoginResponse>> call = publicApiInterface.loginHelper(request);
         executeWrappedAuthCall(call, "Helper Login", callback);
     }
 
@@ -69,7 +71,7 @@ public class AuthApiService {
 
         Logger.d(TAG, "Starting admin login for username: " + request.getEmail());
 
-        Call<ApiResponse<AdminLoginResponse>> call = apiInterface.loginAdmin(request);
+        Call<ApiResponse<AdminLoginResponse>> call = publicApiInterface.loginAdmin(request);
         executeWrappedAuthCall(call, "Admin Login", callback);
     }
 
@@ -81,8 +83,8 @@ public class AuthApiService {
         }
 
         Logger.d(TAG, "Starting logout");
-        
-        Call<ApiResponse<LogoutResponse>> call = apiInterface.logout();
+
+        Call<ApiResponse<LogoutResponse>> call = authenticatedApiInterface.logout();
         executeWrappedAuthCall(call, "Logout", callback);
     }
 

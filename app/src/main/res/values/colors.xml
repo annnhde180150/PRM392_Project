@@ -27,6 +27,8 @@
     <!-- Text colors -->
     <color name="text_primary">#121417</color>
     <color name="text_secondary">#666666</color>
+    <color name="text_hint">#999999</color>
+    <color name="primary_color">@color/colorPrimary</color>
 
     <!-- Button colors -->
     <color name="button_primary">#4285F4</color>
