@@ -109,7 +109,7 @@ public class RegisterHelperActivity extends BaseActivity {
     }
 
     private void initViews() {
-        ServiceApiService serviceService = new ServiceApiService();
+        serviceService = new ServiceApiService();
         fetchServices();
 
         getSelectedGender();
@@ -133,22 +133,30 @@ public class RegisterHelperActivity extends BaseActivity {
     //region for Setup
 
     private void fetchServices(){
-        serviceService.getActiveServices(this, new BaseApiService.ApiCallback<List<ServiceResponse>>() {
-            @Override
-            public void onSuccess(List<ServiceResponse> services) {
-                runOnUiThread(() -> {
-                    serviceList.clear();
-                    serviceList.addAll(services);
-                });
-            }
+        try{
+            serviceService.getActiveServices(this, new BaseApiService.ApiCallback<List<ServiceResponse>>() {
+                @Override
+                public void onSuccess(List<ServiceResponse> services) {
+                    runOnUiThread(() -> {
+                        serviceList.clear();
+                        serviceList.addAll(services);
+                    });
+                }
 
-            @Override
-            public void onError(String errorMessage, Throwable throwable) {
-                runOnUiThread(() -> {
-                    Toast.makeText(RegisterHelperActivity.this, "Failed to load services: " + errorMessage, Toast.LENGTH_LONG).show();
-                });
-            }
-        });
+                @Override
+                public void onError(String errorMessage, Throwable throwable) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(RegisterHelperActivity.this, "Failed to load services: " + errorMessage, Toast.LENGTH_LONG).show();
+                    });
+                }
+            });
+        } catch(Exception ex){
+            runOnUiThread(() -> {
+                Toast.makeText(RegisterHelperActivity.this, "Error fetching services: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            });
+            ex.printStackTrace();
+        }
+
     }
 
     private void setupSkillsRecyclerView() {
