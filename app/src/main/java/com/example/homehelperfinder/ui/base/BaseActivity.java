@@ -2,12 +2,16 @@ package com.example.homehelperfinder.ui.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.MenuActivity;
 import com.example.homehelperfinder.utils.Logger;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -110,5 +114,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void logDebug(String message) {
         Logger.d(getClass().getSimpleName(), message);
+    }
+
+    /**
+     * Setup menu navigation FAB
+     * Call this method in onCreate after setContentView to enable menu navigation
+     */
+    protected void setupMenuNavigation() {
+        FloatingActionButton fabMenu = findViewById(R.id.fab_menu);
+        if (fabMenu != null) {
+            fabMenu.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
+                Logger.d(getClass().getSimpleName(), "Navigated to Menu from FAB");
+            });
+        }
     }
 }

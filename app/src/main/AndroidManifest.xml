@@ -34,13 +34,19 @@
             android:value="${HASH_SECRET}" />
         <!-- Launcher Activity -->
         <activity
-            android:name=".ui.MenuActivity"
-            android:exported="true">
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HomeHelperFinder.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Developer Menu Activity -->
+        <activity
+            android:name=".ui.MenuActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />

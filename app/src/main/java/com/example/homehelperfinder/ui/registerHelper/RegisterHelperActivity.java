@@ -17,7 +17,6 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
 import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
 import com.example.homehelperfinder.ui.LocationPickerActivity;
@@ -53,7 +53,7 @@ import com.bumptech.glide.Glide;
 import android.widget.ImageView;
 import java.util.function.Consumer;
 
-public class RegisterHelperActivity extends AppCompatActivity {
+public class RegisterHelperActivity extends BaseActivity {
     private SkillAdapter skillAdapter;
     private WorkAreaAdapter workAreaAdapter;
 
@@ -98,7 +98,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
         }
 
         initViews();
-
+        setupMenuNavigation();
 
     }
 

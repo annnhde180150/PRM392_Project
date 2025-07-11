@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.ui.DashboardActivity;
 import com.example.homehelperfinder.ui.HelperDashboardActivity;
 import com.example.homehelperfinder.ui.LoginActivity;
@@ -130,13 +131,43 @@ public class NavigationHelper {
 
     // Logout and navigate to welcome
     public static void logout(Context context) {
-        // Clear user data
-        SharedPrefsHelper.getInstance(context).clearUserData();
+        SharedPrefsHelper prefsHelper = SharedPrefsHelper.getInstance(context);
+
+        // Clear user data but preserve Remember Me if enabled
+        if (prefsHelper.isRememberMeEnabled()) {
+            prefsHelper.clearUserDataKeepRememberMe();
+            Logger.i("NavigationHelper", "User logged out, Remember Me data preserved");
+        } else {
+            prefsHelper.clearUserData();
+            Logger.i("NavigationHelper", "User logged out, all data cleared");
+        }
+
+        // Clear Retrofit cache to ensure fresh token usage
+        RetrofitClient.clearAuthenticatedCache();
+        Logger.d("NavigationHelper", "Cleared authenticated Retrofit cache");
 
         // Navigate to welcome screen and clear stack
         navigateToWelcome(context, true);
 
         Logger.i("NavigationHelper", "User logged out successfully");
+    }
+
+    // Complete logout (clears everything including Remember Me)
+    public static void completeLogout(Context context) {
+        SharedPrefsHelper prefsHelper = SharedPrefsHelper.getInstance(context);
+
+        // Clear all user data including Remember Me
+        prefsHelper.clearUserData();
+        prefsHelper.clearRememberMeData();
+
+        // Clear all Retrofit cache
+        RetrofitClient.clearCache();
+        Logger.d("NavigationHelper", "Cleared all Retrofit cache");
+
+        // Navigate to welcome screen and clear stack
+        navigateToWelcome(context, true);
+
+        Logger.i("NavigationHelper", "Complete logout performed, all data cleared");
     }
 
     // Check login status and navigate accordingly

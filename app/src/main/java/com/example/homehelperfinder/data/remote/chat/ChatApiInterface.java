@@ -1,6 +1,6 @@
 package com.example.homehelperfinder.data.remote.chat;
 
-import com.example.homehelperfinder.data.model.ApiResponse;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.MarkAsReadRequest;
 import com.example.homehelperfinder.data.model.request.SendMessageRequest;
 import com.example.homehelperfinder.data.model.response.ChatConversationResponse;

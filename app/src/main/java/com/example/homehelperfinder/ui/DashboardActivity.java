@@ -44,6 +44,7 @@ public class DashboardActivity extends BaseActivity {
 
         initViews();
         setupClickListeners();
+        setupMenuNavigation();
         loadDashboardData();
     }
 

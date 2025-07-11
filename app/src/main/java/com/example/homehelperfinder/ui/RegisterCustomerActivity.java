@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 
-public class RegisterCustomerActivity extends AppCompatActivity {
+public class RegisterCustomerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class RegisterCustomerActivity extends AppCompatActivity {
         }
 
         initViews();
+        setupMenuNavigation();
     }
 
     private void initViews() {
