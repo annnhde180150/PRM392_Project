@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Location Permissions -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <!-- Network Permissions -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".HomeHelperFinderApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -27,30 +28,63 @@
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}"/>
+            android:value="${MAPS_API_KEY}" />
 
         <!-- Launcher Activity -->
         <activity
-            android:name=".ui.MenuActivity"
-            android:exported="true">
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HomeHelperFinder.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- All other activities -->
-        <activity android:name=".ui.WelcomeActivity" android:exported="false"/>
-        <activity android:name=".ui.RegisterCustomerActivity" android:exported="false"/>
-        <activity android:name=".ui.registerHelper.RegisterHelperActivity" android:exported="false"/>
-        <activity android:name=".ui.HelperDashboardActivity" android:exported="false"/>
-        <activity android:name=".ui.EditRequestActivity" android:exported="false"/>
-        <activity android:name=".ui.PostRequestActivity" android:exported="false"/>
-        <activity android:name=".ui.LoginActivity" android:exported="false"/>
-        <activity android:name=".ui.UserTypeActivity" android:exported="false"/>
-        <activity android:name=".ui.LocationPickerActivity" android:exported="false"/>
-        <activity android:name=".ui.profileManagement.ProfileManagementActivity" android:exported="false"/>
-        <activity android:name=".ui.DashboardActivity" android:exported="false"/>
-
+        <!-- Developer Menu Activity -->
+        <activity
+            android:name=".ui.MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.registerHelper.RegisterHelperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.RegisterCustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HelperDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PostRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LocationPickerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profileManagement.ProfileManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UserTypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chat.ConversationsActivity"
+            android:exported="false"
+            android:label="Messages" />
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="false"
+            android:label="Chat" />
     </application>
 </manifest>

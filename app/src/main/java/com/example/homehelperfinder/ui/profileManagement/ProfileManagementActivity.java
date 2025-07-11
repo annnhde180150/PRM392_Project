@@ -54,6 +54,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
         setupRecyclerView();
         setupTabLayout();
         setupBulkActions();
+        setupMenuNavigation();
         loadActiveProfiles(); // Load active profiles by default
     }
 

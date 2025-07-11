@@ -64,6 +64,7 @@
     <string name="support_description">Support icon</string>
     <string name="home_description">Home icon</string>
     <string name="messages_description">Messages icon</string>
+    <string name="menu_description">Menu navigation button</string>
 
     <!-- Error Messages -->
     <string name="error_field_required">This field is required</string>

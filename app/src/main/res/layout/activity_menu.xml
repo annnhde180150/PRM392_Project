@@ -156,6 +156,18 @@
                 android:textColor="@color/text_primary"
                 android:textSize="16sp" />
 
+            <!-- Test Chat Button -->
+            <Button
+                android:id="@+id/btn_test_chat"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Test Chat"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
         </LinearLayout>
     </ScrollView>
 

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnTestCustomer;
     private Button btnTestHelper;
     private Button btnTestAdmin;
+    private Button btnTestChat;
     private Button btnResetFlow;
 
     @Override
@@ -43,6 +45,7 @@ public class MenuActivity extends AppCompatActivity {
         btnTestCustomer = findViewById(R.id.btn_test_customer);
         btnTestHelper = findViewById(R.id.btn_test_helper);
         btnTestAdmin = findViewById(R.id.btn_test_admin);
+        btnTestChat = findViewById(R.id.btn_test_chat);
         btnResetFlow = findViewById(R.id.btn_reset_flow);
     }
 
@@ -85,6 +88,10 @@ public class MenuActivity extends AppCompatActivity {
             testUserFlow("admin");
         });
 
+        btnTestChat.setOnClickListener(v -> {
+            testChatFlow();
+        });
+
         btnResetFlow.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, WelcomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -101,9 +108,8 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onBackPressed() {
-        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
+    private void testChatFlow() {
+        Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.chat.ConversationsActivity.class);
+        startActivity(intent);
     }
 } 

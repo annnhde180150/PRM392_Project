@@ -124,6 +124,34 @@ public class SharedPrefsHelper {
         return getString(Constants.PREF_AUTH_TOKEN);
     }
 
+    // Remember Me functionality
+    public void saveRememberMeData(String email, String userType) {
+        putString(Constants.PREF_SAVED_EMAIL, email);
+        putString(Constants.PREF_SAVED_USER_TYPE, userType);
+        putBoolean(Constants.PREF_REMEMBER_ME, true);
+        Logger.i("SharedPrefs", "Remember Me data saved for: " + email);
+    }
+
+    public boolean isRememberMeEnabled() {
+        return getBoolean(Constants.PREF_REMEMBER_ME);
+    }
+
+    public String getSavedEmail() {
+        return getString(Constants.PREF_SAVED_EMAIL);
+    }
+
+    public String getSavedUserType() {
+        return getString(Constants.PREF_SAVED_USER_TYPE);
+    }
+
+    public void clearRememberMeData() {
+        editor.remove(Constants.PREF_REMEMBER_ME);
+        editor.remove(Constants.PREF_SAVED_EMAIL);
+        editor.remove(Constants.PREF_SAVED_USER_TYPE);
+        editor.apply();
+        Logger.i("SharedPrefs", "Remember Me data cleared");
+    }
+
     // Clear methods
     public void clearUserData() {
         editor.remove(Constants.PREF_USER_ID);
@@ -134,6 +162,17 @@ public class SharedPrefsHelper {
         editor.remove(Constants.PREF_IS_LOGGED_IN);
         editor.apply();
         Logger.i("SharedPrefs", "User data cleared");
+    }
+
+    public void clearUserDataKeepRememberMe() {
+        editor.remove(Constants.PREF_USER_ID);
+        editor.remove(Constants.PREF_USER_TYPE);
+        editor.remove(Constants.PREF_USER_NAME);
+        editor.remove(Constants.PREF_USER_EMAIL);
+        editor.remove(Constants.PREF_AUTH_TOKEN);
+        editor.remove(Constants.PREF_IS_LOGGED_IN);
+        editor.apply();
+        Logger.i("SharedPrefs", "User data cleared, Remember Me data preserved");
     }
 
     public void clearAll() {

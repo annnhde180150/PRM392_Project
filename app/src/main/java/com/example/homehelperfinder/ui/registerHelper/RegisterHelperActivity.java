@@ -17,7 +17,6 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,49 +24,48 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.data.remote.auth.AuthApiService;
+import com.example.homehelperfinder.data.remote.service.ServiceApiService;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
 import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
-import com.example.homehelperfinder.data.repository.ServiceRepository;
 import com.example.homehelperfinder.ui.LocationPickerActivity;
+
 import com.example.homehelperfinder.ui.LoginActivity;
+import com.example.homehelperfinder.ui.registerHelper.adapter.SkillAdapter;
+import com.example.homehelperfinder.ui.registerHelper.adapter.WorkAreaAdapter;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import android.widget.RadioGroup;
-import android.content.Intent;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import android.widget.TextView;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 import android.net.Uri;
 import android.widget.Toast;
-import android.database.Cursor;
-import android.provider.OpenableColumns;
-import android.graphics.BitmapFactory;
+
 import com.bumptech.glide.Glide;
 import android.widget.ImageView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+
 import com.example.homehelperfinder.data.model.response.ServiceResponse;
 import com.example.homehelperfinder.data.model.request.HelperDocumentRequest;
 import com.example.homehelperfinder.data.model.request.HelperRequest;
 import com.example.homehelperfinder.data.model.request.HelperSkillRequest;
 import com.example.homehelperfinder.data.model.request.HelperWorkAreaRequest;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
-import com.example.homehelperfinder.data.repository.AuthenticationRepository;
 
-public class RegisterHelperActivity extends AppCompatActivity {
+public class RegisterHelperActivity extends BaseActivity {
     private SkillAdapter skillAdapter;
     private WorkAreaAdapter workAreaAdapter;
-    private ServiceRepository serviceRepository;
+    private ServiceApiService serviceService;
 
     private final List<HelperSkillResponse> skillList = new ArrayList<>();
     private final List<HelperWorkAreaResponse> workAreaList = new ArrayList<>();
@@ -89,7 +87,6 @@ public class RegisterHelperActivity extends AppCompatActivity {
     private String idFileMimeType, cvFileMimeType;
     private ActivityResultLauncher<Intent> cvFilePickerLauncher;
     private AtomicInteger pendingUploads;
-    private android.app.ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,12 +104,12 @@ public class RegisterHelperActivity extends AppCompatActivity {
         }
 
         initViews();
-
+        setupMenuNavigation();
 
     }
 
     private void initViews() {
-        serviceRepository = new ServiceRepository();
+        ServiceApiService serviceService = new ServiceApiService();
         fetchServices();
 
         getSelectedGender();
@@ -136,7 +133,7 @@ public class RegisterHelperActivity extends AppCompatActivity {
     //region for Setup
 
     private void fetchServices(){
-        serviceRepository.getActiveServices(this, new BaseApiService.ApiCallback<List<ServiceResponse>>() {
+        serviceService.getActiveServices(this, new BaseApiService.ApiCallback<List<ServiceResponse>>() {
             @Override
             public void onSuccess(List<ServiceResponse> services) {
                 runOnUiThread(() -> {
@@ -314,28 +311,13 @@ public class RegisterHelperActivity extends AppCompatActivity {
         );
     }
 
-    private void showLoading() {
-        if (progressDialog == null) {
-            progressDialog = new android.app.ProgressDialog(this);
-            progressDialog.setMessage("Processing, please wait...");
-            progressDialog.setCancelable(false);
-        }
-        progressDialog.show();
-    }
-
-    private void hideLoading() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
     private void setupSignUpButton() {
         Button btnSignup = findViewById(R.id.btnSignup);
         btnSignup.setOnClickListener(v -> {
             if (!validateRegistrationForm()) {
                 return;
             }
-            showLoading();
+            showLoading("Processing registration...");
             uploadFilesAndRegister();
         });
     }
@@ -586,7 +568,6 @@ public class RegisterHelperActivity extends AppCompatActivity {
     private void onUploadTaskComplete() {
         // Decrement the counter. If it reaches zero, all uploads are finished.
         if (pendingUploads.decrementAndGet() == 0) {
-            // Hide loading indicator here
             if ((idFileUri != null && finalIdUrl == null) || (cvFileUri != null && finalCvUrl == null)) {
                 hideLoading();
                 Toast.makeText(this, "A file upload failed. Registration aborted.", Toast.LENGTH_LONG).show();
@@ -689,8 +670,8 @@ public class RegisterHelperActivity extends AppCompatActivity {
         request.setWorkAreas(workAreas);
         request.setDocuments(documents);
 
-        AuthenticationRepository authRepo = new AuthenticationRepository();
-        authRepo.registerHelper(this, request, new BaseApiService.ApiCallback<HelperResponse>() {
+        AuthApiService authService = new AuthApiService();
+        authService.registerHelper(this, request, new AuthApiService.AuthCallback<HelperResponse>() {
             @Override
             public void onSuccess(HelperResponse data) {
                 runOnUiThread(() -> {

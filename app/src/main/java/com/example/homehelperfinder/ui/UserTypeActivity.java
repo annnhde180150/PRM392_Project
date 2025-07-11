@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 
-public class UserTypeActivity extends AppCompatActivity {
+public class UserTypeActivity extends BaseActivity {
 
     private Button btnCustomer;
     private Button btnHelper;
@@ -26,6 +25,7 @@ public class UserTypeActivity extends AppCompatActivity {
 
         initViews();
         setupClickListeners();
+        setupMenuNavigation();
 
         // Check for auto-selection from menu
         checkAutoSelection();

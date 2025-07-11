@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.ui.registerHelper;
+package com.example.homehelperfinder.ui.registerHelper.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
