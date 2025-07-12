@@ -87,6 +87,7 @@ public class RegisterHelperActivity extends BaseActivity {
     
     // Form fields
     private TextInputEditText etFullName, etDateOfBirth, etEmail, etPhoneNumber, etPassword, etBio;
+    private TextInputLayout tilFullName, tilDateOfBirth, tilEmail, tilPhoneNumber, tilPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,13 @@ public class RegisterHelperActivity extends BaseActivity {
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etPassword = findViewById(R.id.etPassword);
         etBio = findViewById(R.id.etBio);
+
+        // Initialize TextInputLayout fields
+        tilFullName = findViewById(R.id.tilFullName);
+        tilDateOfBirth = findViewById(R.id.tilDateOfBirth);
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPhoneNumber = findViewById(R.id.tilPhoneNumber);
+        tilPassword = findViewById(R.id.tilPassword);
 
         getSelectedGender();
         setupDatePicker();
@@ -691,22 +699,22 @@ public class RegisterHelperActivity extends BaseActivity {
         // Full Name
         String fullName = etFullName.getText().toString().trim();
         if (TextUtils.isEmpty(fullName)) {
-            ((TextInputLayout) findViewById(R.id.tilFullName)).setError("Full name is required");
+            tilFullName.setError("Full name is required");
             valid = false;
         } else if (fullName.length() < 2) {
-            ((TextInputLayout) findViewById(R.id.tilFullName)).setError("Full name must be at least 2 characters");
+            tilFullName.setError("Full name must be at least 2 characters");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilFullName)).setError(null);
+            tilFullName.setError(null);
         }
 
         // Date of Birth
         String dob = etDateOfBirth.getText().toString().trim();
         if (TextUtils.isEmpty(dob)) {
-            ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError("Date of birth is required");
+            tilDateOfBirth.setError("Date of birth is required");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError(null);
+            tilDateOfBirth.setError(null);
         }
 
         // Gender
@@ -719,37 +727,37 @@ public class RegisterHelperActivity extends BaseActivity {
         // Email
         String email = etEmail.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
-            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Email is required");
+            tilEmail.setError("Email is required");
             valid = false;
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Please enter a valid email address");
+            tilEmail.setError("Please enter a valid email address");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilEmail)).setError(null);
+            tilEmail.setError(null);
         }
 
         // Phone Number
         String phone = etPhoneNumber.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
-            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Contact number is required");
+            tilPhoneNumber.setError("Contact number is required");
             valid = false;
         } else if (phone.length() < 8) {
-            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Please enter a valid phone number");
+            tilPhoneNumber.setError("Please enter a valid phone number");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError(null);
+            tilPhoneNumber.setError(null);
         }
 
         // Password
         String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            ((TextInputLayout) findViewById(R.id.tilPassword)).setError("Password is required");
+            tilPassword.setError("Password is required");
             valid = false;
         } else if (password.length() < 6) {
-            ((TextInputLayout) findViewById(R.id.tilPassword)).setError("Password must be at least 6 characters");
+            tilPassword.setError("Password must be at least 6 characters");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilPassword)).setError(null);
+            tilPassword.setError(null);
         }
 
         // Skills
