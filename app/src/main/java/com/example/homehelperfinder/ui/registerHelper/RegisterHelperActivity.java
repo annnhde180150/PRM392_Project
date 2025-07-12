@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -67,7 +69,7 @@ public class RegisterHelperActivity extends BaseActivity {
     private final List<HelperSkillResponse> skillList = new ArrayList<>();
     private final List<HelperWorkAreaResponse> workAreaList = new ArrayList<>();
     private List<ServiceResponse> serviceList = new ArrayList<>();
-
+    private Toolbar toolbar;
     private ActivityResultLauncher<Intent> locationPickerLauncher;
     private AutoCompleteTextView actvService;
     private ActivityResultLauncher<Intent> filePickerLauncher;
@@ -82,6 +84,9 @@ public class RegisterHelperActivity extends BaseActivity {
     private ImageView ivIdPreview, ivCvPreview;
     private String idFileMimeType, cvFileMimeType;
     private ActivityResultLauncher<Intent> cvFilePickerLauncher;
+    
+    // Form fields
+    private TextInputEditText etFullName, etDateOfBirth, etEmail, etPhoneNumber, etPassword, etBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +99,34 @@ public class RegisterHelperActivity extends BaseActivity {
             return insets;
         });
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+
 
         initViews();
         setupMenuNavigation();
 
     }
+    private void setupToolbar() {
+        toolbar = findViewById(R.id.toolbar);
 
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Register as Helper");
+        }
+    }
     private void initViews() {
         serviceService = new ServiceApiService();
         fetchServices();
+
+        setupToolbar();
+
+        // Initialize form fields
+        etFullName = findViewById(R.id.etFullName);
+        etDateOfBirth = findViewById(R.id.etDateOfBirth);
+        etEmail = findViewById(R.id.etEmail);
+        etPhoneNumber = findViewById(R.id.etPhoneNumber);
+        etPassword = findViewById(R.id.etPassword);
+        etBio = findViewById(R.id.etBio);
 
         getSelectedGender();
         setupDatePicker();
@@ -576,13 +597,13 @@ public class RegisterHelperActivity extends BaseActivity {
 
 
     private void submitRegistration(String idFileUrl, String cvFileUrl) {
-        String fullName = ((TextInputEditText) findViewById(R.id.etFullName)).getText().toString().trim();
-        String dob = ((TextInputEditText) findViewById(R.id.etDateOfBirth)).getText().toString().trim();
+        String fullName = etFullName.getText().toString().trim();
+        String dob = etDateOfBirth.getText().toString().trim();
         String gender = getSelectedGender();
-        String email = ((TextInputEditText) findViewById(R.id.etEmail)).getText().toString().trim();
-        String phone = ((TextInputEditText) findViewById(R.id.etPhoneNumber)).getText().toString().trim();
-        String password = ((TextInputEditText) findViewById(R.id.etPassword)).getText().toString();
-        String bio =  ((TextInputEditText) findViewById(R.id.etBio)).getText().toString();
+        String email = etEmail.getText().toString().trim();
+        String phone = etPhoneNumber.getText().toString().trim();
+        String password = etPassword.getText().toString();
+        String bio = etBio.getText().toString();
 
 
         List<HelperSkillRequest> skills = new ArrayList<>();
@@ -668,19 +689,20 @@ public class RegisterHelperActivity extends BaseActivity {
         boolean valid = true;
 
         // Full Name
-        TextInputEditText etFullName = findViewById(R.id.etFullName);
         String fullName = etFullName.getText().toString().trim();
-        if (fullName.isEmpty()) {
+        if (TextUtils.isEmpty(fullName)) {
             ((TextInputLayout) findViewById(R.id.tilFullName)).setError("Full name is required");
+            valid = false;
+        } else if (fullName.length() < 2) {
+            ((TextInputLayout) findViewById(R.id.tilFullName)).setError("Full name must be at least 2 characters");
             valid = false;
         } else {
             ((TextInputLayout) findViewById(R.id.tilFullName)).setError(null);
         }
 
         // Date of Birth
-        TextInputEditText etDateOfBirth = findViewById(R.id.etDateOfBirth);
         String dob = etDateOfBirth.getText().toString().trim();
-        if (dob.isEmpty()) {
+        if (TextUtils.isEmpty(dob)) {
             ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError("Date of birth is required");
             valid = false;
         } else {
@@ -695,29 +717,35 @@ public class RegisterHelperActivity extends BaseActivity {
         }
 
         // Email
-        TextInputEditText etEmail = findViewById(R.id.etEmail);
         String email = etEmail.getText().toString().trim();
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Valid email is required");
+        if (TextUtils.isEmpty(email)) {
+            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Email is required");
+            valid = false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Please enter a valid email address");
             valid = false;
         } else {
             ((TextInputLayout) findViewById(R.id.tilEmail)).setError(null);
         }
 
         // Phone Number
-        TextInputEditText etPhone = findViewById(R.id.etPhoneNumber);
-        String phone = etPhone.getText().toString().trim();
-        if (phone.isEmpty() || phone.length() < 8) {
-            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Valid phone number is required");
+        String phone = etPhoneNumber.getText().toString().trim();
+        if (TextUtils.isEmpty(phone)) {
+            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Contact number is required");
+            valid = false;
+        } else if (phone.length() < 8) {
+            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Please enter a valid phone number");
             valid = false;
         } else {
             ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError(null);
         }
 
         // Password
-        TextInputEditText etPassword = findViewById(R.id.etPassword);
         String password = etPassword.getText().toString();
-        if (password.isEmpty() || password.length() < 6) {
+        if (TextUtils.isEmpty(password)) {
+            ((TextInputLayout) findViewById(R.id.tilPassword)).setError("Password is required");
+            valid = false;
+        } else if (password.length() < 6) {
             ((TextInputLayout) findViewById(R.id.tilPassword)).setError("Password must be at least 6 characters");
             valid = false;
         } else {
