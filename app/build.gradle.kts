@@ -88,4 +88,8 @@ dependencies {
     annotationProcessor(libs.glide.compiler)
     compileOnly(libs.projectlombok.lombok)
     annotationProcessor(libs.projectlombok.lombok)
+
+    // Microsoft SignalR Java Client for real-time messaging
+    implementation(libs.signalr)
+    implementation(libs.rxjava)
 }

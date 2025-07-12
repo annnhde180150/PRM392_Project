@@ -3,7 +3,6 @@ package com.example.homehelperfinder.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +15,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.data.model.Admin;
 import com.example.homehelperfinder.data.model.Helper;
 import com.example.homehelperfinder.data.model.User;
@@ -27,12 +25,14 @@ import com.example.homehelperfinder.data.model.response.UserLoginResponse;
 import com.example.homehelperfinder.data.model.response.ValidationErrorResponse;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.data.remote.auth.AuthApiService;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.registerHelper.RegisterHelperActivity;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 import com.example.homehelperfinder.utils.NavigationHelper;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 import com.example.homehelperfinder.utils.ValidationUtils;
+import com.example.homehelperfinder.utils.signalr.SignalRHelper;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends BaseActivity {
@@ -348,6 +348,9 @@ public class LoginActivity extends BaseActivity {
 
         Logger.i(TAG, "User data saved successfully for: " + userName);
 
+        // Initialize SignalR connection after successful login
+        initializeSignalRAfterLogin();
+
         // Navigate to appropriate dashboard
         navigateToUserDashboard(mappedUserType);
     }
@@ -392,5 +395,22 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
         finish(); // Close login activity
+    }
+
+    /**
+     * Initialize SignalR connection after successful login
+     */
+    private void initializeSignalRAfterLogin() {
+        try {
+            Logger.i(TAG, "Initializing SignalR after login...");
+
+            SignalRHelper.onUserLogin(this);
+
+            Logger.d(TAG, "SignalR initialization triggered successfully");
+
+        } catch (Exception e) {
+            Logger.e(TAG, "Error initializing SignalR after login", e);
+            // Don't show error to user as SignalR is not critical for login flow
+        }
     }
 }

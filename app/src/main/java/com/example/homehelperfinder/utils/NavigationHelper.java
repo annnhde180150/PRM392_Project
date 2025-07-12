@@ -13,6 +13,7 @@ import com.example.homehelperfinder.ui.MenuActivity;
 import com.example.homehelperfinder.ui.UserTypeActivity;
 import com.example.homehelperfinder.ui.WelcomeActivity;
 import com.example.homehelperfinder.ui.profileManagement.ProfileManagementActivity;
+import com.example.homehelperfinder.utils.signalr.SignalRHelper;
 
 public class NavigationHelper {
 
@@ -146,6 +147,9 @@ public class NavigationHelper {
         RetrofitClient.clearAuthenticatedCache();
         Logger.d("NavigationHelper", "Cleared authenticated Retrofit cache");
 
+        // Shutdown SignalR connection
+        SignalRHelper.onUserLogout(context);
+
         // Navigate to welcome screen and clear stack
         navigateToWelcome(context, true);
 
@@ -163,6 +167,9 @@ public class NavigationHelper {
         // Clear all Retrofit cache
         RetrofitClient.clearCache();
         Logger.d("NavigationHelper", "Cleared all Retrofit cache");
+
+        // Shutdown SignalR connection
+        SignalRHelper.onUserLogout(context);
 
         // Navigate to welcome screen and clear stack
         navigateToWelcome(context, true);

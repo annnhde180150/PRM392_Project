@@ -21,6 +21,8 @@ retrofit = "3.0.0"
 googleGmsGoogleServices = "4.4.3"
 firebaseBom = "33.16.0"
 glide = "4.16.0"
+signalr = "9.0.7"
+rxjava = "3.1.11"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -45,6 +47,8 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+signalr = { module = "com.microsoft.signalr:signalr", version.ref = "signalr" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

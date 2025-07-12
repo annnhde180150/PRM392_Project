@@ -13,12 +13,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.response.ChatConversationResponse;
+import com.example.homehelperfinder.data.model.signalr.ChatMessageDto;
+import com.example.homehelperfinder.data.model.signalr.NotificationDetailsDto;
 import com.example.homehelperfinder.data.remote.chat.ChatApiService;
+import com.example.homehelperfinder.data.remote.signalr.SignalRCallback;
+import com.example.homehelperfinder.data.remote.signalr.SignalRService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.chat.adapter.ConversationsAdapter;
 import com.example.homehelperfinder.utils.ApiHelper;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
+import com.example.homehelperfinder.utils.signalr.SignalRHelper;
 
 import java.util.List;
 
@@ -38,6 +43,10 @@ public class ConversationsActivity extends BaseActivity implements Conversations
     private ConversationsAdapter adapter;
     private ChatApiService chatApiService;
 
+    // SignalR
+    private SignalRService signalRService;
+    private SignalRCallback signalRCallback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,7 @@ public class ConversationsActivity extends BaseActivity implements Conversations
         setupRecyclerView();
         setupSwipeRefresh();
         setupMenuNavigation();
+        setupSignalR();
         loadConversations();
     }
 
@@ -158,5 +168,71 @@ public class ConversationsActivity extends BaseActivity implements Conversations
         super.onResume();
         // Refresh conversations when returning to this activity
         loadConversations();
+    }
+
+    /**
+     * Setup SignalR for real-time conversation updates
+     */
+    private void setupSignalR() {
+        try {
+            signalRService = SignalRHelper.getService(this);
+
+            // Create SignalR callback for conversations
+            signalRCallback = new SignalRCallback.SimpleCallback() {
+                @Override
+                public void onNewMessage(ChatMessageDto message) {
+                    // Refresh conversations when new message arrives
+                    runOnUiThread(() -> {
+                        Logger.d(TAG, "New message received, refreshing conversations");
+                        loadConversations();
+                    });
+                }
+
+                @Override
+                public void onNewNotification(NotificationDetailsDto notification) {
+                    // Refresh conversations for chat-related notifications
+                    if (notification.isChatMessage()) {
+                        runOnUiThread(() -> {
+                            Logger.d(TAG, "Chat notification received, refreshing conversations");
+                            loadConversations();
+                        });
+                    }
+                }
+
+                @Override
+                public void onConnected(String connectionId) {
+                    Logger.d(TAG, "SignalR connected in conversations: " + connectionId);
+                }
+
+                @Override
+                public void onDisconnected(String reason) {
+                    Logger.w(TAG, "SignalR disconnected in conversations: " + reason);
+                }
+
+                @Override
+                public void onError(String error, Exception exception) {
+                    Logger.e(TAG, "SignalR error in conversations: " + error, exception);
+                }
+            };
+
+            // Add callback to SignalR service
+            signalRService.addCallback(signalRCallback);
+
+            Logger.d(TAG, "SignalR setup completed for conversations");
+
+        } catch (Exception e) {
+            Logger.e(TAG, "Error setting up SignalR", e);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Cleanup SignalR
+        if (signalRService != null && signalRCallback != null) {
+            signalRService.removeCallback(signalRCallback);
+            Logger.d(TAG, "SignalR callback removed from conversations");
+        }
     }
 }

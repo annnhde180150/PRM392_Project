@@ -67,14 +67,4 @@ public class NetworkUtils {
         }
         return "No Connection";
     }
-
-    // Build full API URL
-    public static String buildApiUrl(String endpoint) {
-        return Constants.BASE_URL + Constants.API_BASE_PATH + endpoint;
-    }
-
-    // Build profile management API URL
-    public static String buildProfileApiUrl(String endpoint) {
-        return Constants.BASE_URL + Constants.API_BASE_PATH + Constants.PROFILE_MANAGEMENT_PATH + endpoint;
-    }
 } 

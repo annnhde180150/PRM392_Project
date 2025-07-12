@@ -6,32 +6,6 @@ public class Constants {
     public static final String BASE_URL = "http://10.0.2.2:5272";
     public static final String API_BASE_PATH = "/api/";
     public static final String RETROFIT_BASE_URL = BASE_URL + API_BASE_PATH;
-    public static final String PROFILE_MANAGEMENT_PATH = "ProfileManagement/";
-    public static final String CHAT_PATH = "chat/";
-    public static final String AUTHENTICATION_PATH = "Authentication/";
-
-    // API Endpoints - Profile Management
-    public static final String ENDPOINT_BANNED_PROFILES = "banned";
-    public static final String ENDPOINT_ACTIVE_PROFILES = "active";
-    public static final String ENDPOINT_BAN_PROFILE = "ban";
-    public static final String ENDPOINT_UNBAN_PROFILE = "unban";
-    public static final String ENDPOINT_BULK_BAN_PROFILE = "bulk-ban";
-    public static final String ENDPOINT_BULK_UNBAN_PROFILE = "bulk-unban";
-
-    // API Endpoints - Authentication
-    public static final String ENDPOINT_LOGIN_USER = "login/user";
-    public static final String ENDPOINT_LOGIN_HELPER = "login/helper";
-    public static final String ENDPOINT_LOGIN_ADMIN = "login/admin";
-    public static final String ENDPOINT_LOGOUT = "logout";
-
-    // API Endpoints - Chat
-    public static final String ENDPOINT_SEND_MESSAGE = "send";
-    public static final String ENDPOINT_CONVERSATION = "conversation";
-    public static final String ENDPOINT_CONVERSATIONS = "conversations";
-    public static final String ENDPOINT_UNREAD_MESSAGES = "unread";
-    public static final String ENDPOINT_UNREAD_COUNT = "unread/count";
-    public static final String ENDPOINT_MARK_AS_READ = "mark-as-read";
-    public static final String ENDPOINT_BOOKING_CHAT = "booking";
 
     // Network Timeouts (seconds)
     public static final int CONNECTION_TIMEOUT = 30;
@@ -66,27 +40,12 @@ public class Constants {
     public static final String INTENT_OTHER_HELPER_ID = "other_helper_id";
     public static final String INTENT_CONVERSATION_ID = "conversation_id";
 
-    // Request Codes
-    public static final int REQUEST_CODE_LOGIN = 1001;
-    public static final int REQUEST_CODE_PROFILE = 1002;
-    public static final int REQUEST_CODE_PERMISSION = 1003;
-
-    // Result Codes
-    public static final int RESULT_CODE_SUCCESS = 2001;
-    public static final int RESULT_CODE_ERROR = 2002;
-    public static final int RESULT_CODE_CANCELLED = 2003;
-
     // Error Messages
     public static final String ERROR_NETWORK = "Network error occurred";
     public static final String ERROR_SERVER = "Server error occurred";
     public static final String ERROR_UNKNOWN = "Unknown error occurred";
     public static final String ERROR_NO_DATA = "No data available";
     public static final String ERROR_INVALID_INPUT = "Invalid input provided";
-
-    // Success Messages
-    public static final String SUCCESS_PROFILE_LOADED = "Profile loaded successfully";
-    public static final String SUCCESS_DATA_SAVED = "Data saved successfully";
-    public static final String SUCCESS_LOGIN = "Login successful";
 
     // Validation
     public static final int MIN_PASSWORD_LENGTH = 6;
@@ -101,10 +60,6 @@ public class Constants {
     public static final String DATE_FORMAT_DISPLAY = "dd/MM/yyyy";
     public static final String DATE_FORMAT_API = "yyyy-MM-dd";
     public static final String DATETIME_FORMAT_API = "yyyy-MM-dd HH:mm:ss";
-    public static final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    public static final String ISO8601_FORMAT_WITH_MILLIS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    public static final String ISO8601_FORMAT_WITH_MICROS = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'";
-    public static final String ISO8601_FORMAT_WITH_NANOS = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'";
 
     // Chat Constants
     public static final int MAX_MESSAGE_LENGTH = 2000;
@@ -115,6 +70,32 @@ public class Constants {
     // Pagination
     public static final int DEFAULT_PAGE_SIZE = 20;
     public static final int MAX_PAGE_SIZE = 100;
+
+    // SignalR Configuration
+    public static final String SIGNALR_HUB_URL = BASE_URL + "/notificationHub";
+
+    // SignalR Event Names
+    public static final String SIGNALR_EVENT_CONNECTED = "Connected";
+    public static final String SIGNALR_EVENT_RECEIVE_CHAT_MESSAGE = "ReceiveChatMessage";
+    public static final String SIGNALR_EVENT_RECEIVE_NOTIFICATION = "ReceiveNotification";
+    public static final String SIGNALR_EVENT_USER_STATUS_CHANGED = "UserStatusChanged";
+    public static final String SIGNALR_EVENT_ERROR = "Error";
+
+    // SignalR Method Names
+    public static final String SIGNALR_METHOD_JOIN_CONVERSATION = "JoinConversation";
+    public static final String SIGNALR_METHOD_LEAVE_CONVERSATION = "LeaveConversation";
+
+    // SignalR Connection States
+    public static final String SIGNALR_STATE_DISCONNECTED = "Disconnected";
+    public static final String SIGNALR_STATE_CONNECTING = "Connecting";
+    public static final String SIGNALR_STATE_CONNECTED = "Connected";
+    public static final String SIGNALR_STATE_RECONNECTING = "Reconnecting";
+
+    // Notification Configuration
+    public static final String NOTIFICATION_CHANNEL_CHAT = "chat_messages";
+    public static final String NOTIFICATION_CHANNEL_GENERAL = "general_notifications";
+    public static final int NOTIFICATION_ID_CHAT = 1001;
+    public static final int NOTIFICATION_ID_GENERAL = 1002;
 
     // Private constructor to prevent instantiation
     private Constants() {

@@ -8,7 +8,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class MenuActivity extends AppCompatActivity {
 

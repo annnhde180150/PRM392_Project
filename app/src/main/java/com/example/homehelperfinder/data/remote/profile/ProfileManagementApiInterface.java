@@ -1,7 +1,7 @@
 package com.example.homehelperfinder.data.remote.profile;
 
-import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.BanUnbanRequest;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.ProfileResponse;
 
 import java.util.List;
