@@ -36,6 +36,7 @@ import com.example.homehelperfinder.ui.LoginActivity;
 import com.example.homehelperfinder.ui.registerHelper.adapter.SkillAdapter;
 import com.example.homehelperfinder.ui.registerHelper.adapter.WorkAreaAdapter;
 
+import com.example.homehelperfinder.utils.FirebaseHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -43,17 +44,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import android.net.Uri;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import android.widget.ImageView;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
+
 
 import com.example.homehelperfinder.data.model.response.ServiceResponse;
 import com.example.homehelperfinder.data.model.request.HelperDocumentRequest;
@@ -82,11 +79,9 @@ public class RegisterHelperActivity extends BaseActivity {
     private Button btnAdd, btnCancel, btnPickLocation, btnViewIdFile;
     private TextView tvSelectedLocation;
     private Uri idFileUri, cvFileUri;
-    private String finalIdUrl = null, finalCvUrl = null;
     private ImageView ivIdPreview, ivCvPreview;
     private String idFileMimeType, cvFileMimeType;
     private ActivityResultLauncher<Intent> cvFilePickerLauncher;
-    private AtomicInteger pendingUploads;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -536,78 +531,47 @@ public class RegisterHelperActivity extends BaseActivity {
         });
     }
 
-    private void uploadFileToFirebase(Uri fileUri, String folder, BiConsumer<String, String> resultHandler) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        String fileName = folder + "/" + System.currentTimeMillis() + "_" + fileUri.getLastPathSegment();
-        StorageReference fileRef = storageRef.child(fileName);
-
-        fileRef.putFile(fileUri)
-                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl()
-                        .addOnSuccessListener(uri -> resultHandler.accept(uri.toString(), null)) // Success: pass URL
-                        .addOnFailureListener(e -> resultHandler.accept(null, e.getMessage())))  // Failure: pass null
-                .addOnFailureListener(e -> resultHandler.accept(null, e.getMessage()));         // Failure: pass null
-    }
-
-    private void uploadIdFileToFirebase(Uri fileUri) {
-        uploadFileToFirebase(fileUri, "ids", (url, error) -> {
-            if (url != null) {
-                this.finalIdUrl = url;
-                Toast.makeText(this, "ID uploaded successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Failed to upload ID: " + error, Toast.LENGTH_SHORT).show();
-            }
-            onUploadTaskComplete(); // Notify that this task is done
-        });
-    }
 
 
-    private void uploadCvFileToFirebase(Uri fileUri) {
-        uploadFileToFirebase(fileUri, "cvs", (url, error) -> {
-            if (url != null) {
-                this.finalCvUrl = url;
-                Toast.makeText(this, "CV uploaded successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Failed to upload CV: " + error, Toast.LENGTH_SHORT).show();
-            }
-            onUploadTaskComplete(); // Notify that this task is done
-        });
-    }
-
-    private void onUploadTaskComplete() {
-        // Decrement the counter. If it reaches zero, all uploads are finished.
-        if (pendingUploads.decrementAndGet() == 0) {
-            if ((idFileUri != null && finalIdUrl == null) || (cvFileUri != null && finalCvUrl == null)) {
-                hideLoading();
-                Toast.makeText(this, "A file upload failed. Registration aborted.", Toast.LENGTH_LONG).show();
-                finalIdUrl = null;
-                finalCvUrl = null;
-            } else {
-                submitRegistration(finalIdUrl, finalCvUrl);
-            }
-        }
-    }
     //endregion
 
 
     private void uploadFilesAndRegister() {
-        int uploadCount = 0;
-        if (idFileUri != null) uploadCount++;
-        if (cvFileUri != null) uploadCount++;
+        List<FirebaseHelper.FileUploadTask> filesToUpload = new ArrayList<>();
+        
+        if (idFileUri != null) {
+            filesToUpload.add(new FirebaseHelper.FileUploadTask(idFileUri, FirebaseHelper.FileType.ID));
+        }
+        if (cvFileUri != null) {
+            filesToUpload.add(new FirebaseHelper.FileUploadTask(cvFileUri, FirebaseHelper.FileType.CV));
+        }
 
-        if (uploadCount == 0) {
+        if (filesToUpload.isEmpty()) {
             submitRegistration(null, null);
             return;
         }
 
-        pendingUploads = new AtomicInteger(uploadCount);
-        // Show loading indicator (already shown in setupSignUpButton)
-        if (idFileUri != null) {
-            uploadIdFileToFirebase(idFileUri);
-        }
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        firebaseHelper.uploadMultipleFiles(filesToUpload, results -> {
 
-        if (cvFileUri != null) {
-            uploadCvFileToFirebase(cvFileUri);
-        }
+            String idUrl = results.get("id");
+            String cvUrl = results.get("cv");
+            
+            if (results.containsKey("id_error")) {
+                Toast.makeText(this, "Failed to upload ID: " + results.get("id_error"), Toast.LENGTH_LONG).show();
+            }
+            if (results.containsKey("cv_error")) {
+                Toast.makeText(this, "Failed to upload CV: " + results.get("cv_error"), Toast.LENGTH_LONG).show();
+            }
+            
+            if (results.containsKey("id_error") || results.containsKey("cv_error")) {
+                hideLoading();
+                Toast.makeText(this, "File upload failed. Registration aborted.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            
+            submitRegistration(idUrl, cvUrl);
+        });
     }
 
 
@@ -684,7 +648,7 @@ public class RegisterHelperActivity extends BaseActivity {
             public void onSuccess(HelperResponse data) {
                 runOnUiThread(() -> {
                     hideLoading();
-                    Toast.makeText(RegisterHelperActivity.this, "Registration successful!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterHelperActivity.this, "Registration successful! Wait for approval to continue", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(RegisterHelperActivity.this, LoginActivity.class));
                     finish();
                 });
