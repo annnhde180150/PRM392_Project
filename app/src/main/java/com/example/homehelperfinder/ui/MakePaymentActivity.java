@@ -1,8 +1,10 @@
 package com.example.homehelperfinder.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
+import com.example.homehelperfinder.data.model.request.UpdatePaymentRequest;
 import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
 import com.example.homehelperfinder.data.remote.Payment.PaymentApiService;
 import com.vnpay.authentication.VNP_AuthenticationActivity;
@@ -21,9 +24,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -120,8 +126,31 @@ public class MakePaymentActivity extends AppCompatActivity {
 
     private void handlePaymentSuccess() {
         isPaymentCompleted = true;
-        Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
+        PaymentApiService paymentApiService = new PaymentApiService(this);
+        UpdatePaymentRequest updatePaymentRequest = new UpdatePaymentRequest();
+        SharedPreferences sharedPreferences = getSharedPreferences("payment_prefs", MODE_PRIVATE);
+        int paymentId = sharedPreferences.getInt("payment_id", -1);
+        long paymentDateMillis = sharedPreferences.getLong("payment_date", -1);
+        String paymentDateRequest = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Instant instant = Instant.ofEpochMilli(paymentDateMillis);
+            paymentDateRequest= DateTimeFormatter.ISO_INSTANT.format(instant);
+        }
+        updatePaymentRequest.setPaymentDate(paymentDateRequest);
+        updatePaymentRequest.setPaymentId(paymentId);
+        updatePaymentRequest.setAction("Success");
+        paymentApiService.updatePaymentStatus(this,updatePaymentRequest, new PaymentApiService.ApiCallback<Void>() {
+            @Override
+            public void onSuccess(Void data) {
 
+            }
+
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+
+            }
+        });
+        Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
         // Chuyển về màn hình chính
         Intent intent = new Intent(MakePaymentActivity.this, MenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -131,6 +160,31 @@ public class MakePaymentActivity extends AppCompatActivity {
 
     private void handlePaymentFailure() {
         isPaymentCompleted = true;
+        PaymentApiService paymentApiService = new PaymentApiService(this);
+        UpdatePaymentRequest updatePaymentRequest = new UpdatePaymentRequest();
+        SharedPreferences sharedPreferences = getSharedPreferences("payment_prefs", MODE_PRIVATE);
+        int paymentId = sharedPreferences.getInt("payment_id", -1);
+        long paymentDateMillis = sharedPreferences.getLong("payment_date", -1);
+        String paymentDateRequest = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Instant instant = Instant.ofEpochMilli(paymentDateMillis);
+            paymentDateRequest= DateTimeFormatter.ISO_INSTANT.format(instant);
+        }
+        updatePaymentRequest.setPaymentDate(paymentDateRequest);
+        updatePaymentRequest.setPaymentId(paymentId);
+        updatePaymentRequest.setAction("Cancelled");
+        paymentApiService.updatePaymentStatus(this,updatePaymentRequest, new PaymentApiService.ApiCallback<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+
+            }
+
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+
+            }
+        });
+
         Toast.makeText(this, "Thanh toán thất bại!", Toast.LENGTH_SHORT).show();
         // Chuyển về màn hình chính
         Intent intent = new Intent(MakePaymentActivity.this, MenuActivity.class);
@@ -167,6 +221,7 @@ public class MakePaymentActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(e);
         }
+        int paymentId = data.getPaymentId();
         String hashSecret = ai.metaData.getString("HASH_SECRET");
         Log.i(TAG, "Lấy thông tin thanh toán thành công: " + data.toString());
 
@@ -201,11 +256,17 @@ public class MakePaymentActivity extends AppCompatActivity {
         vnp_Params.put("vnp_ReturnUrl", "makepaymentactivity://vnpay_return");
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
-
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
-
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+        //Save paymentId and createDate to SharePreference
+        SharedPreferences sharedPreferences = getSharedPreferences("payment_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("payment_id", paymentId);
+        editor.putLong("payment_date", cld.getTimeInMillis()); // Calendar to millis
+
+        editor.apply();
 
         //Build data to hash and querystring
         List fieldNames = new ArrayList(vnp_Params.keySet());
@@ -244,10 +305,10 @@ public class MakePaymentActivity extends AppCompatActivity {
         String queryUrl = query.toString();
         String vnp_SecureHash = hmacSHA512(hashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        openSdk(queryUrl);
+        openSdk(queryUrl,vnp_CreateDate,paymentId);
     }
 
-    public void openSdk(String url) {
+    public void openSdk(String url,String paymentDate,int paymentId) {
         // Set callback TRƯỚC khi start activity
         VNP_AuthenticationActivity.setSdkCompletedCallback(new VNP_SdkCompletedCallback() {
             @Override

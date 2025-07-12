@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote.Payment;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.model.request.UpdatePaymentRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
 import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
@@ -47,6 +48,28 @@ public class PaymentApiService extends BaseApiService {
 
             @Override
             public void onFailure(Call<ApiResponse<GetPaymentResponse>> call, Throwable t) {
+                callback.onError("Lỗi kết nối API", t);
+            }
+        });
+    }
+    public void updatePaymentStatus(Context context, UpdatePaymentRequest updatePaymentRequest, ApiCallback<Void> callback) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            callback.onError("No internet connection available", null);
+            return;
+        }
+        Call<Void> call = apiInterface.updatePaymentStatus(updatePaymentRequest);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                } else {
+                    callback.onError("Phản hồi không thành công hoặc dữ liệu rỗng", null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 callback.onError("Lỗi kết nối API", t);
             }
         });

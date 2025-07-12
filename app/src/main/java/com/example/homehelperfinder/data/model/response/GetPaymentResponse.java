@@ -13,11 +13,17 @@ import lombok.Setter;
 public class GetPaymentResponse {
     @SerializedName("bookingId")
     private int bookingId;
+
     @SerializedName("userId")
     private int userId;
+
     @SerializedName("amount")
     private int amount;
+
     @SerializedName("paymentDate")
     private String paymentDate;
+
+    @SerializedName("paymentId")
+    private int paymentId;
 }
 
