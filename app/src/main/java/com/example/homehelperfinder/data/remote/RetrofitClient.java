@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.remote.Helper.HelperAvailableStatusApiInterface;
 import com.example.homehelperfinder.data.remote.Payment.PaymentApiInterface;
 import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
@@ -116,6 +117,7 @@ public class RetrofitClient {
         return getClient().create(ServiceApiInterface.class);
     }
 
+
     /**
      * Clear all cached Retrofit instances - useful when token changes or user logs out
      */
@@ -151,6 +153,10 @@ public class RetrofitClient {
         Logger.d("RetrofitClient", "Creating PaymentApiInterface service");
         return getClient().create(PaymentApiInterface.class);
 
+    }
+    public static HelperAvailableStatusApiInterface getHelperAvailableStatusApiService() {
+        Logger.d("RetrofitClient", "Creating HelperAvailableStatusApiInterface service");
+        return getClient().create(HelperAvailableStatusApiInterface.class);
     }
 }
 
