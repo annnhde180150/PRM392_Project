@@ -94,5 +94,9 @@
             android:name=".ui.notification.NotificationActivity"
             android:exported="false"
             android:label="Notifications" />
+        <activity
+            android:name=".ui.admin.AdminRequestsActivity"
+            android:exported="false"
+            android:label="Admin Requests" />
     </application>
 </manifest>

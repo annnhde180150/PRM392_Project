@@ -111,7 +111,8 @@ public class DashboardActivity extends BaseActivity {
         });
 
         cardManageOrders.setOnClickListener(v -> {
-            // TODO: Navigate to order management
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.AdminRequestsActivity.class);
+            startActivity(intent);
         });
 
         cardManagePayments.setOnClickListener(v -> {
