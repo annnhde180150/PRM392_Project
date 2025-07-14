@@ -1,9 +1,11 @@
 package com.example.homehelperfinder.data.remote.auth;
 
-import com.example.homehelperfinder.data.model.ApiResponse;
+import com.example.homehelperfinder.data.model.request.HelperRequest;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.LoginRequest;
 import com.example.homehelperfinder.data.model.response.AdminLoginResponse;
 import com.example.homehelperfinder.data.model.response.HelperLoginResponse;
+import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.LogoutResponse;
 import com.example.homehelperfinder.data.model.response.UserLoginResponse;
 
@@ -27,4 +29,7 @@ public interface AuthApiInterface {
 
     @POST("Authentication/logout")
     Call<ApiResponse<LogoutResponse>> logout();
+
+    @POST("Authentication/register/helper")
+    Call<ApiResponse<HelperResponse>> registerHelper(@Body HelperRequest request);
 }

@@ -2,20 +2,24 @@ package com.example.homehelperfinder.data.remote.auth;
 
 import android.content.Context;
 
-import com.example.homehelperfinder.data.model.ApiResponse;
+import com.example.homehelperfinder.data.model.request.HelperRequest;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.LoginRequest;
 import com.example.homehelperfinder.data.model.response.AdminLoginResponse;
 import com.example.homehelperfinder.data.model.response.ErrorResponse;
 import com.example.homehelperfinder.data.model.response.HelperLoginResponse;
+import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.LogoutResponse;
 import com.example.homehelperfinder.data.model.response.UserLoginResponse;
 import com.example.homehelperfinder.data.model.response.ValidationErrorResponse;
+import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.utils.Logger;
 import com.example.homehelperfinder.utils.NetworkUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,12 +30,28 @@ import retrofit2.Response;
  */
 public class AuthApiService {
     private static final String TAG = "AuthApiService";
-    private final AuthApiInterface apiInterface;
+    private final AuthApiInterface publicApiInterface;  // For login (no auth needed)
+    private final AuthApiInterface authenticatedApiInterface;  // For logout (auth needed)
     private final Gson gson;
 
     public AuthApiService() {
-        this.apiInterface = RetrofitClient.getAuthApiService();
+        this.publicApiInterface = RetrofitClient.getAuthApiService();
+        this.authenticatedApiInterface = RetrofitClient.getAuthenticatedAuthApiService();
         this.gson = new Gson();
+    }
+
+
+
+    public void registerHelper(Context context, HelperRequest request , AuthCallback<HelperResponse> callback) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            callback.onError("No internet connection available", null);
+            return;
+        }
+
+        Logger.d(TAG, "Starting helper register" );
+
+        Call<ApiResponse<HelperResponse>> call = publicApiInterface.registerHelper(request);
+        executeWrappedAuthCall(call, "Helper Register", callback);
     }
 
     // User login
@@ -43,7 +63,7 @@ public class AuthApiService {
 
         Logger.d(TAG, "Starting user login for email: " + request.getEmail());
 
-        Call<ApiResponse<UserLoginResponse>> call = apiInterface.loginUser(request);
+        Call<ApiResponse<UserLoginResponse>> call = publicApiInterface.loginUser(request);
         executeWrappedAuthCall(call, "User Login", callback);
     }
 
@@ -56,7 +76,7 @@ public class AuthApiService {
 
         Logger.d(TAG, "Starting helper login for email: " + request.getEmail());
 
-        Call<ApiResponse<HelperLoginResponse>> call = apiInterface.loginHelper(request);
+        Call<ApiResponse<HelperLoginResponse>> call = publicApiInterface.loginHelper(request);
         executeWrappedAuthCall(call, "Helper Login", callback);
     }
 
@@ -69,7 +89,7 @@ public class AuthApiService {
 
         Logger.d(TAG, "Starting admin login for username: " + request.getEmail());
 
-        Call<ApiResponse<AdminLoginResponse>> call = apiInterface.loginAdmin(request);
+        Call<ApiResponse<AdminLoginResponse>> call = publicApiInterface.loginAdmin(request);
         executeWrappedAuthCall(call, "Admin Login", callback);
     }
 
@@ -81,8 +101,8 @@ public class AuthApiService {
         }
 
         Logger.d(TAG, "Starting logout");
-        
-        Call<ApiResponse<LogoutResponse>> call = apiInterface.logout();
+
+        Call<ApiResponse<LogoutResponse>> call = authenticatedApiInterface.logout();
         executeWrappedAuthCall(call, "Logout", callback);
     }
 

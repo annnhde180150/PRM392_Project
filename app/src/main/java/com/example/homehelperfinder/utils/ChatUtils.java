@@ -17,35 +17,32 @@ public class ChatUtils {
         throw new UnsupportedOperationException("ChatUtils class cannot be instantiated");
     }
 
-    /**
-     * Parse ISO 8601 timestamp to Date object
-     * Supports multiple formats including fractional seconds
-     */
     public static Date parseTimestamp(String timestamp) {
         if (timestamp == null || timestamp.isEmpty()) {
             return null;
         }
 
-        // List of supported timestamp formats in order of specificity
-        String[] formats = {
-            Constants.ISO8601_FORMAT_WITH_NANOS,    // yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z' (7 digits)
-            Constants.ISO8601_FORMAT_WITH_MICROS,   // yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z' (6 digits)
-            Constants.ISO8601_FORMAT_WITH_MILLIS,   // yyyy-MM-dd'T'HH:mm:ss.SSS'Z' (3 digits)
-            Constants.ISO8601_FORMAT                // yyyy-MM-dd'T'HH:mm:ss'Z' (no fractional seconds)
-        };
+        // Remove nanoseconds/microseconds: leave only 3 digits after '.'
+        if (timestamp.contains(".")) {
+            int dotIndex = timestamp.indexOf(".");
+            int zIndex = timestamp.indexOf("Z", dotIndex);
+            if (zIndex == -1) zIndex = timestamp.length();
 
-        for (String format : formats) {
-            try {
-                SimpleDateFormat iso8601Format = new SimpleDateFormat(format, Locale.US);
-                iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
-                return iso8601Format.parse(timestamp);
-            } catch (ParseException e) {
-                // Continue to next format
+            String fraction = timestamp.substring(dotIndex + 1, zIndex);
+            if (fraction.length() > 3) {
+                fraction = fraction.substring(0, 3);
+                timestamp = timestamp.substring(0, dotIndex + 1) + fraction + timestamp.substring(zIndex);
             }
         }
 
-        Logger.e(TAG, "Failed to parse timestamp with any supported format: " + timestamp);
-        return null;
+        try {
+            SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+            iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return iso8601Format.parse(timestamp);
+        } catch (ParseException e) {
+            Logger.e(TAG, "Failed to parse timestamp: " + timestamp);
+            return null;
+        }
     }
 
     /**

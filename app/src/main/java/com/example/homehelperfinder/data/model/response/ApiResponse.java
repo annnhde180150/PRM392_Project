@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.data.model;
+package com.example.homehelperfinder.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
 

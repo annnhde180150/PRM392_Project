@@ -11,12 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.data.model.Admin;
 import com.example.homehelperfinder.data.model.Helper;
 import com.example.homehelperfinder.data.model.User;
@@ -25,6 +25,7 @@ import com.example.homehelperfinder.data.model.response.AdminLoginResponse;
 import com.example.homehelperfinder.data.model.response.HelperLoginResponse;
 import com.example.homehelperfinder.data.model.response.UserLoginResponse;
 import com.example.homehelperfinder.data.model.response.ValidationErrorResponse;
+import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.data.remote.auth.AuthApiService;
 import com.example.homehelperfinder.ui.registerHelper.RegisterHelperActivity;
 import com.example.homehelperfinder.utils.Constants;
@@ -34,7 +35,7 @@ import com.example.homehelperfinder.utils.SharedPrefsHelper;
 import com.example.homehelperfinder.utils.ValidationUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
@@ -74,9 +75,29 @@ public class LoginActivity extends AppCompatActivity {
         sharedPrefsHelper = SharedPrefsHelper.getInstance(this);
 
         initViews();
+        loadRememberedCredentials();
         setUpClickListeners();
+        setupMenuNavigation();
 
         Logger.d(TAG, "LoginActivity created for user type: " + userType);
+    }
+
+    private void loadRememberedCredentials() {
+        if (sharedPrefsHelper.isRememberMeEnabled()) {
+            String savedEmail = sharedPrefsHelper.getSavedEmail();
+            String savedUserType = sharedPrefsHelper.getSavedUserType();
+
+            if (savedEmail != null && !savedEmail.isEmpty()) {
+                etEmail.setText(savedEmail);
+                cbRememberMe.setChecked(true);
+                Logger.d(TAG, "Auto-filled saved email: " + savedEmail);
+
+                // If user type matches, focus on password field
+                if (userType != null && userType.equals(savedUserType)) {
+                    etPassword.requestFocus();
+                }
+            }
+        }
     }
 
     private void initViews() {
@@ -311,9 +332,18 @@ public class LoginActivity extends AppCompatActivity {
         // Save user data to SharedPreferences
         sharedPrefsHelper.saveUserData(userId, mappedUserType, userName, userEmail, token);
 
-        // Save remember me preference
+        // Clear authenticated Retrofit cache to ensure new token is used
+        RetrofitClient.clearAuthenticatedCache();
+        Logger.d(TAG, "Cleared authenticated Retrofit cache for new token");
+
+        // Save remember me preference and credentials
         if (cbRememberMe.isChecked()) {
-            sharedPrefsHelper.putBoolean("remember_me", true);
+            sharedPrefsHelper.saveRememberMeData(userEmail, mappedUserType);
+            Logger.d(TAG, "Remember Me data saved for: " + userEmail);
+        } else {
+            // Clear remember me data if unchecked
+            sharedPrefsHelper.clearRememberMeData();
+            Logger.d(TAG, "Remember Me data cleared");
         }
 
         Logger.i(TAG, "User data saved successfully for: " + userName);

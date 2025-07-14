@@ -47,6 +47,7 @@ public class ConversationsActivity extends BaseActivity implements Conversations
         initData();
         setupRecyclerView();
         setupSwipeRefresh();
+        setupMenuNavigation();
         loadConversations();
     }
 
