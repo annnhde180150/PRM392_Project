@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -143,8 +144,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
+    @SuppressLint("MissingSuperCall") // Intentionally not calling super to disable back button
     public void onBackPressed() {
         // Disable back button during splash
-        // Do nothing
+        // Do nothing - intentionally not calling super.onBackPressed()
+        // to prevent user from going back during splash screen
     }
 }

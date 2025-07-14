@@ -12,6 +12,7 @@ import com.example.homehelperfinder.ui.LoginActivity;
 import com.example.homehelperfinder.ui.MenuActivity;
 import com.example.homehelperfinder.ui.UserTypeActivity;
 import com.example.homehelperfinder.ui.WelcomeActivity;
+import com.example.homehelperfinder.ui.notification.NotificationActivity;
 import com.example.homehelperfinder.ui.profileManagement.ProfileManagementActivity;
 import com.example.homehelperfinder.utils.signalr.SignalRHelper;
 
@@ -90,6 +91,13 @@ public class NavigationHelper {
         Intent intent = new Intent(context, ProfileManagementActivity.class);
         context.startActivity(intent);
         Logger.d("NavigationHelper", "Navigated to ProfileManagement");
+    }
+
+    // Navigate to Notifications
+    public static void navigateToNotifications(Context context) {
+        Intent intent = new Intent(context, NotificationActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Notifications");
     }
 
     // Navigate to Menu (for testing)

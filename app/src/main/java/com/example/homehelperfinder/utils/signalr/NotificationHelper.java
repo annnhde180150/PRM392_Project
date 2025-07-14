@@ -1,12 +1,16 @@
 package com.example.homehelperfinder.utils.signalr;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -69,6 +73,7 @@ public class NotificationHelper {
     /**
      * Show notification for new chat message
      */
+    @SuppressLint("MissingPermission") // Permission is checked in areNotificationsEnabled()
     public void showChatMessageNotification(ChatMessageDto message) {
         if (message == null) return;
         
@@ -121,6 +126,7 @@ public class NotificationHelper {
     /**
      * Show general notification
      */
+    @SuppressLint("MissingPermission") // Permission is checked in areNotificationsEnabled()
     public void showGeneralNotification(NotificationDetailsDto notification) {
         if (notification == null) return;
         
@@ -209,12 +215,35 @@ public class NotificationHelper {
     }
     
     /**
-     * Check if notifications are enabled
+     * Check if notifications are enabled and permission is granted
      */
     public boolean areNotificationsEnabled() {
-        return notificationManager.areNotificationsEnabled();
+        // Check if notifications are enabled in system settings
+        if (!notificationManager.areNotificationsEnabled()) {
+            return false;
+        }
+
+        // For Android 13+ (API 33+), check POST_NOTIFICATIONS permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+
+        // For older versions, just check if notifications are enabled
+        return true;
     }
     
+    /**
+     * Check if we have notification permission (Android 13+)
+     */
+    public boolean hasNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+        return true; // Permission not required for older versions
+    }
+
     /**
      * Get notification manager instance
      */

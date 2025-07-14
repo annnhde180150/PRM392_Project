@@ -40,9 +40,9 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Notification"
-            android:src="@android:drawable/ic_dialog_info"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Notifications"
+            android:src="@drawable/ic_notification"
             app:tint="@android:color/white" />
     </LinearLayout>
 

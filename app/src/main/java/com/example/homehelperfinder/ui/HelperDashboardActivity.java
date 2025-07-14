@@ -1,6 +1,8 @@
 package com.example.homehelperfinder.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -11,6 +13,8 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 
 public class HelperDashboardActivity extends BaseActivity {
+
+    private ImageButton btnNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,19 @@ public class HelperDashboardActivity extends BaseActivity {
             return insets;
         });
 
+        initViews();
+        setupClickListeners();
         setupMenuNavigation();
+    }
+
+    private void initViews() {
+        btnNotification = findViewById(R.id.btn_notification);
+    }
+
+    private void setupClickListeners() {
+        btnNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
+            startActivity(intent);
+        });
     }
 }

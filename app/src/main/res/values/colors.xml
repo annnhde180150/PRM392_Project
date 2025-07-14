@@ -57,4 +57,13 @@
     <color name="profile_picture_background">#E0E0E0</color>
     <color name="unread_count_background">#FF4444</color>
     <color name="icon_placeholder_color">#9E9E9E</color>
+
+    <!-- Notification colors -->
+    <color name="secondary_color">#34A853</color>
+    <color name="accent_color">#FF4081</color>
+    <color name="text_tertiary">#AAAAAA</color>
+    <color name="warning_color">#FF9800</color>
+    <color name="info_color">#2196F3</color>
+    <color name="error_color">#F44336</color>
+    <color name="success_color">#4CAF50</color>
 </resources>

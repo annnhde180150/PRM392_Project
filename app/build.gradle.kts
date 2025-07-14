@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
 
+    // SwipeRefreshLayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
     implementation(libs.androidx.gridlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

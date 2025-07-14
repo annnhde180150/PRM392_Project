@@ -94,8 +94,17 @@ public class Constants {
     // Notification Configuration
     public static final String NOTIFICATION_CHANNEL_CHAT = "chat_messages";
     public static final String NOTIFICATION_CHANNEL_GENERAL = "general_notifications";
+    public static final String NOTIFICATION_CHANNEL_BOOKING = "booking_notifications";
+    public static final String NOTIFICATION_CHANNEL_PAYMENT = "payment_notifications";
     public static final int NOTIFICATION_ID_CHAT = 1001;
     public static final int NOTIFICATION_ID_GENERAL = 1002;
+    public static final int NOTIFICATION_ID_BOOKING = 1003;
+    public static final int NOTIFICATION_ID_PAYMENT = 1004;
+
+    // Notification Intent Keys
+    public static final String INTENT_NOTIFICATION_ID = "notification_id";
+    public static final String INTENT_NOTIFICATION_TYPE = "notification_type";
+    public static final String INTENT_NOTIFICATION_DATA = "notification_data";
 
     // Private constructor to prevent instantiation
     private Constants() {

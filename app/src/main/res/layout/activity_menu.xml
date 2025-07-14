@@ -105,6 +105,22 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <!-- Notifications Activity Button -->
+            <Button
+                android:id="@+id/btn_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_secondary_bg"
+                android:elevation="4dp"
+                android:text="Notifications"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_notification"
+                android:drawablePadding="8dp"
+                android:gravity="center" />
+
             <!-- Divider -->
             <View
                 android:layout_width="match_parent"

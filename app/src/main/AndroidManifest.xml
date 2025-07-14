@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- Notification Permissions -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".HomeHelperFinderApplication"
         android:allowBackup="true"
@@ -86,5 +90,9 @@
             android:name=".ui.chat.ChatActivity"
             android:exported="false"
             android:label="Chat" />
+        <activity
+            android:name=".ui.notification.NotificationActivity"
+            android:exported="false"
+            android:label="Notifications" />
     </application>
 </manifest>

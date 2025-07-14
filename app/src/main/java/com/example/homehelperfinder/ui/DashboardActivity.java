@@ -16,6 +16,7 @@ public class DashboardActivity extends BaseActivity {
     // Header
     private TextView tvDashboardTitle;
     private ImageView ivProfile;
+    private ImageView ivNotifications;
 
     // Statistics Cards
     private CardView cardUsers, cardOrders, cardRevenue, cardHelpers;
@@ -52,6 +53,7 @@ public class DashboardActivity extends BaseActivity {
         // Header
         tvDashboardTitle = findViewById(R.id.tv_dashboard_title);
         ivProfile = findViewById(R.id.iv_profile);
+        ivNotifications = findViewById(R.id.iv_notifications);
 
         // Statistics Cards
         cardUsers = findViewById(R.id.card_users);
@@ -95,6 +97,12 @@ public class DashboardActivity extends BaseActivity {
         // Profile click
         ivProfile.setOnClickListener(v -> {
             // TODO: Navigate to profile settings
+        });
+
+        // Notifications click
+        ivNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
+            startActivity(intent);
         });
 
         // Management Cards
