@@ -70,4 +70,16 @@
     <!-- Admin Request colors -->
     <color name="primary">#4285F4</color>
     <color name="background_light">#F8F9FA</color>
+
+    <!-- Status colors for Helper Applications -->
+    <color name="status_pending_bg">#FFF3CD</color>
+    <color name="status_pending_text">#856404</color>
+    <color name="status_approved_bg">#D4EDDA</color>
+    <color name="status_approved_text">#155724</color>
+    <color name="status_rejected_bg">#F8D7DA</color>
+    <color name="status_rejected_text">#721C24</color>
+    <color name="status_revision_bg">#D1ECF1</color>
+    <color name="status_revision_text">#0C5460</color>
+    <color name="status_unknown_bg">#E2E3E5</color>
+    <color name="status_unknown_text">#383D41</color>
 </resources>

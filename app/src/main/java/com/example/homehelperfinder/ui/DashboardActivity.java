@@ -26,7 +26,7 @@ public class DashboardActivity extends BaseActivity {
     private TextView tvHelpersCount, tvHelpersGrowth;
 
     // Management Cards
-    private CardView cardManageUsers, cardManageOrders, cardManagePayments, cardManageSupport;
+    private CardView cardManageUsers, cardManageOrders, cardManagePayments, cardManageSupport, cardManageHelperApplications;
 
     // Bottom Navigation
     private LinearLayout navHome, navOrders, navMessages, navProfile;
@@ -75,6 +75,7 @@ public class DashboardActivity extends BaseActivity {
         cardManageOrders = findViewById(R.id.card_manage_orders);
         cardManagePayments = findViewById(R.id.card_manage_payments);
         cardManageSupport = findViewById(R.id.card_manage_support);
+        cardManageHelperApplications = findViewById(R.id.card_manage_helper_applications);
 
         // Bottom Navigation
         navHome = findViewById(R.id.nav_home);
@@ -121,6 +122,11 @@ public class DashboardActivity extends BaseActivity {
 
         cardManageSupport.setOnClickListener(v -> {
             // TODO: Navigate to support management
+        });
+
+        cardManageHelperApplications.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.HelperApplicationsActivity.class);
+            startActivity(intent);
         });
 
         // Bottom Navigation
