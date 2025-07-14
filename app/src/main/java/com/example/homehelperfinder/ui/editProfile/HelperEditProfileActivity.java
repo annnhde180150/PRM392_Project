@@ -117,7 +117,7 @@ public class HelperEditProfileActivity extends BaseActivity {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         profilePictureUri = result.getData().getData();
                         if (profilePictureUri != null) {
-                            CircularImageUtils.loadCircularImage(this, profilePictureUri, ivProfilePicture);
+                            CircularImageUtils.loadCircularImage(this, String.valueOf(profilePictureUri), ivProfilePicture);
                         }
                     }
                 }
