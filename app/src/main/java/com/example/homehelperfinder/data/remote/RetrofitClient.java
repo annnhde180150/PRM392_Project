@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
+import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiInterface;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 
@@ -95,5 +96,10 @@ public class RetrofitClient {
     public static AuthApiInterface getAuthApiService() {
         Logger.d("RetrofitClient", "Creating AuthApiInterface service");
         return getClient().create(AuthApiInterface.class);
+    }
+
+    public static ServiceRequestApiInterface getServicerRequestApiService() {
+        Logger.d("RetrofitClient", "Creating AuthApiInterface service");
+        return getClient().create(ServiceRequestApiInterface.class);
     }
 }
