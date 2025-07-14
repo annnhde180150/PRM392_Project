@@ -50,6 +50,9 @@ android {
         jvmTarget = "11"
     }
     buildToolsVersion = "35.0.0"
+    buildFeatures {
+        viewBinding = true
+    }
 }
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -76,6 +79,8 @@ dependencies {
     implementation(libs.androidx.cardview)
 
     implementation(libs.androidx.gridlayout)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
