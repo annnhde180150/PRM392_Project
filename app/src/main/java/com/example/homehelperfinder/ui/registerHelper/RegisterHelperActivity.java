@@ -39,6 +39,7 @@ import com.example.homehelperfinder.ui.registerHelper.adapter.SkillAdapter;
 import com.example.homehelperfinder.ui.registerHelper.adapter.WorkAreaAdapter;
 
 import com.example.homehelperfinder.utils.FirebaseHelper;
+import com.example.homehelperfinder.utils.ValidationUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -729,11 +730,9 @@ public class RegisterHelperActivity extends BaseActivity {
         if (TextUtils.isEmpty(email)) {
             tilEmail.setError("Email is required");
             valid = false;
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!ValidationUtils.isValidEmail(email)) {
             tilEmail.setError("Please enter a valid email address");
             valid = false;
-        } else {
-            tilEmail.setError(null);
         }
 
         // Phone Number
@@ -741,7 +740,7 @@ public class RegisterHelperActivity extends BaseActivity {
         if (TextUtils.isEmpty(phone)) {
             tilPhoneNumber.setError("Contact number is required");
             valid = false;
-        } else if (phone.length() < 8) {
+        } else if (!ValidationUtils.isValidPhone(phone)) {
             tilPhoneNumber.setError("Please enter a valid phone number");
             valid = false;
         } else {

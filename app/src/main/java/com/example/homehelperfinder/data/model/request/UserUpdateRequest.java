@@ -1,6 +1,4 @@
-package com.example.homehelperfinder.data.model.response;
-
-import java.util.Date;
+package com.example.homehelperfinder.data.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,17 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
-    private int id;
+public class UserUpdateRequest {
     private String phoneNumber;
     private String email;
     private String fullName;
     private String profilePictureUrl;
-    private Date registrationDate;
-    private Date lastLoginDate;
-    private String externalAuthProvider;
-    private String externalAuthId;
-    private boolean isActive;
     private Integer defaultAddressId;
-    private String role;
-}
+} 
