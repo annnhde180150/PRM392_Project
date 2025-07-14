@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,6 +38,8 @@ import com.example.homehelperfinder.ui.LoginActivity;
 import com.example.homehelperfinder.ui.registerHelper.adapter.SkillAdapter;
 import com.example.homehelperfinder.ui.registerHelper.adapter.WorkAreaAdapter;
 
+import com.example.homehelperfinder.utils.FirebaseHelper;
+import com.example.homehelperfinder.utils.ValidationUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -43,17 +47,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import android.net.Uri;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import android.widget.ImageView;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
+
 
 import com.example.homehelperfinder.data.model.response.ServiceResponse;
 import com.example.homehelperfinder.data.model.request.HelperDocumentRequest;
@@ -70,7 +70,7 @@ public class RegisterHelperActivity extends BaseActivity {
     private final List<HelperSkillResponse> skillList = new ArrayList<>();
     private final List<HelperWorkAreaResponse> workAreaList = new ArrayList<>();
     private List<ServiceResponse> serviceList = new ArrayList<>();
-
+    private Toolbar toolbar;
     private ActivityResultLauncher<Intent> locationPickerLauncher;
     private AutoCompleteTextView actvService;
     private ActivityResultLauncher<Intent> filePickerLauncher;
@@ -82,11 +82,13 @@ public class RegisterHelperActivity extends BaseActivity {
     private Button btnAdd, btnCancel, btnPickLocation, btnViewIdFile;
     private TextView tvSelectedLocation;
     private Uri idFileUri, cvFileUri;
-    private String finalIdUrl = null, finalCvUrl = null;
     private ImageView ivIdPreview, ivCvPreview;
     private String idFileMimeType, cvFileMimeType;
     private ActivityResultLauncher<Intent> cvFilePickerLauncher;
-    private AtomicInteger pendingUploads;
+    
+    // Form fields
+    private TextInputEditText etFullName, etDateOfBirth, etEmail, etPhoneNumber, etPassword, etBio;
+    private TextInputLayout tilFullName, tilDateOfBirth, tilEmail, tilPhoneNumber, tilPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,18 +101,41 @@ public class RegisterHelperActivity extends BaseActivity {
             return insets;
         });
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+
 
         initViews();
         setupMenuNavigation();
 
     }
+    private void setupToolbar() {
+        toolbar = findViewById(R.id.toolbar);
 
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Register as Helper");
+        }
+    }
     private void initViews() {
         serviceService = new ServiceApiService();
         fetchServices();
+
+        setupToolbar();
+
+        // Initialize form fields
+        etFullName = findViewById(R.id.etFullName);
+        etDateOfBirth = findViewById(R.id.etDateOfBirth);
+        etEmail = findViewById(R.id.etEmail);
+        etPhoneNumber = findViewById(R.id.etPhoneNumber);
+        etPassword = findViewById(R.id.etPassword);
+        etBio = findViewById(R.id.etBio);
+
+        // Initialize TextInputLayout fields
+        tilFullName = findViewById(R.id.tilFullName);
+        tilDateOfBirth = findViewById(R.id.tilDateOfBirth);
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPhoneNumber = findViewById(R.id.tilPhoneNumber);
+        tilPassword = findViewById(R.id.tilPassword);
 
         getSelectedGender();
         setupDatePicker();
@@ -536,89 +561,58 @@ public class RegisterHelperActivity extends BaseActivity {
         });
     }
 
-    private void uploadFileToFirebase(Uri fileUri, String folder, BiConsumer<String, String> resultHandler) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        String fileName = folder + "/" + System.currentTimeMillis() + "_" + fileUri.getLastPathSegment();
-        StorageReference fileRef = storageRef.child(fileName);
-
-        fileRef.putFile(fileUri)
-                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl()
-                        .addOnSuccessListener(uri -> resultHandler.accept(uri.toString(), null)) // Success: pass URL
-                        .addOnFailureListener(e -> resultHandler.accept(null, e.getMessage())))  // Failure: pass null
-                .addOnFailureListener(e -> resultHandler.accept(null, e.getMessage()));         // Failure: pass null
-    }
-
-    private void uploadIdFileToFirebase(Uri fileUri) {
-        uploadFileToFirebase(fileUri, "ids", (url, error) -> {
-            if (url != null) {
-                this.finalIdUrl = url;
-                Toast.makeText(this, "ID uploaded successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Failed to upload ID: " + error, Toast.LENGTH_SHORT).show();
-            }
-            onUploadTaskComplete(); // Notify that this task is done
-        });
-    }
 
 
-    private void uploadCvFileToFirebase(Uri fileUri) {
-        uploadFileToFirebase(fileUri, "cvs", (url, error) -> {
-            if (url != null) {
-                this.finalCvUrl = url;
-                Toast.makeText(this, "CV uploaded successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Failed to upload CV: " + error, Toast.LENGTH_SHORT).show();
-            }
-            onUploadTaskComplete(); // Notify that this task is done
-        });
-    }
-
-    private void onUploadTaskComplete() {
-        // Decrement the counter. If it reaches zero, all uploads are finished.
-        if (pendingUploads.decrementAndGet() == 0) {
-            if ((idFileUri != null && finalIdUrl == null) || (cvFileUri != null && finalCvUrl == null)) {
-                hideLoading();
-                Toast.makeText(this, "A file upload failed. Registration aborted.", Toast.LENGTH_LONG).show();
-                finalIdUrl = null;
-                finalCvUrl = null;
-            } else {
-                submitRegistration(finalIdUrl, finalCvUrl);
-            }
-        }
-    }
     //endregion
 
 
     private void uploadFilesAndRegister() {
-        int uploadCount = 0;
-        if (idFileUri != null) uploadCount++;
-        if (cvFileUri != null) uploadCount++;
+        List<FirebaseHelper.FileUploadTask> filesToUpload = new ArrayList<>();
+        
+        if (idFileUri != null) {
+            filesToUpload.add(new FirebaseHelper.FileUploadTask(idFileUri, FirebaseHelper.FileType.ID));
+        }
+        if (cvFileUri != null) {
+            filesToUpload.add(new FirebaseHelper.FileUploadTask(cvFileUri, FirebaseHelper.FileType.CV));
+        }
 
-        if (uploadCount == 0) {
+        if (filesToUpload.isEmpty()) {
             submitRegistration(null, null);
             return;
         }
 
-        pendingUploads = new AtomicInteger(uploadCount);
-        // Show loading indicator (already shown in setupSignUpButton)
-        if (idFileUri != null) {
-            uploadIdFileToFirebase(idFileUri);
-        }
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        firebaseHelper.uploadMultipleFiles(filesToUpload, results -> {
 
-        if (cvFileUri != null) {
-            uploadCvFileToFirebase(cvFileUri);
-        }
+            String idUrl = results.get("id");
+            String cvUrl = results.get("cv");
+            
+            if (results.containsKey("id_error")) {
+                Toast.makeText(this, "Failed to upload ID: " + results.get("id_error"), Toast.LENGTH_LONG).show();
+            }
+            if (results.containsKey("cv_error")) {
+                Toast.makeText(this, "Failed to upload CV: " + results.get("cv_error"), Toast.LENGTH_LONG).show();
+            }
+            
+            if (results.containsKey("id_error") || results.containsKey("cv_error")) {
+                hideLoading();
+                Toast.makeText(this, "File upload failed. Registration aborted.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            
+            submitRegistration(idUrl, cvUrl);
+        });
     }
 
 
     private void submitRegistration(String idFileUrl, String cvFileUrl) {
-        String fullName = ((TextInputEditText) findViewById(R.id.etFullName)).getText().toString().trim();
-        String dob = ((TextInputEditText) findViewById(R.id.etDateOfBirth)).getText().toString().trim();
+        String fullName = etFullName.getText().toString().trim();
+        String dob = etDateOfBirth.getText().toString().trim();
         String gender = getSelectedGender();
-        String email = ((TextInputEditText) findViewById(R.id.etEmail)).getText().toString().trim();
-        String phone = ((TextInputEditText) findViewById(R.id.etPhoneNumber)).getText().toString().trim();
-        String password = ((TextInputEditText) findViewById(R.id.etPassword)).getText().toString();
-        String bio =  ((TextInputEditText) findViewById(R.id.etBio)).getText().toString();
+        String email = etEmail.getText().toString().trim();
+        String phone = etPhoneNumber.getText().toString().trim();
+        String password = etPassword.getText().toString();
+        String bio = etBio.getText().toString();
 
 
         List<HelperSkillRequest> skills = new ArrayList<>();
@@ -684,7 +678,7 @@ public class RegisterHelperActivity extends BaseActivity {
             public void onSuccess(HelperResponse data) {
                 runOnUiThread(() -> {
                     hideLoading();
-                    Toast.makeText(RegisterHelperActivity.this, "Registration successful!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterHelperActivity.this, "Registration successful! Wait for approval to continue", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(RegisterHelperActivity.this, LoginActivity.class));
                     finish();
                 });
@@ -704,23 +698,24 @@ public class RegisterHelperActivity extends BaseActivity {
         boolean valid = true;
 
         // Full Name
-        TextInputEditText etFullName = findViewById(R.id.etFullName);
         String fullName = etFullName.getText().toString().trim();
-        if (fullName.isEmpty()) {
-            ((TextInputLayout) findViewById(R.id.tilFullName)).setError("Full name is required");
+        if (TextUtils.isEmpty(fullName)) {
+            tilFullName.setError("Full name is required");
+            valid = false;
+        } else if (fullName.length() < 2) {
+            tilFullName.setError("Full name must be at least 2 characters");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilFullName)).setError(null);
+            tilFullName.setError(null);
         }
 
         // Date of Birth
-        TextInputEditText etDateOfBirth = findViewById(R.id.etDateOfBirth);
         String dob = etDateOfBirth.getText().toString().trim();
-        if (dob.isEmpty()) {
-            ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError("Date of birth is required");
+        if (TextUtils.isEmpty(dob)) {
+            tilDateOfBirth.setError("Date of birth is required");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilDateOfBirth)).setError(null);
+            tilDateOfBirth.setError(null);
         }
 
         // Gender
@@ -731,33 +726,37 @@ public class RegisterHelperActivity extends BaseActivity {
         }
 
         // Email
-        TextInputEditText etEmail = findViewById(R.id.etEmail);
         String email = etEmail.getText().toString().trim();
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            ((TextInputLayout) findViewById(R.id.tilEmail)).setError("Valid email is required");
+        if (TextUtils.isEmpty(email)) {
+            tilEmail.setError("Email is required");
             valid = false;
-        } else {
-            ((TextInputLayout) findViewById(R.id.tilEmail)).setError(null);
+        } else if (!ValidationUtils.isValidEmail(email)) {
+            tilEmail.setError("Please enter a valid email address");
+            valid = false;
         }
 
         // Phone Number
-        TextInputEditText etPhone = findViewById(R.id.etPhoneNumber);
-        String phone = etPhone.getText().toString().trim();
-        if (phone.isEmpty() || phone.length() < 8) {
-            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError("Valid phone number is required");
+        String phone = etPhoneNumber.getText().toString().trim();
+        if (TextUtils.isEmpty(phone)) {
+            tilPhoneNumber.setError("Contact number is required");
+            valid = false;
+        } else if (!ValidationUtils.isValidPhone(phone)) {
+            tilPhoneNumber.setError("Please enter a valid phone number");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilPhoneNumber)).setError(null);
+            tilPhoneNumber.setError(null);
         }
 
         // Password
-        TextInputEditText etPassword = findViewById(R.id.etPassword);
         String password = etPassword.getText().toString();
-        if (password.isEmpty() || password.length() < 6) {
-            ((TextInputLayout) findViewById(R.id.tilPassword)).setError("Password must be at least 6 characters");
+        if (TextUtils.isEmpty(password)) {
+            tilPassword.setError("Password is required");
+            valid = false;
+        } else if (password.length() < 6) {
+            tilPassword.setError("Password must be at least 6 characters");
             valid = false;
         } else {
-            ((TextInputLayout) findViewById(R.id.tilPassword)).setError(null);
+            tilPassword.setError(null);
         }
 
         // Skills

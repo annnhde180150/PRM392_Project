@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.response.ChatConversationResponse;
 import com.example.homehelperfinder.utils.ChatUtils;
+import com.example.homehelperfinder.utils.CircularImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,10 +145,14 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
                 tvUnreadCount.setVisibility(View.GONE);
             }
 
-            // TODO: Load profile picture using image loading library like Glide or Picasso
-            // For now, set a default placeholder
+            // Load profile picture with circular transformation
             if (ivProfilePicture != null) {
-                ivProfilePicture.setImageResource(R.drawable.ic_person_placeholder);
+                String profilePictureUrl = conversation.getParticipantProfilePicture();
+                if (profilePictureUrl != null && !profilePictureUrl.isEmpty()) {
+                    CircularImageUtils.loadCircularImage(context, profilePictureUrl, ivProfilePicture, R.drawable.ic_guest_icon);
+                } else {
+                    ivProfilePicture.setImageResource(R.drawable.ic_guest_icon);
+                }
             }
         }
     }

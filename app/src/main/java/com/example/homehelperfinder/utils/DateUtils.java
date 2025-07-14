@@ -105,6 +105,86 @@ public class DateUtils {
         }
     }
 
+    /**
+     * Get relative time span (e.g., "2 hours ago", "just now")
+     */
+    public static String getRelativeTimeSpan(String dateTimeString) {
+        if (ValidationUtils.isEmpty(dateTimeString)) {
+            return "Unknown time";
+        }
+
+        try {
+            // Try different date formats
+            Date date = null;
+
+            // Try ISO 8601 format first (common for APIs)
+            try {
+                SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+                date = isoFormat.parse(dateTimeString);
+            } catch (ParseException e) {
+                // Try without 'Z'
+                try {
+                    SimpleDateFormat isoFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                    date = isoFormat2.parse(dateTimeString);
+                } catch (ParseException e2) {
+                    // Try API datetime format
+                    date = apiDateTimeFormat.parse(dateTimeString);
+                }
+            }
+
+            if (date == null) {
+                return "Unknown time";
+            }
+
+            long now = System.currentTimeMillis();
+            long time = date.getTime();
+            long diff = now - time;
+
+            if (diff < 0) {
+                return "In the future";
+            }
+
+            // Convert to seconds
+            long seconds = diff / 1000;
+
+            if (seconds < 60) {
+                return "Just now";
+            }
+
+            long minutes = seconds / 60;
+            if (minutes < 60) {
+                return minutes + (minutes == 1 ? " minute ago" : " minutes ago");
+            }
+
+            long hours = minutes / 60;
+            if (hours < 24) {
+                return hours + (hours == 1 ? " hour ago" : " hours ago");
+            }
+
+            long days = hours / 24;
+            if (days < 7) {
+                return days + (days == 1 ? " day ago" : " days ago");
+            }
+
+            long weeks = days / 7;
+            if (weeks < 4) {
+                return weeks + (weeks == 1 ? " week ago" : " weeks ago");
+            }
+
+            long months = days / 30;
+            if (months < 12) {
+                return months + (months == 1 ? " month ago" : " months ago");
+            }
+
+            long years = days / 365;
+            return years + (years == 1 ? " year ago" : " years ago");
+
+        } catch (ParseException e) {
+            Logger.e("DateUtils", "Error parsing datetime for relative time: " + dateTimeString, e);
+            return "Unknown time";
+        }
+    }
+
     // Get time ago string (e.g., "2 hours ago")
     public static String getTimeAgo(Date date) {
         if (date == null) {

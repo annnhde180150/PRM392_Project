@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header with Request ID and Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_request_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Request #123"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                tools:text="Request #123" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bg_status_pending"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                tools:text="Pending" />
+
+        </LinearLayout>
+
+        <!-- User Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_person"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Alice Wonderland"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary"
+                tools:text="Alice Wonderland" />
+
+            <TextView
+                android:id="@+id/tv_user_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="alice@example.com"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                tools:text="alice@example.com" />
+
+        </LinearLayout>
+
+        <!-- Helper Info -->
+        <LinearLayout
+            android:id="@+id/layout_helper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_helper"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_helper_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Charlie Chaplin"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary"
+                tools:text="Charlie Chaplin" />
+
+        </LinearLayout>
+
+        <!-- Services -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_services"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="House Cleaning"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary"
+                tools:text="House Cleaning" />
+
+        </LinearLayout>
+
+        <!-- Scheduled Time -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_schedule"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_scheduled_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="01/07/2025 09:00"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary"
+                tools:text="01/07/2025 09:00" />
+
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.0h"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:background="@drawable/bg_duration"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                tools:text="3.0h" />
+
+        </LinearLayout>
+
+        <!-- Location -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_location"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123 Main St, Apt 101, Phuoc My, Son Tra, Da Nang"
+                android:textSize="14sp"
+                android:textColor="@color/text_primary"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="123 Main St, Apt 101, Phuoc My, Son Tra, Da Nang" />
+
+        </LinearLayout>
+
+        <!-- Special Notes (if any) -->
+        <LinearLayout
+            android:id="@+id/layout_special_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_note"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="top"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tv_special_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please focus on the kitchen and bathrooms."
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                android:textStyle="italic"
+                android:maxLines="3"
+                android:ellipsize="end"
+                tools:text="Please focus on the kitchen and bathrooms." />
+
+        </LinearLayout>
+
+        <!-- Footer with Creation Time -->
+        <TextView
+            android:id="@+id/tv_creation_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tạo: 20/06/2025 16:33"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:layout_gravity="end"
+            tools:text="Tạo: 20/06/2025 16:33" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

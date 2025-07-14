@@ -1,8 +1,10 @@
 package com.example.homehelperfinder.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -13,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.HelperAvailableRequest;
-import com.example.homehelperfinder.data.remote.Helper.HelperAvailableStatusApiService;
+import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
@@ -23,9 +25,10 @@ public class HelperDashboardActivity extends BaseActivity {
     private SharedPrefsHelper sharedPrefsHelper;
 
 
+    private ImageButton btnNotification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_helper_dashboard);
@@ -34,9 +37,10 @@ public class HelperDashboardActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        setupMenuNavigation();
+
         initViews();
-        setupClickListener();
+        setupClickListeners();
+        setupMenuNavigation();
     }
 
     private void setupClickListener() {
@@ -56,16 +60,17 @@ public class HelperDashboardActivity extends BaseActivity {
 
 
                 api.onlineRequest(this, request, new HelperAvailableStatusApiService.ApiCallback<Void>() {
-                            @Override
-                            public void onSuccess(Void data) {
+                    @Override
+                    public void onSuccess(Void data) {
 
-                                Log.d("SwitchStatus", "Cập nhật trạng thái thành công");
-                            }
-                            @Override
-                            public void onError(String errorMessage, Throwable throwable) {
-                                Log.d("SwitchStatus", "Cập nhật trạng thái thất bại");
-                            }
-                        });
+                        Log.d("SwitchStatus", "Cập nhật trạng thái thành công");
+                    }
+
+                    @Override
+                    public void onError(String errorMessage, Throwable throwable) {
+                        Log.d("SwitchStatus", "Cập nhật trạng thái thất bại");
+                    }
+                });
                 Toast.makeText(this, "Đang hoạt động", Toast.LENGTH_SHORT).show();
             } else {
                 // Switch tắt
@@ -76,6 +81,7 @@ public class HelperDashboardActivity extends BaseActivity {
 
                         Log.d("SwitchStatus", "Cập nhật trạng thái thành công");
                     }
+
                     @Override
                     public void onError(String errorMessage, Throwable throwable) {
                         Log.d("SwitchStatus", "Cập nhật trạng thái thất bại");
@@ -86,8 +92,16 @@ public class HelperDashboardActivity extends BaseActivity {
         });
     }
 
-    private void initViews(){
+    private void initViews() {
+        btnNotification = findViewById(R.id.btn_notification);
         sharedPrefsHelper = SharedPrefsHelper.getInstance(this);
         switchActiveStatus = findViewById(R.id.switch_active_status);
+    }
+
+    private void setupClickListeners() {
+        btnNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
+            startActivity(intent);
+        });
     }
 }

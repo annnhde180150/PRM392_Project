@@ -3,6 +3,7 @@ package com.example.homehelperfinder.data.remote.auth;
 import android.content.Context;
 
 import com.example.homehelperfinder.data.model.request.HelperRequest;
+import com.example.homehelperfinder.data.model.request.UserRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.LoginRequest;
 import com.example.homehelperfinder.data.model.response.AdminLoginResponse;
@@ -11,6 +12,7 @@ import com.example.homehelperfinder.data.model.response.HelperLoginResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.LogoutResponse;
 import com.example.homehelperfinder.data.model.response.UserLoginResponse;
+import com.example.homehelperfinder.data.model.response.UserResponse;
 import com.example.homehelperfinder.data.model.response.ValidationErrorResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
@@ -52,6 +54,18 @@ public class AuthApiService {
 
         Call<ApiResponse<HelperResponse>> call = publicApiInterface.registerHelper(request);
         executeWrappedAuthCall(call, "Helper Register", callback);
+    }
+
+    public void registerUser(Context context, UserRequest request, AuthCallback<UserResponse> callback) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            callback.onError("No internet connection available", null);
+            return;
+        }
+
+        Logger.d(TAG, "Starting user register for email: " + request.getEmail());
+
+        Call<ApiResponse<UserResponse>> call = publicApiInterface.registerUser(request);
+        executeWrappedAuthCall(call, "User Register", callback);
     }
 
     // User login

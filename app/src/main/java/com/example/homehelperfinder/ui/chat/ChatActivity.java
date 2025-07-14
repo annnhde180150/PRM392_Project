@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,8 +17,11 @@ import com.example.homehelperfinder.data.model.request.MarkAsReadRequest;
 import com.example.homehelperfinder.data.model.request.SendMessageRequest;
 import com.example.homehelperfinder.data.model.response.ChatMessageResponse;
 import com.example.homehelperfinder.data.model.response.MarkAsReadResponse;
+import com.example.homehelperfinder.data.model.signalr.ChatMessageDto;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.chat.ChatApiService;
+import com.example.homehelperfinder.data.remote.signalr.SignalRCallback;
+import com.example.homehelperfinder.data.remote.signalr.SignalRService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.chat.adapter.ChatMessageAdapter;
 import com.example.homehelperfinder.utils.ApiHelper;
@@ -27,9 +29,13 @@ import com.example.homehelperfinder.utils.ChatUtils;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
+import com.example.homehelperfinder.utils.signalr.SignalRHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 /**
  * Activity for displaying and managing chat conversation
@@ -48,10 +54,17 @@ public class ChatActivity extends BaseActivity {
     private ChatMessageAdapter adapter;
     private ChatApiService chatApiService;
     private SharedPrefsHelper prefsHelper;
+    private String conversationId;
     private Integer bookingId;
     private Integer otherUserId;
     private Integer otherHelperId;
     private String participantName;
+
+    // SignalR
+    private SignalRService signalRService;
+    private SignalRCallback signalRCallback;
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +76,7 @@ public class ChatActivity extends BaseActivity {
         setupRecyclerView();
         setupClickListeners();
         setupMenuNavigation();
+        setupSignalR();
         loadConversation();
     }
 
@@ -80,11 +94,12 @@ public class ChatActivity extends BaseActivity {
 
         // Get data from intent
         Intent intent = getIntent();
-        bookingId = intent.hasExtra(Constants.INTENT_BOOKING_ID) ? 
+        conversationId = intent.getStringExtra(Constants.INTENT_CONVERSATION_ID);
+        bookingId = intent.hasExtra(Constants.INTENT_BOOKING_ID) ?
                 intent.getIntExtra(Constants.INTENT_BOOKING_ID, -1) : null;
-        otherUserId = intent.hasExtra(Constants.INTENT_OTHER_USER_ID) ? 
+        otherUserId = intent.hasExtra(Constants.INTENT_OTHER_USER_ID) ?
                 intent.getIntExtra(Constants.INTENT_OTHER_USER_ID, -1) : null;
-        otherHelperId = intent.hasExtra(Constants.INTENT_OTHER_HELPER_ID) ? 
+        otherHelperId = intent.hasExtra(Constants.INTENT_OTHER_HELPER_ID) ?
                 intent.getIntExtra(Constants.INTENT_OTHER_HELPER_ID, -1) : null;
         participantName = intent.getStringExtra("participant_name");
 
@@ -104,6 +119,7 @@ public class ChatActivity extends BaseActivity {
         }
 
         // Convert -1 to null for proper API calls
+        if (conversationId != null && conversationId.equals("-1")) conversationId = null;
         if (bookingId != null && bookingId == -1) bookingId = null;
         if (otherUserId != null && otherUserId == -1) otherUserId = null;
         if (otherHelperId != null && otherHelperId == -1) otherHelperId = null;
@@ -124,7 +140,8 @@ public class ChatActivity extends BaseActivity {
 
         etMessage.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -132,7 +149,8 @@ public class ChatActivity extends BaseActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Initially disable send button
@@ -158,7 +176,7 @@ public class ChatActivity extends BaseActivity {
     private void onMessagesLoaded(List<ChatMessageResponse> messages) {
         hideLoading();
         adapter.setMessages(messages);
-        
+
         if (messages != null && !messages.isEmpty()) {
             rvMessages.scrollToPosition(messages.size() - 1);
             markMessagesAsRead(messages);
@@ -177,7 +195,7 @@ public class ChatActivity extends BaseActivity {
                     message.getSenderHelperId(),
                     currentUserType,
                     currentUserId) &&
-                (message.getIsReadByReceiver() == null || !message.getIsReadByReceiver())) {
+                    (message.getIsReadByReceiver() == null || !message.getIsReadByReceiver())) {
                 unreadMessageIds.add(message.getChatId());
             }
         }
@@ -200,7 +218,7 @@ public class ChatActivity extends BaseActivity {
 
     private void sendMessage() {
         String messageContent = etMessage.getText().toString().trim();
-        
+
         if (!ChatUtils.isValidMessageContent(messageContent)) {
             Toast.makeText(this, "Please enter a valid message", Toast.LENGTH_SHORT).show();
             return;
@@ -242,5 +260,193 @@ public class ChatActivity extends BaseActivity {
         hideLoading();
         Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
         Logger.e(TAG, "Error: " + errorMessage, throwable);
+    }
+
+    /**
+     * Setup SignalR for real-time messaging
+     */
+    private void setupSignalR() {
+        try {
+            signalRService = SignalRHelper.getService(this);
+
+            // Create SignalR callback for this chat
+            signalRCallback = new SignalRService.ChatCallback() {
+                @Override
+                public void onNewMessage(ChatMessageDto message) {
+                    handleRealTimeMessage(message);
+                }
+
+                @Override
+                public void onConnected(String connectionId) {
+                    Logger.d(TAG, "SignalR connected in chat: " + connectionId);
+                    joinConversation();
+                }
+
+                @Override
+                public void onDisconnected(String reason) {
+                    Logger.w(TAG, "SignalR disconnected in chat: " + reason);
+                }
+
+                @Override
+                public void onError(String error, Exception exception) {
+                    Logger.e(TAG, "SignalR error in chat: " + error, exception);
+                }
+            };
+
+            // Add callback to SignalR service
+            signalRService.addCallback(signalRCallback);
+
+            // Connect SignalR if not connected. The onConnected callback will handle joining the conversation.
+            if (signalRService.isConnected()) {
+                Logger.d(TAG, "SignalR is already connected. Joining conversation.");
+                joinConversation();
+            } else {
+                Logger.d(TAG, "SignalR is not connected. Initializing connection...");
+                // Initialize and connect SignalR. The callback's onConnected will be triggered.
+                Disposable disposable = SignalRHelper.initialize(this)
+                        .subscribe(
+                                () -> Logger.d(TAG, "SignalR initialization process started."),
+                                throwable -> Logger.e(TAG, "Failed to initialize SignalR in chat", throwable)
+                        );
+                disposables.add(disposable);
+            }
+
+            Logger.d(TAG, "SignalR setup initiated for chat");
+
+        } catch (Exception e) {
+            Logger.e(TAG, "Error setting up SignalR", e);
+        }
+    }
+
+    /**
+     * Join the conversation for real-time updates
+     */
+    private void joinConversation() {
+        try {
+            Disposable disposable = SignalRHelper.joinConversation(this, conversationId)
+                    .subscribe(
+                            () -> Logger.d(TAG, "Successfully joined conversation"),
+                            throwable -> Logger.e(TAG, "Failed to join conversation", throwable)
+                    );
+            disposables.add(disposable);
+        } catch (Exception e) {
+            Logger.e(TAG, "Error joining conversation", e);
+        }
+    }
+
+    /**
+     * Leave the conversation
+     */
+    private void leaveConversation() {
+        try {
+            Disposable disposable = SignalRHelper.leaveConversation(this, conversationId)
+                    .subscribe(
+                            () -> Logger.d(TAG, "Successfully left conversation"),
+                            throwable -> Logger.e(TAG, "Failed to leave conversation", throwable)
+                    );
+            disposables.add(disposable);
+        } catch (Exception e) {
+            Logger.e(TAG, "Error leaving conversation", e);
+        }
+    }
+
+    /**
+     * Handle real-time message received via SignalR
+     */
+    private void handleRealTimeMessage(ChatMessageDto message) {
+        try {
+            // Check if message is for this conversation
+            boolean isForThisConversation = false;
+
+            if (bookingId != null && bookingId.equals(message.getBookingId())) {
+                isForThisConversation = true;
+            } else if (otherUserId != null && otherUserId.equals(message.getSenderUserId())) {
+                isForThisConversation = true;
+            } else if (otherHelperId != null && otherHelperId.equals(message.getSenderHelperId())) {
+                isForThisConversation = true;
+            }
+
+            if (isForThisConversation) {
+                // Convert SignalR DTO to ChatMessageResponse
+                ChatMessageResponse chatMessage = convertSignalRMessageToResponse(message);
+
+                // Add message to adapter on UI thread
+                runOnUiThread(() -> {
+                    adapter.addMessage(chatMessage);
+                    rvMessages.scrollToPosition(adapter.getItemCount() - 1);
+                    Logger.d(TAG, "Real-time message added to chat");
+                });
+
+                // Mark message as read
+                markMessageAsRead(message.getChatId());
+            }
+
+        } catch (Exception e) {
+            Logger.e(TAG, "Error handling real-time message", e);
+        }
+    }
+
+    /**
+     * Convert SignalR ChatMessageDto to ChatMessageResponse
+     */
+    private ChatMessageResponse convertSignalRMessageToResponse(ChatMessageDto dto) {
+        ChatMessageResponse response = new ChatMessageResponse();
+        response.setChatId(dto.getChatId());
+        response.setBookingId(dto.getBookingId());
+        response.setSenderUserId(dto.getSenderUserId());
+        response.setSenderHelperId(dto.getSenderHelperId());
+        response.setReceiverUserId(dto.getReceiverUserId());
+        response.setReceiverHelperId(dto.getReceiverHelperId());
+        response.setMessageContent(dto.getMessageContent());
+        response.setTimestamp(dto.getTimestamp());
+        response.setIsReadByReceiver(dto.getIsReadByReceiver());
+        response.setReadTimestamp(dto.getReadTimestamp());
+        response.setIsModerated(dto.getIsModerated());
+        response.setModeratorAdminId(dto.getModeratorAdminId());
+        response.setSenderName(dto.getSenderName());
+        response.setSenderProfilePicture(dto.getSenderProfilePicture());
+        response.setSenderType(dto.getSenderType());
+        return response;
+    }
+
+    /**
+     * Mark a single message as read
+     */
+    private void markMessageAsRead(Long chatId) {
+        try {
+            List<Long> chatIds = new ArrayList<>();
+            chatIds.add(chatId);
+
+            MarkAsReadRequest request = new MarkAsReadRequest();
+            request.setChatIds(chatIds);
+
+            chatApiService.markMessagesAsRead(this, request, new BaseApiService.ApiCallback<MarkAsReadResponse>() {
+                @Override
+                public void onSuccess(MarkAsReadResponse data) {
+                    Logger.d(TAG, "Message marked as read: " + chatId);
+                }
+
+                @Override
+                public void onError(String errorMessage, Throwable throwable) {
+                    Logger.e(TAG, "Failed to mark message as read: " + errorMessage, throwable);
+                }
+            });
+
+        } catch (Exception e) {
+            Logger.e(TAG, "Error marking message as read", e);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Leave conversation and cleanup SignalR
+        if (signalRService != null && signalRCallback != null) {
+            leaveConversation();
+            signalRService.removeCallback(signalRCallback);
+            Logger.d(TAG, "SignalR callback removed and conversation left");
+        }
+        disposables.clear();
     }
 }
