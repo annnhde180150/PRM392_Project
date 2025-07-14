@@ -10,22 +10,20 @@ import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface HelperApiInterface {
-    
-    /**
-     * Get helper profile by ID
-     */
-    @GET("helper/profile/{helperId}")
-    Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperId);
-    
+public interface HelperApiInterface {/**
+ * Get helper profile by ID
+ */
+@GET("helper/profile/{helperId}")
+Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperId);
 
-    
+
+
     /**
      * Update helper profile
      */
     @PUT("helper/profile")
     Call<ApiResponse<HelperResponse>> updateHelperProfile(@Body HelperUpdateRequest request);
-    
+
     /**
      * Update helper profile by ID (admin function)
      */

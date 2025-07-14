@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.HelperAvailableRequest;
-import com.example.homehelperfinder.data.remote.Helper.HelperAvailableStatusApiService;
+import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 

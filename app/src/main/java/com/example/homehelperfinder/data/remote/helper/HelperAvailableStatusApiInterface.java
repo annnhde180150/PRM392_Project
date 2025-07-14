@@ -1,6 +1,4 @@
-package com.example.homehelperfinder.data.remote.Helper;
-import com.example.homehelperfinder.data.model.response.ApiResponse;
-import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
+package com.example.homehelperfinder.data.remote.helper;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

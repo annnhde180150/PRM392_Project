@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.example.homehelperfinder.data.remote.helper.HelperApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -27,7 +29,6 @@ import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.HelperSkillResponse;
 import com.example.homehelperfinder.data.model.response.HelperWorkAreaResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
-import com.example.homehelperfinder.data.remote.helper.HelperApiService;
 import com.example.homehelperfinder.ui.registerHelper.adapter.SkillAdapter;
 import com.example.homehelperfinder.ui.registerHelper.adapter.WorkAreaAdapter;
 import com.example.homehelperfinder.utils.FirebaseHelper;

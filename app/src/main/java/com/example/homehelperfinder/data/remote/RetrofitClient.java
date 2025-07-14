@@ -2,12 +2,12 @@ package com.example.homehelperfinder.data.remote;
 
 import android.content.Context;
 
-import com.example.homehelperfinder.data.remote.Helper.HelperAvailableStatusApiInterface;
+import com.example.homehelperfinder.data.remote.helper.HelperApiInterface;
+import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiInterface;
 import com.example.homehelperfinder.data.remote.Payment.PaymentApiInterface;
 import com.example.homehelperfinder.data.remote.address.AddressApiInterface;
 import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
-import com.example.homehelperfinder.data.remote.helper.HelperApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
 import com.example.homehelperfinder.data.remote.user.UserApiInterface;
@@ -149,11 +149,11 @@ public class RetrofitClient {
         return getAuthenticatedClient().create(UserApiInterface.class);
     }
     public static HelperApiInterface getHelperApiService() {
-        Logger.d("RetrofitClient", "Creating HelperApiInterface service");
+        Logger.d("RetrofitClient", "Creating HelperApiInterface2 service");
         return getAuthenticatedClient().create(HelperApiInterface.class);
     }
     public static AddressApiInterface getAddressApiInterface() {
-        Logger.d("RetrofitClient", "Creating HelperApiInterface service");
+        Logger.d("RetrofitClient", "Creating AddressApiInterface service");
         return getAuthenticatedClient().create(AddressApiInterface.class);
     }
 
