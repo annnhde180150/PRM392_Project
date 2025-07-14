@@ -21,7 +21,9 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnTestHelper;
     private Button btnTestAdmin;
     private Button btnTestChat;
+    private Button btnTestPayment;
     private Button btnResetFlow;
+    private Button btn_Helper_dashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,9 @@ public class MenuActivity extends AppCompatActivity {
         btnTestHelper = findViewById(R.id.btn_test_helper);
         btnTestAdmin = findViewById(R.id.btn_test_admin);
         btnTestChat = findViewById(R.id.btn_test_chat);
+        btnTestPayment = findViewById(R.id.btn_test_payment);
         btnResetFlow = findViewById(R.id.btn_reset_flow);
+        btn_Helper_dashboard = findViewById(R.id.btn_Helper_dashboard);
     }
 
     private void setupClickListeners() {
@@ -100,6 +104,19 @@ public class MenuActivity extends AppCompatActivity {
 
         btnResetFlow.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+
+        btnTestPayment.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, MakePaymentActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        btn_Helper_dashboard.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, HelperDashboardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

@@ -6,6 +6,7 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 val MAPS_API_KEY = localProperties.getProperty("MAPS_API_KEY") ?: ""
+val HASH_SECRET = localProperties.getProperty("HASH_SECRET") ?: ""
 
 plugins {
     alias(libs.plugins.android.application)
@@ -28,6 +29,8 @@ android {
         buildFeatures { buildConfig = true }
         buildConfigField("String", "MAPS_API_KEY", "\"${MAPS_API_KEY}\"")
         manifestPlaceholders["MAPS_API_KEY"] = MAPS_API_KEY
+        buildConfigField("String", "HASH_SECRET", "\"${HASH_SECRET}\"")
+        manifestPlaceholders["HASH_SECRET"] = HASH_SECRET
     }
 
     buildTypes {
@@ -48,13 +51,14 @@ android {
     }
     buildToolsVersion = "35.0.0"
 }
-
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation("androidx.gridlayout:gridlayout:1.0.0")
+    implementation(libs.support.annotations)
     implementation(libs.firebase.storage)
 
     // Retrofit for API calls
@@ -78,8 +82,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
+    implementation(libs.gson.v285)
+    implementation(libs.okhttp)
+    implementation(files("libs/merchant-1.0.25.aar"))
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
