@@ -1,7 +1,6 @@
 package com.example.homehelperfinder.data.remote.serviceRequest
 
 import android.content.Context
-import com.example.homehelperfinder.data.model.ApiResponse
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
 import com.example.homehelperfinder.data.model.response.RequestDetailResponse
 import com.example.homehelperfinder.data.remote.BaseApiService

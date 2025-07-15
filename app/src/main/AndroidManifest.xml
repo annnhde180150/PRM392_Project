@@ -39,24 +39,24 @@
         <activity
             android:name=".activities.DeleteRequestActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.HelperDashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.EditRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.PostRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.UserTypeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.WelcomeActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activities.HelperDashboardActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.EditRequestActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.PostRequestActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.LoginActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.UserTypeActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.WelcomeActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ui.MenuActivity"
             android:exported="true">
@@ -72,9 +72,6 @@
         </activity>
 
         <!-- Developer Menu Activity -->
-        <activity
-            android:name=".ui.MenuActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />
@@ -98,7 +95,7 @@
             android:name=".ui.EditRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PostRequestActivity"
+            android:name=".ui.postRequest.PostRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"

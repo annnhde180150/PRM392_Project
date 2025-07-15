@@ -12,6 +12,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#fa4b3e</color>
     <color name="green">#86d15e</color>
+    <color name="blue_white">#e6f1ff</color>
 
     <!-- Primary colors -->
     <color name="colorPrimary">#4285F4</color>
