@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,9 +25,9 @@ public class HelperDashboardActivity extends BaseActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchActiveStatus;
     private SharedPrefsHelper sharedPrefsHelper;
-
-
+    private TextView tv_greeting;
     private ImageButton btnNotification;
+    private CardView btn_view_income;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,9 @@ public class HelperDashboardActivity extends BaseActivity {
         btnNotification = findViewById(R.id.btn_notification);
         sharedPrefsHelper = SharedPrefsHelper.getInstance(this);
         switchActiveStatus = findViewById(R.id.switch_active_status);
+        tv_greeting = findViewById(R.id.tv_greeting);
+        tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
+        btn_view_income = findViewById(R.id.card_manage_view_income);
     }
 
     private void setupClickListeners() {
@@ -103,5 +108,10 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
         });
+        btn_view_income.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

@@ -81,6 +81,8 @@
                 android:textStyle="bold" />
 
             <!-- Dashboard Activity Button -->
+
+            <!--Helper Dashboard Activity Button -->
             <Button
                 android:id="@+id/btn_dashboard"
                 android:layout_width="match_parent"
@@ -107,6 +109,8 @@
                 tools:ignore="HardcodedText" />
 
             <!-- Profile Management Activity Button -->
+
+            <!-- Helper Booking List Activity Button -->
             <Button
                 android:id="@+id/btn_profile_management"
                 android:layout_width="match_parent"
@@ -119,6 +123,17 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/btn_helper_booking_list"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_primary_bg"
+                android:elevation="4dp"
+                android:text="Helper Booking List"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
             <!-- Notifications Activity Button -->
             <Button
                 android:id="@+id/btn_notifications"
@@ -128,6 +143,22 @@
                 android:background="@drawable/button_secondary_bg"
                 android:elevation="4dp"
                 android:text="Notifications"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_notification"
+                android:drawablePadding="8dp"
+                android:gravity="center" />
+
+            <!-- ViewWallet Activity Button -->
+            <Button
+                android:id="@+id/btn_view_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_secondary_bg"
+                android:elevation="4dp"
+                android:text="View Helper Wallet"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
