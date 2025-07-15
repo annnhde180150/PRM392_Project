@@ -188,7 +188,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_note"
+                    android:src="@drawable/ic_note_request"
                     android:layout_marginStart="12dp"
                     app:tint="@color/text_secondary" />
 

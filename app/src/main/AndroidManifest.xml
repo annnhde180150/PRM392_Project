@@ -98,7 +98,7 @@
             android:name=".ui.HelperDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.EditRequestActivity"
+            android:name=".ui.PutRequest.EditRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.postRequest.PostRequestActivity"

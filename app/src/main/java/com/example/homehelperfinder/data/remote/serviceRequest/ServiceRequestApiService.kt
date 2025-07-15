@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote.serviceRequest
 
 import android.content.Context
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
+import com.example.homehelperfinder.data.model.request.UpdateRequestRequest
 import com.example.homehelperfinder.data.model.response.RequestDetailResponse
 import com.example.homehelperfinder.data.remote.BaseApiService
 import com.example.homehelperfinder.data.remote.RetrofitClient
@@ -23,6 +24,14 @@ class ServiceRequestApiService(context : Context) : BaseApiService() {
 
     fun createRequest(context : Context, request : NewRequestRequest, callback : ApiCallback<RequestDetailResponse>){
         handleApiResponse(context, createRequest(context, request), callback)
+    }
+
+    fun updateRequest(context : Context, request : UpdateRequestRequest) : CompletableFuture<RequestDetailResponse>{
+        return executeCall(context, apiInterface.updateRequest(request), "CreateRequest")
+    }
+
+    fun updateRequest(context : Context, request : UpdateRequestRequest, callback : ApiCallback<RequestDetailResponse>){
+        handleApiResponse(context, updateRequest(context, request), callback)
     }
 
 }

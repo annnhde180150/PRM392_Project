@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background_color"
-    tools:context=".ui.EditRequestActivity">
+    tools:context=".ui.PutRequest.EditRequestActivity">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -153,7 +153,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_note"
+                    android:src="@drawable/ic_note_request"
                     android:layout_marginStart="12dp"
                     app:tint="@color/text_secondary" />
 

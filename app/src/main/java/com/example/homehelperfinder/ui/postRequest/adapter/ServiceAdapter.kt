@@ -22,7 +22,8 @@ class ServiceAdapter(
         holder: ServiceViewHolder,
         position: Int
     ) {
-        holder.binding.name = services[position].getServiceName()
+        holder.binding.name = services[position].serviceName
+        holder.bind(services[position])
     }
 
     override fun getItemCount(): Int {
