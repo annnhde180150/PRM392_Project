@@ -225,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_row="0"
                     android:layout_marginTop="4dp"
-                    android:text="Total Service"
+                    android:text="Total Order"
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -275,7 +275,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Upcoming Services"
+                    android:text="New Order"
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -453,7 +453,7 @@
 
                 <!-- Payments Management -->
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_manage_payments"
+                    android:id="@+id/card_manage_view_income"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
@@ -465,6 +465,7 @@
                     app:strokeWidth="1dp">
 
                     <LinearLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"

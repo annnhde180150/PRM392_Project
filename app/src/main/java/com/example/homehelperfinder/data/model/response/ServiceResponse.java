@@ -37,5 +37,12 @@ public class ServiceResponse {
     @SerializedName("parentServiceId")
     private int parentServiceId;
 
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
 
 }

@@ -56,5 +56,14 @@ public class AddressApiService extends BaseApiService{
     }
     public void getUserAddressesByUserId(Context context, int userId, BaseApiService.ApiCallback<List<UserAddressResponse>> callback) {
         handleApiResponse(context, getUserAddressesByUserId(context, userId), callback);
+    public void updateUserAddress(Context context, int userId, UserAddressUpdateRequest request, BaseApiService.ApiCallback<UserAddressResponse> callback) {
+        handleApiResponse(context, updateUserAddress(context, userId, request), callback);
+    }
+
+    public CompletableFuture<List<UserAddressResponse>> getUserAddresses(Context context, int userId) {
+        return executeCall(context, apiInterface.getUserAddresses(userId), "Get Addresses by userId");
+    }
+    public void getUserAddresses(Context context, int userId, BaseApiService.ApiCallback<List<UserAddressResponse>> callback) {
+        handleApiResponse(context, getUserAddresses(context, userId), callback);
     }
 }

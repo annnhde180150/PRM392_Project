@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -152,11 +153,20 @@ public class ProfileManagementAdapter extends RecyclerView.Adapter<ProfileManage
 
     static class ProfileViewHolder extends RecyclerView.ViewHolder {
         private final CheckBox checkBoxSelect;
-        private final TextView textViewProfileId;
-        private final TextView textViewProfileType;
+        private final ImageView imageViewMenu;
+        private final ImageView imageViewProfile;
         private final TextView textViewFullName;
         private final TextView textViewEmail;
+        private final TextView textViewAddress;
         private final TextView textViewPhoneNumber;
+        private final androidx.cardview.widget.CardView cardViewActivate;
+        private final androidx.cardview.widget.CardView cardViewDeactivate;
+        private final Button buttonActivate;
+        private final Button buttonDeactivate;
+
+        // Legacy elements (hidden but kept for compatibility)
+        private final TextView textViewProfileId;
+        private final TextView textViewProfileType;
         private final TextView textViewStatus;
         private final TextView textViewRegistrationDate;
         private final TextView textViewLastLoginDate;
@@ -165,12 +175,22 @@ public class ProfileManagementAdapter extends RecyclerView.Adapter<ProfileManage
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
+            // New design elements
             checkBoxSelect = itemView.findViewById(R.id.checkBoxSelect);
-            textViewProfileId = itemView.findViewById(R.id.textViewProfileId);
-            textViewProfileType = itemView.findViewById(R.id.textViewProfileType);
+            imageViewMenu = itemView.findViewById(R.id.imageViewMenu);
+            imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
             textViewFullName = itemView.findViewById(R.id.textViewFullName);
             textViewEmail = itemView.findViewById(R.id.textViewEmail);
+            textViewAddress = itemView.findViewById(R.id.textViewAddress);
             textViewPhoneNumber = itemView.findViewById(R.id.textViewPhoneNumber);
+            cardViewActivate = itemView.findViewById(R.id.cardViewActivate);
+            cardViewDeactivate = itemView.findViewById(R.id.cardViewDeactivate);
+            buttonActivate = itemView.findViewById(R.id.buttonActivate);
+            buttonDeactivate = itemView.findViewById(R.id.buttonDeactivate);
+
+            // Legacy elements (hidden but kept for compatibility)
+            textViewProfileId = itemView.findViewById(R.id.textViewProfileId);
+            textViewProfileType = itemView.findViewById(R.id.textViewProfileType);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
             textViewRegistrationDate = itemView.findViewById(R.id.textViewRegistrationDate);
             textViewLastLoginDate = itemView.findViewById(R.id.textViewLastLoginDate);
@@ -196,32 +216,67 @@ public class ProfileManagementAdapter extends RecyclerView.Adapter<ProfileManage
                     adapter.toggleSelection(profile.getProfileId());
                 }
             });
+
+            // Bind data to new design elements
+            textViewFullName.setText(profile.getFullName() != null ? profile.getFullName() : "N/A");
+            textViewEmail.setText(profile.getEmail() != null ? profile.getEmail() : "N/A");
+            textViewPhoneNumber.setText(profile.getPhoneNumber() != null ? profile.getPhoneNumber() : "N/A");
+
+            // For address, we'll use a placeholder since it's not in the ProfileResponse
+            // In a real implementation, you might want to add address to the API response
+            textViewAddress.setText("Address not available");
+
+            // Set profile picture placeholder (in a real app, you'd load from URL)
+            imageViewProfile.setImageResource(R.drawable.ic_person_placeholder);
+
+            // Determine status and show appropriate buttons based on active state
+            Boolean isActive = profile.getIsActive();
+
+            // Logic: If profile is active -> show only Deactivate button
+            //        If profile is inactive/null -> show only Activate button
+            if (isActive != null && isActive) {
+                // Profile is ACTIVE - user can only DEACTIVATE
+                // Hide the entire CardView container to completely remove from layout
+                cardViewActivate.setVisibility(View.GONE);
+                cardViewDeactivate.setVisibility(View.VISIBLE);
+            } else {
+                // Profile is INACTIVE or status unknown - user can only ACTIVATE
+                // Hide the entire CardView container to completely remove from layout
+                cardViewActivate.setVisibility(View.VISIBLE);
+                cardViewDeactivate.setVisibility(View.GONE);
+            }
+
+            // Set click listeners for action buttons
+            // Activate button: Changes inactive profile to active (Unban)
+            buttonActivate.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onUnbanProfile(profile); // Activate = Unban
+                }
+            });
+
+            // Deactivate button: Changes active profile to inactive (Ban)
+            buttonDeactivate.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onBanProfile(profile); // Deactivate = Ban
+                }
+            });
+
+            // Three-dot menu click listener (for future functionality)
+            imageViewMenu.setOnClickListener(v -> {
+                // TODO: Show popup menu with additional options
+                // For now, we'll just show a simple toast
+                v.getContext().getApplicationContext();
+            });
+
+            // Update legacy elements (hidden but still functional for compatibility)
             textViewProfileId.setText("ID: " + profile.getProfileId());
             textViewProfileType.setText("Type: " + (profile.getProfileType() != null ? profile.getProfileType() : "N/A"));
-            textViewFullName.setText("Name: " + (profile.getFullName() != null ? profile.getFullName() : "N/A"));
-            textViewEmail.setText("Email: " + (profile.getEmail() != null ? profile.getEmail() : "N/A"));
-            textViewPhoneNumber.setText("Phone: " + (profile.getPhoneNumber() != null ? profile.getPhoneNumber() : "N/A"));
-
-            // Determine status based on isActive
-            Boolean isActive = profile.getIsActive();
             String status = (isActive != null && isActive) ? "Active" : "Inactive";
             textViewStatus.setText("Status: " + status);
-
             textViewRegistrationDate.setText("Registered: " + formatDate(profile.getRegistrationDate()));
             textViewLastLoginDate.setText("Last Login: " + formatDate(profile.getLastLoginDate()));
 
-            // Show/hide buttons based on profile status
-            if (isActive != null && isActive) {
-                // Profile is active - show Ban button
-                buttonBan.setVisibility(View.VISIBLE);
-                buttonUnban.setVisibility(View.GONE);
-            } else {
-                // Profile is inactive/banned - show Unban button
-                buttonBan.setVisibility(View.GONE);
-                buttonUnban.setVisibility(View.VISIBLE);
-            }
-
-            // Set click listeners
+            // Legacy button listeners (hidden but functional)
             buttonBan.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onBanProfile(profile);

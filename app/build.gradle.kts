@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+//    id("org.jetbrains.kotlin.kapt") version "2.0.21"
 }
 
 android {
@@ -26,7 +27,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildFeatures { buildConfig = true }
+        buildFeatures {
+            buildConfig = true
+            dataBinding = true
+        }
         buildConfigField("String", "MAPS_API_KEY", "\"${MAPS_API_KEY}\"")
         manifestPlaceholders["MAPS_API_KEY"] = MAPS_API_KEY
         buildConfigField("String", "HASH_SECRET", "\"${HASH_SECRET}\"")
@@ -50,6 +54,9 @@ android {
         jvmTarget = "11"
     }
     buildToolsVersion = "35.0.0"
+    buildFeatures {
+        viewBinding = true
+    }
 }
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -79,6 +86,8 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     implementation(libs.androidx.gridlayout)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -96,6 +105,8 @@ dependencies {
     annotationProcessor(libs.glide.compiler)
     compileOnly(libs.projectlombok.lombok)
     annotationProcessor(libs.projectlombok.lombok)
+    implementation ("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     // Microsoft SignalR Java Client for real-time messaging
     implementation(libs.signalr)

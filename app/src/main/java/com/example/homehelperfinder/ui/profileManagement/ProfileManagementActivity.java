@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
@@ -37,8 +38,10 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
     private List<ProfileResponse> allProfiles;
     private int currentTabPosition = 0;
 
-    // Bulk action UI components
+    // UI components
     private Toolbar toolbar;
+    private ImageView imageViewBack;
+    private ImageView imageViewProfile;
     private LinearLayout layoutBulkActions;
     private Button buttonSelectAll;
     private Button buttonBulkBan;
@@ -60,6 +63,8 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
 
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
+        imageViewBack = findViewById(R.id.imageViewBack);
+        imageViewProfile = findViewById(R.id.imageViewProfile);
         tabLayout = findViewById(R.id.tabLayout);
         recyclerView = findViewById(R.id.recyclerViewProfiles);
         layoutBulkActions = findViewById(R.id.layoutBulkActions);
@@ -68,9 +73,24 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
         buttonBulkUnban = findViewById(R.id.buttonBulkUnban);
         profileManagementApiService = new ProfileManagementApiService();
         allProfiles = new ArrayList<>();
+
+        // Setup header click listeners
+        setupHeaderClickListeners();
+    }
+
+    private void setupHeaderClickListeners() {
+        // Back arrow click listener
+        imageViewBack.setOnClickListener(v -> onBackPressed());
+
+        // Profile icon click listener (optional functionality)
+        imageViewProfile.setOnClickListener(v -> {
+            // TODO: Navigate to admin profile or show profile menu
+            showToast("Profile menu - Coming soon!");
+        });
     }
 
     private void setupToolbar() {
+        // Keep the toolbar setup for compatibility but it's now hidden
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

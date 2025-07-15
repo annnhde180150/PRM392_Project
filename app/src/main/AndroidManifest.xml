@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Location Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
-    <!-- Network Permissions -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- Network Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -28,7 +25,10 @@
         android:theme="@style/Theme.HomeHelperFinder"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.HelperBookingListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HomeHelperFinder" />
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,19 +39,43 @@
 
         <!-- Launcher Activity -->
         <activity
+            android:name=".activities.ViewFeedbacckActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.DeleteRequestActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activities.HelperDashboardActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.EditRequestActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.PostRequestActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.LoginActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.UserTypeActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.WelcomeActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".ui.MenuActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.HomeHelperFinder.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Developer Menu Activity -->
-        <activity
-            android:name=".ui.MenuActivity"
-            android:exported="false" />
+        </activity> <!-- Developer Menu Activity -->
         <activity
             android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />
@@ -74,10 +98,10 @@
             android:name=".ui.HelperDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.EditRequestActivity"
+            android:name=".ui.PutRequest.EditRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PostRequestActivity"
+            android:name=".ui.postRequest.PostRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
@@ -128,5 +152,8 @@
             android:name=".ui.admin.HelperApplicationDetailActivity"
             android:exported="false"
             android:label="Application Detail" />
+        <activity android:name=".ui.HelperWalletActivity"
+            android:exported="false" />
     </application>
+
 </manifest>

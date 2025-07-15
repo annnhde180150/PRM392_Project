@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/background_color"
-    tools:context=".ui.EditRequestActivity">
+    tools:context=".ui.PutRequest.EditRequestActivity">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -38,8 +38,8 @@
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:contentDescription="Close"
-            android:padding="8dp"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:padding="8dp"/>
     </LinearLayout>
 
     <!-- Service Info Row -->
@@ -133,28 +133,42 @@
                     android:inputType="datetime"/>
             </LinearLayout>
 
-            <!-- Duration -->
+            <!-- Special Note -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duration (hours):"
+                android:text="Date And Time :"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
+                android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/etDuration"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:orientation="horizontal"
                 android:background="@drawable/rounded_cornor_gray_white_backround"
-                android:hint="Enter Duration"
-                android:textColorHint="@color/text_secondary"
-                android:textColor="@color/black"
-                android:inputType="number"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:layout_marginTop="8dp"/>
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_note_request"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/text_secondary" />
+
+                <EditText
+                    android:id="@+id/etNote"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter Special Note"
+                    android:textColorHint="@color/text_secondary"
+                    android:textColor="@color/black"
+                    android:paddingStart="12dp"
+                    android:inputType="datetime"/>
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -164,12 +178,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/cardDateTime"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="36dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginTop="36dp"
         android:gravity="center">
 
         <Button
