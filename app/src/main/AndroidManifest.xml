@@ -118,6 +118,14 @@
         <activity
             android:name=".ui.editProfile.HelperEditProfileActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.admin.HelperApplicationsActivity"
+            android:exported="false"
+            android:label="Helper Applications" />
+        <activity
+            android:name=".ui.admin.HelperApplicationDetailActivity"
+            android:exported="false"
+            android:label="Application Detail" />
     </application>
 
 </manifest>

@@ -163,6 +163,11 @@ public class RetrofitClient {
         return getAuthenticatedClient().create(com.example.homehelperfinder.data.remote.admin.AdminRequestsApiInterface.class);
     }
 
+    public static com.example.homehelperfinder.data.remote.admin.HelperApplicationsApiInterface getHelperApplicationsApiService() {
+        Logger.d("RetrofitClient", "Creating HelperApplicationsApiInterface service with authentication");
+        return getAuthenticatedClient().create(com.example.homehelperfinder.data.remote.admin.HelperApplicationsApiInterface.class);
+    }
+
     /**
      * Clear all cached Retrofit instances - useful when token changes or user logs out
      */
