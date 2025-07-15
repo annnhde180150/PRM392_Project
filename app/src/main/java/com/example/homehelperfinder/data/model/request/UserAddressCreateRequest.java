@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAddressUpdateRequest {
-
+public class UserAddressCreateRequest {
     public int userId;
 
     public String addressLine1;
