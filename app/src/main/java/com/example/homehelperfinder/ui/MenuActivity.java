@@ -25,6 +25,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnResetFlow;
     private Button btn_Helper_dashboard;
     private Button btn_helper_booking_list;
+    private Button btn_view_wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MenuActivity extends AppCompatActivity {
         btnResetFlow = findViewById(R.id.btn_reset_flow);
         btn_Helper_dashboard = findViewById(R.id.btn_Helper_dashboard);
         btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
+        btn_view_wallet = findViewById(R.id.btn_view_wallet);
     }
 
     private void setupClickListeners() {
@@ -128,7 +130,12 @@ public class MenuActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-
+        });
+        btn_view_wallet.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, HelperWalletActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 

@@ -126,6 +126,8 @@
             android:name=".ui.admin.HelperApplicationDetailActivity"
             android:exported="false"
             android:label="Application Detail" />
+        <activity android:name=".ui.HelperWalletActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
