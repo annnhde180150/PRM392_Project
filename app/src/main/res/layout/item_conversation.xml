@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/ivProfilePicture"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/circle_background"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_person_placeholder" />
@@ -26,29 +26,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvParticipantName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="John Doe"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:ellipsize="end" />
+                android:text="John Doe"
+                android:textColor="@color/text_primary_dark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvLastActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2 hours ago"
-                android:textColor="@android:color/black"
-                android:textSize="12sp"
-                android:alpha="0.6" />
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -56,27 +55,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvLastMessage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hello, how are you doing today?"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:alpha="0.7"
+                android:ellipsize="end"
                 android:maxLines="2"
-                android:ellipsize="end" />
+                android:text="Hello, how are you doing today?"
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvUnreadCount"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/circle_red_background"
+                android:background="@drawable/circle_primary_background"
                 android:gravity="center"
                 android:text="3"
                 android:textColor="@android:color/white"
@@ -86,6 +84,12 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <!-- Separator Line moved inside content area -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/separator_line" />
 
+    </LinearLayout>
 </LinearLayout>

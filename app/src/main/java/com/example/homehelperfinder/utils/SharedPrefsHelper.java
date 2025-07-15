@@ -34,7 +34,7 @@ public class SharedPrefsHelper {
 
     public String getString(String key, String defaultValue) {
         String value = sharedPreferences.getString(key, defaultValue);
-        Logger.d("SharedPrefs", "Retrieved string: " + key + " = " + value);
+//        Logger.d("SharedPrefs", "Retrieved string: " + key + " = " + value);
         return value;
     }
 

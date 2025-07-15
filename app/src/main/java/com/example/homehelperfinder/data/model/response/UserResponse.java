@@ -15,10 +15,13 @@ public class UserResponse {
     private int id;
     private String phoneNumber;
     private String email;
-    private String password;
-
     private String fullName;
     private String profilePictureUrl;
     private Date registrationDate;
     private Date lastLoginDate;
+    private String externalAuthProvider;
+    private String externalAuthId;
+    private boolean isActive;
+    private Integer defaultAddressId;
+    private String role;
 }

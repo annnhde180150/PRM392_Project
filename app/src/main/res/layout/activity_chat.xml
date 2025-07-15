@@ -29,16 +29,52 @@
             android:contentDescription="Back"
             app:tint="@android:color/white" />
 
-        <TextView
-            android:id="@+id/tvParticipantName"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:text="Chat"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivParticipantProfile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/circle_background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_placeholder" />
+
+            <TextView
+                android:id="@+id/tvParticipantName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chat"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_search"
+            android:contentDescription="Search"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="Menu"
+            app:tint="@android:color/white" />
 
     </LinearLayout>
 
@@ -58,31 +94,50 @@
         android:background="@android:color/white"
         android:elevation="4dp"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:padding="20dp"
         android:gravity="center_vertical">
 
-        <EditText
-            android:id="@+id/etMessage"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_message_input"
-            android:hint="Type a message..."
-            android:maxLines="4"
-            android:padding="12dp"
-            android:textSize="16sp"
-            android:inputType="textMultiLine|textCapSentences" />
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
 
-        <ImageButton
-            android:id="@+id/btnSend"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/circle_primary_background"
-            android:src="@drawable/ic_send"
-            android:contentDescription="Send message"
-            android:enabled="false"
-            app:tint="@android:color/white" />
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Write a message..."
+                android:textColorHint="@color/text_secondary_gray"
+                android:maxLines="4"
+                android:textSize="14sp"
+                android:inputType="textMultiLine|textCapSentences" />
+
+            <LinearLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/circle_primary_background"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/btnSend"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_send"
+                    android:contentDescription="Send message"
+                    android:enabled="false"
+                    app:tint="@android:color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

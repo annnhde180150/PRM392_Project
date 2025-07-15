@@ -1,14 +1,10 @@
-package com.example.homehelperfinder.data.remote.Helper;
+package com.example.homehelperfinder.data.remote.helper;
 
 import android.content.Context;
 
-import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
 import com.example.homehelperfinder.data.model.request.HelperAvailableRequest;
-import com.example.homehelperfinder.data.model.response.ApiResponse;
-import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
-import com.example.homehelperfinder.utils.NetworkUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;

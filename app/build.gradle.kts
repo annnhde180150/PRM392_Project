@@ -54,6 +54,9 @@ android {
         jvmTarget = "11"
     }
     buildToolsVersion = "35.0.0"
+    buildFeatures {
+        viewBinding = true
+    }
 }
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -79,7 +82,12 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
 
+    // SwipeRefreshLayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
     implementation(libs.androidx.gridlayout)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -99,4 +107,8 @@ dependencies {
     annotationProcessor(libs.projectlombok.lombok)
     implementation ("com.google.android.material:material:1.11.0")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    // Microsoft SignalR Java Client for real-time messaging
+    implementation(libs.signalr)
+    implementation(libs.rxjava)
 }

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Location Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
-    <!-- Network Permissions -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- Network Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Notification Permissions -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".HomeHelperFinderApplication"
@@ -24,7 +25,10 @@
         android:theme="@style/Theme.HomeHelperFinder"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.HelperBookingListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HomeHelperFinder" />
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -32,6 +36,7 @@
         <meta-data
             android:name="HASH_SECRET"
             android:value="${HASH_SECRET}" />
+
         <!-- Launcher Activity -->
         <activity
             android:name=".activities.ViewFeedbacckActivity"
@@ -67,21 +72,22 @@
             android:theme="@style/Theme.HomeHelperFinder.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Developer Menu Activity -->
+        </activity> <!-- Developer Menu Activity -->
         <activity
             android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MakePaymentActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="makepaymentactivity" />
             </intent-filter>
         </activity>
@@ -123,5 +129,30 @@
             android:name=".ui.chat.ChatActivity"
             android:exported="false"
             android:label="Chat" />
+        <activity
+            android:name=".ui.notification.NotificationActivity"
+            android:exported="false"
+            android:label="Notifications" />
+        <activity
+            android:name=".ui.admin.AdminRequestsActivity"
+            android:exported="false"
+            android:label="Admin Requests" />
+        <activity
+            android:name=".ui.editProfile.CustomerEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.editProfile.HelperEditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.admin.HelperApplicationsActivity"
+            android:exported="false"
+            android:label="Helper Applications" />
+        <activity
+            android:name=".ui.admin.HelperApplicationDetailActivity"
+            android:exported="false"
+            android:label="Application Detail" />
+        <activity android:name=".ui.HelperWalletActivity"
+            android:exported="false" />
     </application>
+
 </manifest>

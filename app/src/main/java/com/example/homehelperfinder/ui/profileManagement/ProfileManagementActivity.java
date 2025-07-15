@@ -17,7 +17,7 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.BanUnbanRequest;
 import com.example.homehelperfinder.data.model.response.ProfileResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
-import com.example.homehelperfinder.data.repository.ProfileManagementRepository;
+import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
@@ -33,7 +33,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
     private TabLayout tabLayout;
     private RecyclerView recyclerView;
     private ProfileManagementAdapter adapter;
-    private ProfileManagementRepository repository;
+    private ProfileManagementApiService profileManagementApiService;
     private List<ProfileResponse> allProfiles;
     private int currentTabPosition = 0;
 
@@ -66,7 +66,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
         buttonSelectAll = findViewById(R.id.buttonSelectAll);
         buttonBulkBan = findViewById(R.id.buttonBulkBan);
         buttonBulkUnban = findViewById(R.id.buttonBulkUnban);
-        repository = new ProfileManagementRepository();
+        profileManagementApiService = new ProfileManagementApiService();
         allProfiles = new ArrayList<>();
     }
 
@@ -151,7 +151,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
     private void loadActiveProfiles() {
         showProgressDialog("Loading active profiles...");
 
-        repository.getActiveProfiles(this, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
+        profileManagementApiService.getActiveProfiles(this, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
             public void onSuccess(List<ProfileResponse> profiles) {
                 runOnUiThread(() -> {
@@ -179,7 +179,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
     private void loadBannedProfiles() {
         showProgressDialog("Loading banned profiles...");
 
-        repository.getBannedProfiles(this, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
+        profileManagementApiService.getBannedProfiles(this, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
             public void onSuccess(List<ProfileResponse> profiles) {
                 runOnUiThread(() -> {
@@ -280,7 +280,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
                 reason
         );
 
-        repository.banProfile(this, request, new BaseApiService.ApiCallback<ProfileResponse>() {
+        profileManagementApiService.banProfile(this, request, new BaseApiService.ApiCallback<ProfileResponse>() {
             @Override
             public void onSuccess(ProfileResponse updatedProfile) {
                 runOnUiThread(() -> {
@@ -309,7 +309,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
                 reason
         );
 
-        repository.unbanProfile(this, request, new BaseApiService.ApiCallback<ProfileResponse>() {
+        profileManagementApiService.unbanProfile(this, request, new BaseApiService.ApiCallback<ProfileResponse>() {
             @Override
             public void onSuccess(ProfileResponse updatedProfile) {
                 runOnUiThread(() -> {
@@ -417,7 +417,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
             ));
         }
 
-        repository.bulkBanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
+        profileManagementApiService.bulkBanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
             public void onSuccess(List<ProfileResponse> updatedProfiles) {
                 runOnUiThread(() -> {
@@ -453,7 +453,7 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
         }
 
 
-        repository.bulkUnbanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
+        profileManagementApiService.bulkUnbanProfiles(this, requests, new BaseApiService.ApiCallback<List<ProfileResponse>>() {
             @Override
             public void onSuccess(List<ProfileResponse> updatedProfiles) {
                 runOnUiThread(() -> {

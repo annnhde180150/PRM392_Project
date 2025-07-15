@@ -21,6 +21,20 @@ public abstract class BaseApiService {
         this.TAG = getClass().getSimpleName();
     }
 
+    /**
+     * Extract error message from Retrofit response
+     */
+    protected <T> String getErrorMessage(Response<T> response) {
+        if (response.errorBody() != null) {
+            try {
+                return response.errorBody().string();
+            } catch (Exception e) {
+                return "Error reading response body";
+            }
+        }
+        return "HTTP " + response.code() + ": " + response.message();
+    }
+
     // Generic method to handle API calls
     protected <T> CompletableFuture<T> executeCall(Context context, Call<ApiResponse<T>> call, String operation) {
         CompletableFuture<T> future = new CompletableFuture<>();

@@ -18,6 +18,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnLogin;
     private Button btnDashboard;
     private Button btnProfileManagement;
+    private Button btnNotifications;
     private Button btnTestCustomer;
     private Button btnTestHelper;
     private Button btnTestAdmin;
@@ -26,6 +27,8 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnResetFlow;
     private Button btn_Helper_dashboard;
     private Button btn_post_request;
+    private Button btn_helper_booking_list;
+    private Button btn_view_wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MenuActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_login);
         btnDashboard = findViewById(R.id.btn_dashboard);
         btnProfileManagement = findViewById(R.id.btn_profile_management);
+        btnNotifications = findViewById(R.id.btn_notifications);
         btnTestCustomer = findViewById(R.id.btn_test_customer);
         btnTestHelper = findViewById(R.id.btn_test_helper);
         btnTestAdmin = findViewById(R.id.btn_test_admin);
@@ -54,6 +58,8 @@ public class MenuActivity extends AppCompatActivity {
         btnResetFlow = findViewById(R.id.btn_reset_flow);
         btn_Helper_dashboard = findViewById(R.id.btn_Helper_dashboard);
         btn_post_request = findViewById(R.id.btn_post_request);
+        btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
+        btn_view_wallet = findViewById(R.id.btn_view_wallet);
     }
 
     private void setupClickListeners() {
@@ -80,6 +86,11 @@ public class MenuActivity extends AppCompatActivity {
 
         btnProfileManagement.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.profileManagement.ProfileManagementActivity.class);
+            startActivity(intent);
+        });
+
+        btnNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
         });
 
@@ -120,6 +131,18 @@ public class MenuActivity extends AppCompatActivity {
         });
         btn_post_request.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, PostRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        btn_helper_booking_list.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, HelperBookingListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        btn_view_wallet.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, HelperWalletActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
