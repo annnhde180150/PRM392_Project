@@ -229,7 +229,7 @@ class PostRequestActivity() : AppCompatActivity() {
 
     private fun fetchAddress() {
         try {
-            addressService.getUserAddresses(
+            addressService.getUserAddressesByUserId(
                 this,
 //                userManager.currentUserId,'
                 1,
