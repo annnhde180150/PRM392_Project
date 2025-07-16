@@ -44,8 +44,7 @@ public class HelperDashboardActivity extends BaseActivity {
         setupClickListeners();
         setupMenuNavigation();
     }
-
-    private void setupClickListener() {
+    private void setupClickListeners() {
         HelperAvailableStatusApiService api = new HelperAvailableStatusApiService(this);
         HelperAvailableRequest request = new HelperAvailableRequest();
         String userIdStr = sharedPrefsHelper.getUserId();
@@ -92,6 +91,16 @@ public class HelperDashboardActivity extends BaseActivity {
                 Toast.makeText(this, "Không hoạt động", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btn_view_income.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            startActivity(intent);
+        });
+
+        btnNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -101,17 +110,5 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting = findViewById(R.id.tv_greeting);
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
-    }
-
-    private void setupClickListeners() {
-        btnNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
-            startActivity(intent);
-        });
-        btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
-            startActivity(intent);
-        });
-
     }
 }

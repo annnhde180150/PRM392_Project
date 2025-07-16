@@ -179,6 +179,5 @@
                 android:background="@drawable/rounded_cornor_gray_white_backround"
                 app:backgroundTint="@color/gray_white"/>
         </LinearLayout>
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>
