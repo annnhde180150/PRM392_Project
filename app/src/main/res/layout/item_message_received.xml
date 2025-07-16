@@ -20,17 +20,19 @@
             android:layout_height="wrap_content"
             android:text="John Doe"
             android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textStyle="bold"
-            android:layout_marginBottom="2dp" />
+            android:layout_marginBottom="4dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello, how are you?"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textColor="@color/text_primary_dark"
+            android:textSize="14sp"
+            android:lineSpacingExtra="10dp" />
 
         <TextView
             android:id="@+id/tvTimestamp"
@@ -38,9 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="10:30"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:alpha="0.6" />
+            android:textColor="@color/text_secondary_gray"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

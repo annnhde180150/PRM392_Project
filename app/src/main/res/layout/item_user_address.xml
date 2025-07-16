@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/layoutDefaultSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <RadioButton
+            android:id="@+id/rbDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvFullAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingStart="8dp"
+        android:text="Full Address"/>
+    <TextView
+        android:id="@+id/tvDefaultIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default"
+        android:textColor="#FF9800"
+        android:textStyle="bold"
+        android:paddingStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit"
+        android:contentDescription="Edit"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="Delete"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+</LinearLayout> 

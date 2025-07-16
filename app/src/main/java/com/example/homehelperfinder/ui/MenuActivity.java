@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
+import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
+import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -25,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btnTestPayment;
     private Button btnResetFlow;
     private Button btn_Helper_dashboard;
+    private Button btn_post_request;
     private Button btn_helper_booking_list;
     private Button btn_view_wallet;
 
@@ -55,6 +58,7 @@ public class MenuActivity extends AppCompatActivity {
         btnTestPayment = findViewById(R.id.btn_test_payment);
         btnResetFlow = findViewById(R.id.btn_reset_flow);
         btn_Helper_dashboard = findViewById(R.id.btn_Helper_dashboard);
+        btn_post_request = findViewById(R.id.btn_post_request);
         btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
         btn_view_wallet = findViewById(R.id.btn_view_wallet);
     }
@@ -122,6 +126,12 @@ public class MenuActivity extends AppCompatActivity {
         });
         btn_Helper_dashboard.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, HelperDashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        btn_post_request.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, PostRequestActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

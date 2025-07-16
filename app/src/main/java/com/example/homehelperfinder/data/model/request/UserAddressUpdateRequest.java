@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAddressUpdateRequest {
-    public int addressId;
 
     public int userId;
 
@@ -29,6 +28,4 @@ public class UserAddressUpdateRequest {
     public double latitude;
 
     public double longitude;
-
-    public boolean isDefault;
 }

@@ -39,6 +39,34 @@
 
         <!-- Launcher Activity -->
         <activity
+            android:name=".activities.ViewFeedbacckActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.DeleteRequestActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activities.HelperDashboardActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.EditRequestActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.PostRequestActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.LoginActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.UserTypeActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activities.WelcomeActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".ui.MenuActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.HomeHelperFinder.NoActionBar">
@@ -48,9 +76,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Developer Menu Activity -->
-        <activity
-            android:name=".ui.MenuActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.registerHelper.RegisterHelperActivity"
             android:exported="false" />
@@ -73,17 +98,18 @@
             android:name=".ui.HelperDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.EditRequestActivity"
+            android:name=".ui.PutRequest.EditRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PostRequestActivity"
+            android:name=".ui.postRequest.PostRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LocationPickerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".ui.profileManagement.ProfileManagementActivity"
             android:exported="false" />
