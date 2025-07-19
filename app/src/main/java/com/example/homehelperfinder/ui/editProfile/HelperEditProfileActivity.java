@@ -54,6 +54,7 @@ import android.view.View;
 import com.example.homehelperfinder.data.model.response.HelperDocumentResponse;
 import com.example.homehelperfinder.data.model.request.HelperSkillRequest;
 import com.example.homehelperfinder.data.model.request.HelperWorkAreaRequest;
+import android.view.MenuItem;
 
 public class HelperEditProfileActivity extends BaseActivity {
     
@@ -859,5 +860,14 @@ public class HelperEditProfileActivity extends BaseActivity {
         }
 
         return valid;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 } 
