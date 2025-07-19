@@ -23,6 +23,18 @@ import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.utils.ValidationUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import android.app.AlertDialog;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.widget.EditText;
+import android.content.DialogInterface;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONObject;
+import android.widget.ImageView;
 
 public class RegisterCustomerActivity extends BaseActivity {
     private Toolbar toolbar;
@@ -170,8 +182,7 @@ public class RegisterCustomerActivity extends BaseActivity {
                 runOnUiThread(() -> {
                     hideLoading();
                     Toast.makeText(RegisterCustomerActivity.this, "Registration successful! Please login to continue", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(RegisterCustomerActivity.this, LoginActivity.class));
-                    finish();
+                    showOtpDialog(etEmail.getText().toString().trim());
                 });
             }
             
@@ -180,6 +191,82 @@ public class RegisterCustomerActivity extends BaseActivity {
                 runOnUiThread(() -> {
                     hideLoading();
                     Toast.makeText(RegisterCustomerActivity.this, "Registration failed: " + errorMessage, Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    private void showOtpDialog(String email) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_otp_verification, null);
+        builder.setView(view);
+        builder.setCancelable(false);
+        android.app.AlertDialog dialog = builder.create();
+
+        EditText[] otpFields = new EditText[] {
+            view.findViewById(R.id.etOtp1),
+            view.findViewById(R.id.etOtp2),
+            view.findViewById(R.id.etOtp3),
+            view.findViewById(R.id.etOtp4),
+            view.findViewById(R.id.etOtp5),
+            view.findViewById(R.id.etOtp6)
+        };
+        Button btnVerify = view.findViewById(R.id.btnVerifyOtp);
+        TextView tvResend = view.findViewById(R.id.tvResendOtp);
+
+        // Auto-move focus
+        for (int i = 0; i < otpFields.length; i++) {
+            final int idx = i;
+            otpFields[i].setText("");
+            otpFields[i].setOnKeyListener((v, keyCode, event) -> {
+                if (otpFields[idx].getText().length() == 1 && idx < otpFields.length - 1) {
+                    otpFields[idx + 1].requestFocus();
+                }
+                return false;
+            });
+        }
+
+        btnVerify.setOnClickListener(v -> {
+            StringBuilder otp = new StringBuilder();
+            for (EditText et : otpFields) {
+                String digit = et.getText().toString().trim();
+                if (digit.length() != 1) {
+                    et.setError(" ");
+                    et.requestFocus();
+                    return;
+                }
+                otp.append(digit);
+            }
+            verifyOtp(email, otp.toString(), dialog);
+        });
+
+        tvResend.setOnClickListener(v -> {
+            Toast.makeText(this, "Resend OTP not implemented", Toast.LENGTH_SHORT).show();
+        });
+
+        dialog.show();
+    }
+
+    private void verifyOtp(String email, String otp, AlertDialog dialog) {
+        showLoading("Verifying OTP...");
+        authApiService.verifyOtp(this, email, otp, new AuthApiService.AuthCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                runOnUiThread(() -> {
+                    hideLoading();
+                    dialog.dismiss();
+                    Toast.makeText(RegisterCustomerActivity.this, "Email verified! Please login.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RegisterCustomerActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
+            }
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+                runOnUiThread(() -> {
+                    hideLoading();
+                    Toast.makeText(RegisterCustomerActivity.this, errorMessage != null ? errorMessage : "Verification failed", Toast.LENGTH_LONG).show();
                 });
             }
         });

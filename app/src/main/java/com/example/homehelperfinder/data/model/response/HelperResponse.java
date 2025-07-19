@@ -55,6 +55,9 @@ public class HelperResponse {
     @SerializedName("isActive")
     public Boolean isActive;
 
+    @SerializedName("isEmailVerified")
+    public Boolean isEmailVerified;
+
     @SerializedName("skills")
     public List<HelperSkillResponse> skills;
     
