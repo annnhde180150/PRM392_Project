@@ -440,7 +440,11 @@ public class RegisterHelperActivity extends BaseActivity {
         if (!valid) return;
 
         boolean isPrimary = cbIsPrimarySkill.isChecked();
-        HelperSkillResponse newSkill = new HelperSkillResponse(selectedService, years, isPrimary);
+        
+        HelperSkillResponse newSkill = new HelperSkillResponse();
+        newSkill.setServiceName(selectedService);
+        newSkill.setYearsOfExperience(years);
+        newSkill.setPrimarySkill(isPrimary);
 
         if (skillToEdit != null && position >= 0) {
             skillAdapter.updateSkill(position, newSkill);
@@ -522,7 +526,13 @@ public class RegisterHelperActivity extends BaseActivity {
         Double longitude = lngStr.isEmpty() ? null : Double.parseDouble(lngStr);
         Double radiusKm = radiusStr.isEmpty() ? null : Double.parseDouble(radiusStr);
 
-        HelperWorkAreaResponse newArea = new HelperWorkAreaResponse(city, district, ward, latitude, longitude, radiusKm);
+        HelperWorkAreaResponse newArea = new HelperWorkAreaResponse();
+        newArea.setCity(city);
+        newArea.setDistrict(district);
+        newArea.setWard(ward);
+        newArea.setLatitude(latitude != null ? latitude : 0.0);
+        newArea.setLongitude(longitude != null ? longitude : 0.0);
+        newArea.setRadiusKm(radiusKm != null ? radiusKm : 0.0);
 
         if (areaToEdit != null && position >= 0) {
             workAreaAdapter.updateWorkArea(position, newArea);

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,10 @@ public class HelperDashboardActivity extends BaseActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchActiveStatus;
     private SharedPrefsHelper sharedPrefsHelper;
-    private TextView tv_greeting;
+    private TextView tv_greeting, tvNavProfile;
     private ImageButton btnNotification;
+    private LinearLayout navProfile;
+    private ImageView ivNavProfile;
     private CardView btn_view_income;
 
     @Override
@@ -101,6 +105,10 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting = findViewById(R.id.tv_greeting);
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
+
+        tvNavProfile = findViewById(R.id.tv_nav_profile);
+        ivNavProfile = findViewById(R.id.iv_nav_profile);
+        navProfile = findViewById(R.id.nav_profile);
     }
 
     private void setupClickListeners() {
@@ -112,6 +120,58 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
             startActivity(intent);
         });
+        navProfile.setOnClickListener(v -> {
+            setBottomNavSelected(3);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
+            startActivity(intent);
+        });
 
     }
+
+    private void setBottomNavSelected(int index) {
+        // Reset all navigation items
+        resetBottomNavItems();
+
+        // Set selected item
+        switch (index) {
+//            case 0: // Home
+//                tvNavHome.setTextColor(getResources().getColor(R.color.text_primary));
+//                ivNavHome.setColorFilter(getResources().getColor(R.color.text_primary));
+//                navHome.setBackgroundResource(R.drawable.nav_item_selected_bg);
+//                break;
+//            case 1: // Orders
+//                tvNavOrders.setTextColor(getResources().getColor(R.color.text_primary));
+//                ivNavOrders.setColorFilter(getResources().getColor(R.color.text_primary));
+//                break;
+//            case 2: // Messages
+//                tvNavMessages.setTextColor(getResources().getColor(R.color.text_primary));
+//                ivNavMessages.setColorFilter(getResources().getColor(R.color.text_primary));
+//                break;
+            case 3: // Profile
+                tvNavProfile.setTextColor(getResources().getColor(R.color.text_primary));
+                ivNavProfile.setColorFilter(getResources().getColor(R.color.text_primary));
+                break;
+        }
+    }
+
+
+    private void resetBottomNavItems() {
+        int defaultColor = getResources().getColor(R.color.text_secondary);
+
+//        tvNavHome.setTextColor(defaultColor);
+//        tvNavOrders.setTextColor(defaultColor);
+//        tvNavMessages.setTextColor(defaultColor);
+//        tvNavProfile.setTextColor(defaultColor);
+//
+//        ivNavHome.setColorFilter(defaultColor);
+//        ivNavOrders.setColorFilter(defaultColor);
+//        ivNavMessages.setColorFilter(defaultColor);
+//        ivNavProfile.setColorFilter(defaultColor);
+//
+//        navHome.setBackgroundResource(android.R.color.transparent);
+//        navOrders.setBackgroundResource(android.R.color.transparent);
+//        navMessages.setBackgroundResource(android.R.color.transparent);
+        navProfile.setBackgroundResource(android.R.color.transparent);
+    }
+
 }

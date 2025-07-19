@@ -5,6 +5,7 @@ import com.example.homehelperfinder.data.model.request.HelperSkillRequest;
 import com.example.homehelperfinder.data.model.request.HelperWorkAreaRequest;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -45,10 +46,21 @@ public class HelperResponse {
     @SerializedName("gender")
     public String gender;
 
+    @SerializedName("registrationDate")
+    private Date registrationDate;
+
+    @SerializedName("lastLoginDate")
+    private Date lastLoginDate;
+
     @SerializedName("isActive")
     public Boolean isActive;
 
+    @SerializedName("skills")
     public List<HelperSkillResponse> skills;
+    
+    @SerializedName("workAreas")
     public List<HelperWorkAreaResponse> workAreas;
+    
+    @SerializedName("documents")
     public List<HelperDocumentResponse> documents;
 }

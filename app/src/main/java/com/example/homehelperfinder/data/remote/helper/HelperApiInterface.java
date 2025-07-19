@@ -23,8 +23,8 @@ Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperI
     /**
      * Update helper profile
      */
-    @PUT("helper/profile")
-    Call<ApiResponse<HelperResponse>> updateHelperProfile(@Body HelperUpdateRequest request);
+    @PUT("helper/profile/{helperId}")
+    Call<ApiResponse<HelperResponse>> updateHelperProfile(@Path("helperId") int helperId, @Body HelperUpdateRequest request);
 
     /**
      * Update helper profile by ID (admin function)
