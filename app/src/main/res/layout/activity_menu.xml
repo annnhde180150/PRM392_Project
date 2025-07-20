@@ -95,6 +95,7 @@
             <!-- Dashboard Activity Button -->
 
             <!--Helper Dashboard Activity Button -->
+
             <Button
                 android:id="@+id/btn_dashboard"
                 android:layout_width="match_parent"
@@ -248,6 +249,17 @@
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_primary_bg"
                 android:text="Test Payment"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_test_search_helper"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Test Search Helper"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:elevation="4dp" />

@@ -3,7 +3,10 @@ package com.example.homehelperfinder.data.remote.helper;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
+import com.example.homehelperfinder.data.model.response.HelperSearchResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,7 +21,15 @@ public interface HelperApiInterface {/**
 @GET("helper/profile/{helperId}")
 Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperId);
 
-
+    /**
+     * Search helpers by service
+     */
+    @GET("Helper/Search")
+    Call<ApiResponse<List<HelperSearchResponse>>> searchHelpers(
+            @Query("serviceId") int serviceId,
+            @Query("page") int page,
+            @Query("pageSize") int pageSize
+    );
 
     /**
      * Update helper profile

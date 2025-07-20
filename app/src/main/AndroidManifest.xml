@@ -154,6 +154,14 @@
             android:label="Application Detail" />
         <activity android:name=".ui.HelperWalletActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.helperSearch.HelperSearchActivity"
+            android:exported="false"
+            android:label="Find Helpers" />
+        <activity
+            android:name=".ui.helperSearch.HelperDetailActivity"
+            android:exported="false"
+            android:label="Helper Details" />
     </application>
 
 </manifest>

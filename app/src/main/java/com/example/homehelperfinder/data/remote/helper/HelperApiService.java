@@ -5,11 +5,13 @@ import android.content.Context;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
+import com.example.homehelperfinder.data.model.response.HelperSearchResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.utils.NetworkUtils;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -21,6 +23,26 @@ public class HelperApiService extends BaseApiService{
 
     public HelperApiService() {
         this.apiInterface = RetrofitClient.getHelperApiService();
+    }
+
+    /**
+     * Search helpers by service
+     */
+    public CompletableFuture<List<HelperSearchResponse>> searchHelpers(
+            Context context, 
+            int serviceId,
+            int page, 
+            int pageSize) {
+        return executeCall(context, apiInterface.searchHelpers(serviceId, page, pageSize), "searchHelpers");
+    }
+
+    public void searchHelpers(
+            Context context, 
+            int serviceId,
+            int page, 
+            int pageSize, 
+            ApiCallback<List<HelperSearchResponse>> callback) {
+        handleApiResponse(context, searchHelpers(context, serviceId, page, pageSize), callback);
     }
 
 

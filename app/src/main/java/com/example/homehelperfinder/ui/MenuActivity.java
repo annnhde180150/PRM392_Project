@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
@@ -30,6 +31,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_post_request;
     private Button btn_helper_booking_list;
     private Button btn_view_wallet;
+    private Button btn_test_search_helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_post_request = findViewById(R.id.btn_post_request);
         btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
         btn_view_wallet = findViewById(R.id.btn_view_wallet);
+        btn_test_search_helper = findViewById(R.id.btn_test_search_helper);
     }
 
     private void setupClickListeners() {
@@ -144,6 +147,12 @@ public class MenuActivity extends AppCompatActivity {
         });
         btn_view_wallet.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, HelperWalletActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        btn_test_search_helper.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, HelperSearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

@@ -100,6 +100,13 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to Notifications");
     }
 
+    // Navigate to Helper Search
+    public static void navigateToHelperSearch(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Helper Search");
+    }
+
     // Navigate to Helper Applications
     public static void navigateToHelperApplications(Context context) {
         Intent intent = new Intent(context, com.example.homehelperfinder.ui.admin.HelperApplicationsActivity.class);
