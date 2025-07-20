@@ -48,8 +48,7 @@ public class HelperDashboardActivity extends BaseActivity {
         setupClickListeners();
         setupMenuNavigation();
     }
-
-    private void setupClickListener() {
+    private void setupClickListeners() {
         HelperAvailableStatusApiService api = new HelperAvailableStatusApiService(this);
         HelperAvailableRequest request = new HelperAvailableRequest();
         String userIdStr = sharedPrefsHelper.getUserId();
@@ -96,6 +95,24 @@ public class HelperDashboardActivity extends BaseActivity {
                 Toast.makeText(this, "Không hoạt động", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btn_view_income.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            startActivity(intent);
+        });
+        btnNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
+            startActivity(intent);
+        });
+        btn_view_income.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            startActivity(intent);
+        });
+        navProfile.setOnClickListener(v -> {
+            setBottomNavSelected(3);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -110,24 +127,6 @@ public class HelperDashboardActivity extends BaseActivity {
         ivNavProfile = findViewById(R.id.iv_nav_profile);
         navProfile = findViewById(R.id.nav_profile);
     }
-
-    private void setupClickListeners() {
-        btnNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
-            startActivity(intent);
-        });
-        btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
-            startActivity(intent);
-        });
-        navProfile.setOnClickListener(v -> {
-            setBottomNavSelected(3);
-            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
-            startActivity(intent);
-        });
-
-    }
-
     private void setBottomNavSelected(int index) {
         // Reset all navigation items
         resetBottomNavItems();
