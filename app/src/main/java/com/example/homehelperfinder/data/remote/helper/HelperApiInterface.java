@@ -12,25 +12,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface HelperApiInterface {/**
- * Get helper profile by ID
- */
-@GET("helper/profile/{helperId}")
-Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperId);
+public interface HelperApiInterface {
 
 
-
-    /**
-     * Update helper profile
-     */
-    @PUT("helper/profile/{helperId}")
-    Call<ApiResponse<HelperResponse>> updateHelperProfile(@Path("helperId") int helperId, @Body HelperUpdateRequest request);
-
-    /**
-     * Update helper profile by ID (admin function)
-     */
-    @PUT("helper/profile/{helperId}")
-    Call<ApiResponse<HelperResponse>> updateHelperProfileById(@Path("helperId") int helperId, @Body HelperUpdateRequest request);
 
     /**
      * View helper income by ID

@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.homehelperfinder.BuildConfig;
 import com.example.homehelperfinder.data.model.response.UserAddressResponse;
 import com.example.homehelperfinder.data.remote.address.AddressApiService;
+import com.example.homehelperfinder.data.remote.profile.EditProfileApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -69,7 +70,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
     private Button btnAddAddress;
 
     private int currentUserId;
-    private UserApiService userApiService;
+    private EditProfileApiService editProfileApiService;
     private AddressApiService addressApiService;
     private UserManager userManager;
     private static final int MAP_PICKER_REQUEST_CODE = 1002;
@@ -110,7 +111,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
         }
     }
     private void initViews() {
-        userApiService = new UserApiService();
+        editProfileApiService = new EditProfileApiService();
         addressApiService = new AddressApiService();
         setupToolbar();
         etFullName = findViewById(R.id.etFullName);
@@ -240,7 +241,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
         showLoading("Loading profile...");
 
         currentUserId = userManager.getCurrentUserId();
-        userApiService.getUserProfile(this, currentUserId, new BaseApiService.ApiCallback<UserResponse>() {
+        editProfileApiService.getUserProfile(this, currentUserId, new BaseApiService.ApiCallback<UserResponse>() {
             @Override
             public void onSuccess(UserResponse profile) {
                 runOnUiThread(() -> {
@@ -361,7 +362,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
         if (pendingDefaultAddressId != null) {
             updateDto.setDefaultAddressId(pendingDefaultAddressId);
         }
-        userApiService.updateUserProfile(this, currentUserId, updateDto, new BaseApiService.ApiCallback<UserResponse>() {
+        editProfileApiService.updateUserProfile(this, currentUserId, updateDto, new BaseApiService.ApiCallback<UserResponse>() {
             @Override
             public void onSuccess(UserResponse updatedProfile) {
                 runOnUiThread(() -> {

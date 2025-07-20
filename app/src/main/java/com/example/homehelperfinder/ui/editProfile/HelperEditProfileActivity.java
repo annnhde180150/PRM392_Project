@@ -23,6 +23,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.homehelperfinder.data.remote.helper.HelperApiService;
+import com.example.homehelperfinder.data.remote.profile.EditProfileApiService;
 import com.example.homehelperfinder.data.remote.service.ServiceApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import androidx.core.graphics.Insets;
@@ -69,7 +70,7 @@ public class HelperEditProfileActivity extends BaseActivity {
     private Uri profilePictureUri, idFileUri, cvFileUri;
     private String profilePictureUrl, idFileUrl, cvFileUrl;
 
-    private HelperApiService helperApiService;
+    private EditProfileApiService editProfileApiService;
     private ServiceApiService serviceApiService;
     
     private SkillAdapter skillAdapter;
@@ -130,7 +131,7 @@ public class HelperEditProfileActivity extends BaseActivity {
     }
 
     private void initViews() {
-        helperApiService = new HelperApiService();
+        editProfileApiService = new EditProfileApiService();
         serviceApiService = new ServiceApiService();
         setupToolbar();
         
@@ -359,7 +360,7 @@ public class HelperEditProfileActivity extends BaseActivity {
         
         currentHelperId = userManager.getCurrentUserId();
         
-        helperApiService.getHelperProfile(this, currentHelperId, new BaseApiService.ApiCallback<HelperResponse>() {
+        editProfileApiService.getHelperProfile(this, currentHelperId, new BaseApiService.ApiCallback<HelperResponse>() {
             @Override
             public void onSuccess(HelperResponse profile) {
                 runOnUiThread(() -> {
@@ -784,7 +785,7 @@ public class HelperEditProfileActivity extends BaseActivity {
         updateDto.setSkills(skillList);
         updateDto.setWorkAreas(workAreaList);
 
-        helperApiService.updateHelperProfile(this, currentHelperId, updateDto, new BaseApiService.ApiCallback<HelperResponse>() {
+        editProfileApiService.updateHelperProfile(this, currentHelperId, updateDto, new BaseApiService.ApiCallback<HelperResponse>() {
             @Override
             public void onSuccess(HelperResponse updatedProfile) {
                 runOnUiThread(() -> {

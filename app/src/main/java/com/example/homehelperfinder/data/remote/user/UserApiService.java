@@ -27,32 +27,6 @@ public class UserApiService extends BaseApiService {
     }
     
 
-    
-    /**
-     * Get user profile by ID
-     */
-
-    public CompletableFuture<UserResponse> getUserProfile(Context context, int userId) {
-        return executeCall(context, apiInterface.getUserProfile(userId), "Get user profile by ID");
-    }
-
-    public void getUserProfile(Context context, int userId, ApiCallback<UserResponse> callback) {
-        handleApiResponse(context, getUserProfile(context, userId), callback);
-    }
-
-
-    
-    /**
-     * Update user profile by ID
-     */
-    public CompletableFuture<UserResponse> updateUserProfile(Context context, int userId, UserUpdateRequest request) {
-        return executeCall(context, apiInterface.updateUserProfile(userId, request), "Update user profile by ID");
-    }
-
-
-    public void updateUserProfile(Context context, int userId, UserUpdateRequest request, ApiCallback<UserResponse> callback) {
-        handleApiResponse(context, updateUserProfile(context, userId, request), callback);
-    }
 
 
 
