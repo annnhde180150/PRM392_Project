@@ -3,6 +3,7 @@ package com.example.homehelperfinder.data.remote.auth;
 import android.content.Context;
 
 import com.example.homehelperfinder.data.model.request.HelperRequest;
+import com.example.homehelperfinder.data.model.request.OtpVerificationRequest;
 import com.example.homehelperfinder.data.model.request.UserRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.request.LoginRequest;
@@ -105,6 +106,13 @@ public class AuthApiService {
 
         Call<ApiResponse<AdminLoginResponse>> call = publicApiInterface.loginAdmin(request);
         executeWrappedAuthCall(call, "Admin Login", callback);
+    }
+
+    public void verifyOtp(Context context, String email, String otp, AuthCallback<Void> callback) {
+        OtpVerificationRequest req = new OtpVerificationRequest(email, otp);
+
+        Call<ApiResponse<Void>> call = publicApiInterface.verifyOtp(req);
+        executeWrappedAuthCall(call, "Verify Otp", callback);
     }
 
     // Logout

@@ -17,6 +17,7 @@ import java.util.List;
 public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHolder> {
     private final List<HelperSkillResponse> skillList;
     private SkillActionListener actionListener;
+    private boolean showEditDeleteButtons = true;
 
     public SkillAdapter(List<HelperSkillResponse> skillList) {
         this.skillList = skillList;
@@ -24,6 +25,11 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHol
 
     public void setSkillActionListener(SkillActionListener listener) {
         this.actionListener = listener;
+    }
+
+    public void setShowEditDeleteButtons(boolean show) {
+        this.showEditDeleteButtons = show;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,6 +45,11 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.SkillViewHol
         holder.tvServiceName.setText(skill.getServiceName());
         holder.tvYears.setText(skill.getYearsOfExperience() == null ? "" : skill.getYearsOfExperience() + " years");
         holder.tvPrimary.setVisibility(skill.isPrimarySkill() ? View.VISIBLE : View.GONE);
+        
+        // Show/hide edit and delete buttons based on edit mode
+        holder.btnEdit.setVisibility(showEditDeleteButtons ? View.VISIBLE : View.GONE);
+        holder.btnDelete.setVisibility(showEditDeleteButtons ? View.VISIBLE : View.GONE);
+        
         holder.btnEdit.setOnClickListener(v -> {
             if (actionListener != null) actionListener.onEdit(position);
         });

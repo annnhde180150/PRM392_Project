@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import com.example.homehelperfinder.data.model.request.UserAddressUpdateRequest;
 import com.example.homehelperfinder.data.model.request.UserAddressCreateRequest;
+import android.view.MenuItem;
 
 public class CustomerEditProfileActivity extends BaseActivity {
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -561,6 +562,14 @@ public class CustomerEditProfileActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

@@ -39,12 +39,12 @@ public class HelperApiService extends BaseApiService{
     /**
      * Update helper profile
      */
-    public CompletableFuture<HelperResponse> updateHelperProfile(Context context, HelperUpdateRequest request) {
-        return executeCall(context, apiInterface.updateHelperProfile(request), "Update helper profile");
+    public CompletableFuture<HelperResponse> updateHelperProfile(Context context, int helperId, HelperUpdateRequest request) {
+        return executeCall(context, apiInterface.updateHelperProfile(helperId, request), "Update helper profile");
     }
 
-    public void updateHelperProfile(Context context, HelperUpdateRequest request, BaseApiService.ApiCallback<HelperResponse> callback) {
-        handleApiResponse(context, updateHelperProfile(context, request), callback);
+    public void updateHelperProfile(Context context,  int helperId, HelperUpdateRequest request, BaseApiService.ApiCallback<HelperResponse> callback) {
+        handleApiResponse(context, updateHelperProfile(context, helperId, request), callback);
     }
 
     /**
