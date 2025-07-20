@@ -848,6 +848,9 @@ public class RegisterHelperActivity extends BaseActivity {
             }
             verifyOtp(email, otp.toString(), dialog);
         });
+
+
+
         dialog.show();
     }
 
