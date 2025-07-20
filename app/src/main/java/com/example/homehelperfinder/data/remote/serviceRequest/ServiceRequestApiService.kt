@@ -33,5 +33,4 @@ class ServiceRequestApiService(context : Context) : BaseApiService() {
     fun updateRequest(context : Context, request : UpdateRequestRequest, callback : ApiCallback<RequestDetailResponse>){
         handleApiResponse(context, updateRequest(context, request), callback)
     }
-
 }

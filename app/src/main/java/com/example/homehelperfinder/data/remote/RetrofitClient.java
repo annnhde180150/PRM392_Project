@@ -9,6 +9,7 @@ import com.example.homehelperfinder.data.remote.address.AddressApiInterface;
 import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
+import com.example.homehelperfinder.data.remote.serviceRequest.GetAllServiceRequestInterface;
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
 import com.example.homehelperfinder.data.remote.user.UserApiInterface;
@@ -202,5 +203,9 @@ public class RetrofitClient {
     public static Retrofit getChatClient() {
         Logger.w("RetrofitClient", "getChatClient() is deprecated. Use getAuthenticatedClient()");
         return getAuthenticatedClient();
+    }
+    public static GetAllServiceRequestInterface getAllServiceRequestApiService() {
+        Logger.d("RetrofitClient", "Creating GetAllServiceRequestInterface service");
+        return getAuthenticatedClient().create(GetAllServiceRequestInterface.class);
     }
 }

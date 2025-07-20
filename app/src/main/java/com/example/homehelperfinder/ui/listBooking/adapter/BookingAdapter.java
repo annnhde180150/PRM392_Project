@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +19,19 @@ import java.util.List;
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingViewHolder> {
 
     private List<ListBookingModel> bookingList;
+    private OnBookingActionListener actionListener;
+    
+    public interface OnBookingActionListener {
+        void onAcceptBooking(int requestId);
+        void onDeclineBooking(int requestId);
+    }
 
     public BookingAdapter(List<ListBookingModel> bookingList) {
         this.bookingList = bookingList;
+    }
+    
+    public void setOnBookingActionListener(OnBookingActionListener listener) {
+        this.actionListener = listener;
     }
 
     @NonNull
@@ -34,13 +45,25 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
     @Override
     public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
         ListBookingModel item = bookingList.get(position);
-        holder.imgService.setImageResource(item.getImageResId());
         holder.tvServiceName.setText(item.getServiceName());
-        holder.tvBookingId.setText(item.getBookingId());
         holder.tvPrice.setText(item.getPrice());
         holder.tvAddress.setText(item.getAddress());
-        holder.tvDateTime.setText(item.getDateTime());
+        holder.tvStartTime.setText("Start: " + item.getStartTime());
+        holder.tvEndTime.setText(" - End: " + item.getEndTime());
         holder.tvCustomerName.setText(item.getCustomerName());
+
+        // Handle button clicks
+        holder.btnAccept.setOnClickListener(v -> {
+            if (actionListener != null) {
+                actionListener.onAcceptBooking(item.getRequestId());
+            }
+        });
+        
+        holder.btnDecline.setOnClickListener(v -> {
+            if (actionListener != null) {
+                actionListener.onDeclineBooking(item.getRequestId());
+            }
+        });
     }
 
     @Override
@@ -50,21 +73,27 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
     static class BookingViewHolder extends RecyclerView.ViewHolder {
         ImageView imgService;
-        TextView tvServiceName, tvBookingId, tvPrice, tvDiscount, tvAddress, tvDateTime, tvCustomerName;
+        TextView tvServiceName, tvPrice, tvAddress, tvStartTime, tvEndTime, tvCustomerName;
         Button btnAccept, btnDecline;
 
         public BookingViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgService = itemView.findViewById(R.id.imgService);
             tvServiceName = itemView.findViewById(R.id.tvServiceName);
-            tvBookingId = itemView.findViewById(R.id.tvBookingId);
             tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvDiscount = itemView.findViewById(R.id.tvDiscount);
             tvAddress = itemView.findViewById(R.id.tvAddress);
-            tvDateTime = itemView.findViewById(R.id.tvDateTime);
+            tvStartTime = itemView.findViewById(R.id.tvStartTime);
+            tvEndTime = itemView.findViewById(R.id.tvEndTime);
             tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
             btnAccept = itemView.findViewById(R.id.btnAccept);
             btnDecline = itemView.findViewById(R.id.btnDecline);
         }
+    }
+
+    public void updateBookings(List<ListBookingModel> newBookings) {
+        this.bookingList.clear();
+        if (newBookings != null) {
+            this.bookingList.addAll(newBookings);
+        }
+        notifyDataSetChanged();
     }
 }
