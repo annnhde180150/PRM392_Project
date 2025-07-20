@@ -1,5 +1,7 @@
 package com.example.homehelperfinder.ui.editProfile;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -17,8 +19,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.Admin;
 import com.example.homehelperfinder.data.model.request.AdminUpdateRequest;
+import com.example.homehelperfinder.data.remote.auth.AuthApiService;
+import com.example.homehelperfinder.data.model.response.LogoutResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.profile.EditProfileApiService;
+import com.example.homehelperfinder.ui.DashboardActivity;
+import com.example.homehelperfinder.ui.LoginActivity;
+import com.example.homehelperfinder.ui.WelcomeActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 
 import com.example.homehelperfinder.utils.ValidationUtils;
@@ -36,7 +43,7 @@ public class AdminEditProfileActivity extends BaseActivity {
     private TextInputEditText etUsername, etFullName, etEmail, etRole;
     private SwitchMaterial switchActive;
     private ImageView ivProfilePicture;
-    private Button btnConfirm;
+    private Button btnConfirm, btnLogout;
     private TextView tvAdminId, tvRegistrationDate, tvAdminFullName;
     private ImageButton btnEditProfile;
 
@@ -83,6 +90,7 @@ public class AdminEditProfileActivity extends BaseActivity {
         switchActive = findViewById(R.id.switchActive);
         ivProfilePicture = findViewById(R.id.ivProfilePicture);
         btnConfirm = findViewById(R.id.btnConfirm);
+        btnLogout = findViewById(R.id.btnLogout);
         tvAdminId = findViewById(R.id.tvAdminId);
         tvRegistrationDate = findViewById(R.id.tvRegistrationDate);
         tvAdminFullName = findViewById(R.id.tvAdminFullName);
@@ -95,6 +103,7 @@ public class AdminEditProfileActivity extends BaseActivity {
         btnEditProfile.setOnClickListener(v -> {
             setEditMode(!isEditMode);
         });
+        btnLogout.setOnClickListener(v -> performLogout());
     }
 
     private void setEditMode(boolean editable) {
@@ -105,6 +114,10 @@ public class AdminEditProfileActivity extends BaseActivity {
         switchActive.setEnabled(editable);
         etRole.setEnabled(false);
         btnConfirm.setVisibility(editable ? View.VISIBLE : View.GONE);
+        
+        if (btnLogout != null) {
+            btnLogout.setVisibility(editable ? View.GONE : View.VISIBLE);
+        }
         
         if (editable) {
             btnEditProfile.setImageResource(R.drawable.ic_close);
@@ -254,6 +267,48 @@ public class AdminEditProfileActivity extends BaseActivity {
                 });
             }
         });
+    }
+
+    private void performLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    AuthApiService authApiService = new AuthApiService();
+                    authApiService.logout(this, new AuthApiService.AuthCallback<LogoutResponse>() {
+                        @Override
+                        public void onSuccess(LogoutResponse response) {
+                            runOnUiThread(() -> {
+                                userManager.logout();
+                                Toast.makeText(AdminEditProfileActivity.this, 
+                                    "Logged out successfully", Toast.LENGTH_SHORT).show();
+                                
+                                // Navigate to login screen
+                                Intent intent = new Intent(AdminEditProfileActivity.this, WelcomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+
+                        @Override
+                        public void onError(String errorMessage, Throwable throwable) {
+                            runOnUiThread(() -> {
+                                userManager.logout();
+                                Toast.makeText(AdminEditProfileActivity.this, 
+                                    "Logout failed: " + errorMessage + ". Logging out locally.", Toast.LENGTH_LONG).show();
+
+                                // Navigate to login screen
+                                Intent intent = new Intent(AdminEditProfileActivity.this, WelcomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+                    });
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override

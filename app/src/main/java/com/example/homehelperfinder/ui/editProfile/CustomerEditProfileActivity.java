@@ -19,7 +19,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.homehelperfinder.BuildConfig;
 import com.example.homehelperfinder.data.model.response.UserAddressResponse;
 import com.example.homehelperfinder.data.remote.address.AddressApiService;
+import com.example.homehelperfinder.data.remote.auth.AuthApiService;
+import com.example.homehelperfinder.data.model.response.LogoutResponse;
 import com.example.homehelperfinder.data.remote.profile.EditProfileApiService;
+import com.example.homehelperfinder.ui.DashboardActivity;
+import com.example.homehelperfinder.ui.LoginActivity;
+import com.example.homehelperfinder.ui.WelcomeActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -59,7 +64,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
     private TextInputEditText etFullName, etEmail, etPhoneNumber;
     private ImageView ivProfilePicture;
     private ImageButton btnChangePicture;
-    private Button btnConfirm;
+    private Button btnConfirm, btnLogout;
     private Uri profilePictureUri;
     private String profilePictureUrl;
     private TextView tvUserId, tvRegistrationDate, tvUserFullName, tvDefaultAddressLabel;
@@ -120,6 +125,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
         ivProfilePicture = findViewById(R.id.ivProfilePicture);
         btnChangePicture = findViewById(R.id.btnChangePicture);
         btnConfirm = findViewById(R.id.btnConfirm);
+        btnLogout = findViewById(R.id.btnLogout);
         tvUserId = findViewById(R.id.tvUserId);
         tvRegistrationDate = findViewById(R.id.tvRegistrationDate);
         tvUserFullName = findViewById(R.id.tvUserFullName);
@@ -141,6 +147,7 @@ public class CustomerEditProfileActivity extends BaseActivity {
         btnEditProfile.setOnClickListener(v -> {
             setEditMode(!isEditMode);
         });
+        btnLogout.setOnClickListener(v -> performLogout());
     }
 
     private boolean isEditMode = false;
@@ -161,6 +168,9 @@ public class CustomerEditProfileActivity extends BaseActivity {
         }
         if (btnAddAddress != null) {
             btnAddAddress.setVisibility(editable ? View.VISIBLE : View.GONE);
+        }
+        if (btnLogout != null) {
+            btnLogout.setVisibility(editable ? View.GONE : View.VISIBLE);
         }
         if (editable) {         //Enter edit mode
             btnEditProfile.setImageResource(R.drawable.ic_close);
@@ -561,6 +571,49 @@ public class CustomerEditProfileActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    private void performLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    AuthApiService authApiService = new AuthApiService();
+                    authApiService.logout(this, new AuthApiService.AuthCallback<LogoutResponse>() {
+                        @Override
+                        public void onSuccess(LogoutResponse response) {
+                            runOnUiThread(() -> {
+                                userManager.logout();
+                                Toast.makeText(CustomerEditProfileActivity.this, 
+                                    "Logged out successfully", Toast.LENGTH_SHORT).show();
+                                
+                                //TODO: Edit dashboard for customer later
+                                // Navigate to login screen or main activity
+                                Intent intent = new Intent(CustomerEditProfileActivity.this, WelcomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+
+                        @Override
+                        public void onError(String errorMessage, Throwable throwable) {
+                            runOnUiThread(() -> {
+                                Toast.makeText(CustomerEditProfileActivity.this,
+                                    "Logout failed: " + errorMessage + ". Logging out locally.", Toast.LENGTH_LONG).show();
+                                
+                                userManager.logout();
+                                
+                                Intent intent = new Intent(CustomerEditProfileActivity.this, WelcomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+                    });
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override
