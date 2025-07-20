@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ListBookingModel {
+    private int bookingId;
     private int requestId;
     private String serviceName;
     private String price;

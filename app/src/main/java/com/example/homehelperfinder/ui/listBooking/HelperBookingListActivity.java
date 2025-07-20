@@ -129,6 +129,7 @@ public class HelperBookingListActivity extends AppCompatActivity implements Book
                         }
 
                         ListBookingModel booking = new ListBookingModel(
+                                data.getBookingId(),
                                 data.getRequestId(),
                                 data.getServiceName(),
                                 data.getEstimatedPrice() != null ? data.getEstimatedPrice().toString() : "0",
@@ -180,16 +181,18 @@ public class HelperBookingListActivity extends AppCompatActivity implements Book
     }
     
     @Override
-    public void onAcceptBooking(int requestId) {
+    public void onAcceptBooking(int requestId,int bookingId) {
 
         // Refresh the list after accepting
         ServiceRequestUpdateStatusRequest request = new ServiceRequestUpdateStatusRequest();
-        request.setHelperId(1);
+        request.setBookingId(bookingId);
         request.setRequestId(requestId);
         request.setAction("Accept");
         service.updateRequestStatus(this, request, new BaseApiService.ApiCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
+                loadBookings();
+                Toast.makeText(HelperBookingListActivity.this, "Đã chấp nhận đơn hàng #" + requestId, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -202,10 +205,10 @@ public class HelperBookingListActivity extends AppCompatActivity implements Book
     }
     
     @Override
-    public void onDeclineBooking(int requestId) {
+    public void onDeclineBooking(int requestId,int bookingId) {
         // Refresh the list after declining
         ServiceRequestUpdateStatusRequest request = new ServiceRequestUpdateStatusRequest();
-        request.setHelperId(1);
+        request.setBookingId(bookingId);
         request.setRequestId(requestId);
         request.setAction("Cancel");
         service.updateRequestStatus(this, request, new BaseApiService.ApiCallback<Void>() {

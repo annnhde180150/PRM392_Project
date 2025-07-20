@@ -16,8 +16,8 @@ public class ServiceRequestUpdateStatusRequest {
     @SerializedName("requestId")
     public Integer RequestId;
 
-    @SerializedName("helperId")
-    public Integer HelperId;
+    @SerializedName("bookingId")
+    public Integer BookingId;
 
     @SerializedName("action")
     public String Action;

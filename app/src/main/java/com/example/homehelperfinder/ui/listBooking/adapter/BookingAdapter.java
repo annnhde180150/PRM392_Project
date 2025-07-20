@@ -22,8 +22,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
     private OnBookingActionListener actionListener;
     
     public interface OnBookingActionListener {
-        void onAcceptBooking(int requestId);
-        void onDeclineBooking(int requestId);
+        void onAcceptBooking(int requestId,int bookingId);
+        void onDeclineBooking(int requestId,int bookingId);
     }
 
     public BookingAdapter(List<ListBookingModel> bookingList) {
@@ -55,13 +55,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         // Handle button clicks
         holder.btnAccept.setOnClickListener(v -> {
             if (actionListener != null) {
-                actionListener.onAcceptBooking(item.getRequestId());
+                actionListener.onAcceptBooking(item.getRequestId(),item.getBookingId());
             }
         });
         
         holder.btnDecline.setOnClickListener(v -> {
             if (actionListener != null) {
-                actionListener.onDeclineBooking(item.getRequestId());
+                actionListener.onDeclineBooking(item.getRequestId(),item.getBookingId());
             }
         });
     }
