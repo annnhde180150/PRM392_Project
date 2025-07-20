@@ -135,6 +135,17 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        // Add customer dashboard button
+        Button btnCustomerDashboard = findViewById(R.id.btn_customer_dashboard);
+        if (btnCustomerDashboard != null) {
+            btnCustomerDashboard.setOnClickListener(v -> {
+                Intent intent = new Intent(MenuActivity.this, CustomerDashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
         btn_helper_booking_list.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, HelperBookingListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

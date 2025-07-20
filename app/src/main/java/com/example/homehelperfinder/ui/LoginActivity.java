@@ -384,7 +384,7 @@ public class LoginActivity extends BaseActivity {
     private void navigateToUserDashboard(String userType) {
         switch (userType) {
             case Constants.USER_TYPE_CUSTOMER:
-                NavigationHelper.navigateToDashboard(this);
+                NavigationHelper.navigateToCustomerDashboard(this);
                 break;
             case Constants.USER_TYPE_HELPER:
                 NavigationHelper.navigateToHelperDashboard(this);

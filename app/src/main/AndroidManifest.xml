@@ -117,6 +117,9 @@
             android:name=".ui.DashboardActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.CustomerDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.UserTypeActivity"
             android:exported="false" />
         <activity
