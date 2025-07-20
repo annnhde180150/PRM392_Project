@@ -31,6 +31,7 @@
 
     <!-- Dashboard Screen -->
     <string name="dashboard">Dashboard</string>
+    <string name="customer_dashboard">Customer Dashboard</string>
     <string name="users">Users</string>
     <string name="new_orders">New Orders</string>
     <string name="revenue">Revenue</string>
@@ -42,6 +43,17 @@
     <string name="home">Home</string>
     <string name="messages">Messages</string>
     <string name="profile">Profile</string>
+    
+    <!-- Customer Dashboard -->
+    <string name="active_requests">Active Requests</string>
+    <string name="completed_services">Completed Services</string>
+    <string name="total_spent">Total Spent</string>
+    <string name="available_helpers">Available Helpers</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="post_request">Post Request</string>
+    <string name="view_requests">View Requests</string>
+    <string name="chat">Chat</string>
+    <string name="requests">Requests</string>
 
     <!-- Profile Management -->
     <string name="profile_management">Profile Management</string>
@@ -65,6 +77,10 @@
     <string name="home_description">Home icon</string>
     <string name="messages_description">Messages icon</string>
     <string name="menu_description">Menu navigation button</string>
+    <string name="post_request_description">Post request icon</string>
+    <string name="view_requests_description">View requests icon</string>
+    <string name="chat_description">Chat icon</string>
+    <string name="requests_description">Requests icon</string>
 
     <!-- Error Messages -->
     <string name="error_field_required">This field is required</string>

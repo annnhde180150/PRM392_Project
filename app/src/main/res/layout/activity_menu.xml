@@ -121,6 +121,19 @@
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
+            <!-- Customer Dashboard Activity Button -->
+            <Button
+                android:id="@+id/btn_customer_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_primary_bg"
+                android:elevation="4dp"
+                android:text="Customer Dashboard Screen"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <!-- Profile Management Activity Button -->
 
             <!-- Helper Booking List Activity Button -->
@@ -176,6 +189,22 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:drawableStart="@drawable/ic_notification"
+                android:drawablePadding="8dp"
+                android:gravity="center" />
+
+            <!-- Admin Edit Profile Button -->
+            <Button
+                android:id="@+id/btn_user_edit_profile"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_secondary_bg"
+                android:elevation="4dp"
+                android:text="Cuystomer Edit Profile"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="8dp"
                 android:gravity="center" />
 

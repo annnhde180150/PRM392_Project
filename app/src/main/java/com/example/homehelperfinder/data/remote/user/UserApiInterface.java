@@ -13,19 +13,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserApiInterface {
-    
-    /**
-     * Get user profile by ID
-     */
-    @GET("user/profile/{userId}")
-    Call<ApiResponse<UserResponse>> getUserProfile(@Path("userId") int userId);
-
-    
-    /**
-     * Update user profile by ID
-     */
-    @PUT("user/profile/{userId}")
-    Call<ApiResponse<UserResponse>> updateUserProfile(@Path("userId") int userId, @Body UserUpdateRequest request);
 
 
 }

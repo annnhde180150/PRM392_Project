@@ -23,7 +23,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.homehelperfinder.data.remote.helper.HelperApiService;
+import com.example.homehelperfinder.data.remote.auth.AuthApiService;
+import com.example.homehelperfinder.data.model.response.LogoutResponse;
+import com.example.homehelperfinder.data.remote.profile.EditProfileApiService;
 import com.example.homehelperfinder.data.remote.service.ServiceApiService;
+import com.example.homehelperfinder.ui.DashboardActivity;
+import com.example.homehelperfinder.ui.HelperDashboardActivity;
+import com.example.homehelperfinder.ui.LoginActivity;
+import com.example.homehelperfinder.ui.WelcomeActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -61,7 +68,7 @@ public class HelperEditProfileActivity extends BaseActivity {
     private TextInputEditText etFullName, etEmail, etPhoneNumber, etBio;
     private ImageView ivProfilePicture, ivIdPreview, ivCvPreview;
     private ImageButton btnChangePicture, btnEditProfile;
-    private Button btnConfirm, btnAddSkill, btnAddWorkArea, btnUploadId, btnUploadCV;
+    private Button btnConfirm, btnAddSkill, btnAddWorkArea, btnUploadId, btnUploadCV, btnLogout;
     private RecyclerView rvSkills, rvWorkAreas;
     private TextView tvHelperId, tvRegistrationDate, tvHelperFullName;
     private Toolbar toolbar;
@@ -69,7 +76,7 @@ public class HelperEditProfileActivity extends BaseActivity {
     private Uri profilePictureUri, idFileUri, cvFileUri;
     private String profilePictureUrl, idFileUrl, cvFileUrl;
 
-    private HelperApiService helperApiService;
+    private EditProfileApiService editProfileApiService;
     private ServiceApiService serviceApiService;
     
     private SkillAdapter skillAdapter;
@@ -130,7 +137,7 @@ public class HelperEditProfileActivity extends BaseActivity {
     }
 
     private void initViews() {
-        helperApiService = new HelperApiService();
+        editProfileApiService = new EditProfileApiService();
         serviceApiService = new ServiceApiService();
         setupToolbar();
         
@@ -147,6 +154,7 @@ public class HelperEditProfileActivity extends BaseActivity {
         btnAddWorkArea = findViewById(R.id.btnAddWorkArea);
         btnUploadId = findViewById(R.id.btnUploadId);
         btnUploadCV = findViewById(R.id.btnUploadCV);
+        btnLogout = findViewById(R.id.btnLogout);
         rvSkills = findViewById(R.id.rvSkills);
         rvWorkAreas = findViewById(R.id.rvWorkAreas);
         tvHelperId = findViewById(R.id.tvHelperId);
@@ -164,6 +172,7 @@ public class HelperEditProfileActivity extends BaseActivity {
         btnUploadId.setOnClickListener(v -> openIdFilePicker());
         btnUploadCV.setOnClickListener(v -> openCvFilePicker());
         btnEditProfile.setOnClickListener(v -> setEditMode(!isEditMode));
+        btnLogout.setOnClickListener(v -> performLogout());
     }
 
     private void setupLocationPicker() {
@@ -240,6 +249,10 @@ public class HelperEditProfileActivity extends BaseActivity {
         }
         if (workAreaAdapter != null) {
             workAreaAdapter.setShowEditDeleteButtons(editable);
+        }
+        
+        if (btnLogout != null) {
+            btnLogout.setVisibility(editable ? View.GONE : View.VISIBLE);
         }
         
         if (editable) {
@@ -359,7 +372,7 @@ public class HelperEditProfileActivity extends BaseActivity {
         
         currentHelperId = userManager.getCurrentUserId();
         
-        helperApiService.getHelperProfile(this, currentHelperId, new BaseApiService.ApiCallback<HelperResponse>() {
+        editProfileApiService.getHelperProfile(this, currentHelperId, new BaseApiService.ApiCallback<HelperResponse>() {
             @Override
             public void onSuccess(HelperResponse profile) {
                 runOnUiThread(() -> {
@@ -784,7 +797,7 @@ public class HelperEditProfileActivity extends BaseActivity {
         updateDto.setSkills(skillList);
         updateDto.setWorkAreas(workAreaList);
 
-        helperApiService.updateHelperProfile(this, currentHelperId, updateDto, new BaseApiService.ApiCallback<HelperResponse>() {
+        editProfileApiService.updateHelperProfile(this, currentHelperId, updateDto, new BaseApiService.ApiCallback<HelperResponse>() {
             @Override
             public void onSuccess(HelperResponse updatedProfile) {
                 runOnUiThread(() -> {
@@ -860,6 +873,47 @@ public class HelperEditProfileActivity extends BaseActivity {
         }
 
         return valid;
+    }
+
+    private void performLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    AuthApiService authApiService = new AuthApiService();
+                    authApiService.logout(this, new AuthApiService.AuthCallback<LogoutResponse>() {
+                        @Override
+                        public void onSuccess(LogoutResponse response) {
+                            runOnUiThread(() -> {
+                                userManager.logout();
+                                Toast.makeText(HelperEditProfileActivity.this, 
+                                    "Logged out successfully", Toast.LENGTH_SHORT).show();
+                                
+                                // Navigate to login screen or main activity
+                                Intent intent = new Intent(HelperEditProfileActivity.this, WelcomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+
+                        @Override
+                        public void onError(String errorMessage, Throwable throwable) {
+                            runOnUiThread(() -> {
+                                userManager.logout();
+                                Toast.makeText(HelperEditProfileActivity.this, 
+                                    "Logout failed: " + errorMessage + ". Logging out locally.", Toast.LENGTH_LONG).show();
+                                
+                                Intent intent = new Intent(HelperEditProfileActivity.this, WelcomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+                    });
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override
