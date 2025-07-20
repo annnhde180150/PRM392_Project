@@ -822,7 +822,6 @@ public class RegisterHelperActivity extends BaseActivity {
             view.findViewById(R.id.etOtp6)
         };
         Button btnVerify = view.findViewById(R.id.btnVerifyOtp);
-        TextView tvResend = view.findViewById(R.id.tvResendOtp);
 
         // Auto-move focus
         for (int i = 0; i < otpFields.length; i++) {
@@ -849,12 +848,6 @@ public class RegisterHelperActivity extends BaseActivity {
             }
             verifyOtp(email, otp.toString(), dialog);
         });
-
-        tvResend.setOnClickListener(v -> {
-            // Optionally call your resend endpoint here
-            Toast.makeText(this, "Resend OTP not implemented", Toast.LENGTH_SHORT).show();
-        });
-
         dialog.show();
     }
 
