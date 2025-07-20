@@ -107,6 +107,13 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to Helper Applications");
     }
 
+    // Navigate to Admin Edit Profile
+    public static void navigateToAdminEditProfile(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.editProfile.AdminEditProfileActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Admin Edit Profile");
+    }
+
     // Navigate to Menu (for testing)
     public static void navigateToMenu(Context context) {
         navigateToMenu(context, false);

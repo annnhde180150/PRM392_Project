@@ -147,6 +147,15 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        // Add admin edit profile button
+        Button btnAdminEditProfile = findViewById(R.id.btn_user_edit_profile);
+        if (btnAdminEditProfile != null) {
+            btnAdminEditProfile.setOnClickListener(v -> {
+                Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void testUserFlow(String userType) {

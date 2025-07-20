@@ -2,6 +2,8 @@ package com.example.homehelperfinder.data.remote.profile;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.model.Admin;
+import com.example.homehelperfinder.data.model.request.AdminUpdateRequest;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.request.UserUpdateRequest;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
@@ -83,6 +85,28 @@ public class EditProfileApiService extends BaseApiService {
 
     public void updateHelperProfileById(Context context, int helperId, HelperUpdateRequest request, BaseApiService.ApiCallback<HelperResponse> callback) {
         handleApiResponse(context, updateHelperProfileById(context, helperId, request), callback);
+    }
+
+    /**
+     * Get admin profile by ID
+     */
+    public CompletableFuture<Admin> getAdminProfile(Context context, int adminId) {
+        return executeCall(context, apiInterface.getAdminProfile(adminId), "Get admin profile by ID");
+    }
+
+    public void getAdminProfile(Context context, int adminId, BaseApiService.ApiCallback<Admin> callback) {
+        handleApiResponse(context, getAdminProfile(context, adminId), callback);
+    }
+
+    /**
+     * Update admin profile by ID
+     */
+    public CompletableFuture<Admin> updateAdminProfile(Context context, int adminId, AdminUpdateRequest request) {
+        return executeCall(context, apiInterface.updateAdminProfile(adminId, request), "Update admin profile by ID");
+    }
+
+    public void updateAdminProfile(Context context, int adminId, AdminUpdateRequest request, BaseApiService.ApiCallback<Admin> callback) {
+        handleApiResponse(context, updateAdminProfile(context, adminId, request), callback);
     }
 
 }

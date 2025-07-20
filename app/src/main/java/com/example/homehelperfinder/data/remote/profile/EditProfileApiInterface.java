@@ -1,5 +1,7 @@
 package com.example.homehelperfinder.data.remote.profile;
 
+import com.example.homehelperfinder.data.model.Admin;
+import com.example.homehelperfinder.data.model.request.AdminUpdateRequest;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.request.UserUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
@@ -43,4 +45,16 @@ public interface EditProfileApiInterface {
      */
     @PUT("helper/profile/{helperId}")
     Call<ApiResponse<HelperResponse>> updateHelperProfileById(@Path("helperId") int helperId, @Body HelperUpdateRequest request);
+
+    /**
+     * Get admin profile by ID
+     */
+    @GET("admin/profile/{adminId}")
+    Call<ApiResponse<Admin>> getAdminProfile(@Path("adminId") int adminId);
+
+    /**
+     * Update admin profile by ID
+     */
+    @PUT("admin/profile/{adminId}")
+    Call<ApiResponse<Admin>> updateAdminProfile(@Path("adminId") int adminId, @Body AdminUpdateRequest request);
 }
