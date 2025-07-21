@@ -17,15 +17,21 @@ import com.example.homehelperfinder.data.model.response.ServiceResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.helper.HelperApiService;
 import com.example.homehelperfinder.data.remote.service.ServiceApiService;
+import com.example.homehelperfinder.data.remote.favorite.FavoriteHelperApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.helperSearch.adapter.HelperSearchAdapter;
 import com.example.homehelperfinder.ui.helperSearch.adapter.ServiceSelectionAdapter;
 import com.example.homehelperfinder.utils.LocationUtils;
 import com.example.homehelperfinder.utils.Logger;
+import com.example.homehelperfinder.utils.UserManager;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import org.json.JSONObject;
 
 public class HelperSearchActivity extends BaseActivity implements ServiceSelectionAdapter.OnServiceClickListener, HelperSearchAdapter.OnHelperClickListener {
     
@@ -46,6 +52,7 @@ public class HelperSearchActivity extends BaseActivity implements ServiceSelecti
     // Services
     private ServiceApiService serviceApiService;
     private HelperApiService helperApiService;
+    private FavoriteHelperApiService favoriteHelperApiService;
     
     // Data
     private List<ServiceResponse> serviceList = new ArrayList<>();
@@ -91,6 +98,7 @@ public class HelperSearchActivity extends BaseActivity implements ServiceSelecti
         
         serviceApiService = new ServiceApiService();
         helperApiService = new HelperApiService();
+        favoriteHelperApiService = new FavoriteHelperApiService();
     }
     
     private void setupToolbar() {
@@ -276,5 +284,34 @@ public class HelperSearchActivity extends BaseActivity implements ServiceSelecti
         // Navigate to chat or contact helper
         // You can implement chat functionality here
         Toast.makeText(this, "Contacting " + helper.getHelperName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAddFavorite(HelperSearchResponse helper) {
+        try {
+            int userId = UserManager.getInstance(this).getCurrentUserId();
+            int helperId = helper.getHelperId();
+            if (userId == -1 || helperId == 0) {
+                Toast.makeText(this, "Invalid user or helper ID", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            JSONObject json = new JSONObject();
+            json.put("userId", userId);
+            json.put("helperId", helperId);
+            RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
+            favoriteHelperApiService.addFavorite(this, body, new BaseApiService.ApiCallback<Void>() {
+                @Override
+                public void onSuccess(Void data) {
+                    Toast.makeText(HelperSearchActivity.this, "Added to favorites!", Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onError(String error, Throwable throwable) {
+                    Toast.makeText(HelperSearchActivity.this, "Failed to add favorite: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, "Error preparing request: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 } 

@@ -18,6 +18,7 @@ public class CustomerDashboardActivity extends BaseActivity {
     private TextView tvDashboardTitle;
     private ImageView ivProfile;
     private ImageView ivNotifications;
+    private ImageView ivFavoriteHelpers;
 
     // Statistics Cards
     private CardView cardActiveRequests, cardCompletedServices, cardTotalSpent, cardAvailableHelpers;
@@ -58,6 +59,7 @@ public class CustomerDashboardActivity extends BaseActivity {
         tvDashboardTitle = findViewById(R.id.tv_dashboard_title);
         ivProfile = findViewById(R.id.iv_profile);
         ivNotifications = findViewById(R.id.iv_notifications);
+        ivFavoriteHelpers = findViewById(R.id.iv_favorite_helpers);
 
         // Statistics Cards
         cardActiveRequests = findViewById(R.id.card_active_requests);
@@ -129,6 +131,11 @@ public class CustomerDashboardActivity extends BaseActivity {
 
         cardProfile.setOnClickListener(v -> {
             Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
+            startActivity(intent);
+        });
+
+        ivFavoriteHelpers.setOnClickListener(v -> {
+            Intent intent = new Intent(this, FavoriteHelpersActivity.class);
             startActivity(intent);
         });
 
