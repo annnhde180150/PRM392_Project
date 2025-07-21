@@ -20,7 +20,7 @@ public interface HelperApiInterface {
     /**
      * Search helpers by service
      */
-    @GET("Helper/Search")
+    @GET("Helper/search")
     Call<ApiResponse<List<HelperSearchResponse>>> searchHelpers(
             @Query("serviceId") int serviceId,
             @Query("page") int page,

@@ -26,6 +26,25 @@
             android:padding="16dp"
             android:paddingBottom="8dp">
 
+            <!-- Favorite Helpers Button (top left) -->
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/profile_button_bg"
+                android:layout_gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/iv_favorite_helpers"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/favorite_helpers"
+                    android:focusable="true"
+                    android:src="@drawable/ic_favorite" />
+            </FrameLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

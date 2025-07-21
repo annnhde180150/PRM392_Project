@@ -24,6 +24,7 @@ public class HelperSearchAdapter extends RecyclerView.Adapter<HelperSearchAdapte
     public interface OnHelperClickListener {
         void onHelperSelected(HelperSearchResponse helper);
         void onHelperContact(HelperSearchResponse helper);
+        void onAddFavorite(HelperSearchResponse helper);
     }
 
     public HelperSearchAdapter(List<HelperSearchResponse> helperList, OnHelperClickListener listener) {
@@ -62,6 +63,7 @@ public class HelperSearchAdapter extends RecyclerView.Adapter<HelperSearchAdapte
         private MaterialButton btnContact;
         private View availabilityIndicator;
         private TextView tvBStatus;
+        private MaterialButton btnAddFavorite;
 
         public HelperViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +78,7 @@ public class HelperSearchAdapter extends RecyclerView.Adapter<HelperSearchAdapte
             btnContact = itemView.findViewById(R.id.btnContact);
             availabilityIndicator = itemView.findViewById(R.id.availabilityIndicator);
             tvBStatus = itemView.findViewById(R.id.tvBStatus);
+            btnAddFavorite = itemView.findViewById(R.id.btnAddFavorite);
             rootView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
@@ -87,6 +90,13 @@ public class HelperSearchAdapter extends RecyclerView.Adapter<HelperSearchAdapte
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
                     listener.onHelperContact(helperList.get(position));
+                }
+            });
+
+            btnAddFavorite.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onAddFavorite(helperList.get(position));
                 }
             });
         }

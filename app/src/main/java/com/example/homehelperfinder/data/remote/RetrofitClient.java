@@ -14,6 +14,7 @@ import com.example.homehelperfinder.data.remote.serviceRequest.GetAllServiceRequ
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
 import com.example.homehelperfinder.data.remote.user.UserApiInterface;
+import com.example.homehelperfinder.data.remote.favorite.FavoriteHelperApiInterface;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 
@@ -163,6 +164,10 @@ public class RetrofitClient {
     public static AddressApiInterface getAddressApiInterface() {
         Logger.d("RetrofitClient", "Creating AddressApiInterface service");
         return getAuthenticatedClient().create(AddressApiInterface.class);
+    }
+
+    public static FavoriteHelperApiInterface getFavoriteHelperApiService() {
+        return getAuthenticatedClient().create(FavoriteHelperApiInterface.class);
     }
 
 
