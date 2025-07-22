@@ -2,7 +2,9 @@ package com.example.homehelperfinder.data.remote.booking
 
 import android.content.Context
 import com.example.homehelperfinder.data.model.request.AcceptRequestRequest
+import com.example.homehelperfinder.data.model.request.BookingCancelRequest
 import com.example.homehelperfinder.data.model.request.BookingCreateRequest
+import com.example.homehelperfinder.data.model.request.BookingUpdateRequest
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
 import com.example.homehelperfinder.data.model.response.BookingDetailResponse
 import com.example.homehelperfinder.data.model.response.RequestDetailResponse
@@ -40,5 +42,29 @@ class BookingApiService : BaseApiService() {
 
     fun acceptRequest(context : Context, request : AcceptRequestRequest, callback : ApiCallback<BookingDetailResponse>){
         handleApiResponse(context, acceptRequest(context, request), callback)
+    }
+
+    fun getBooking(context : Context, id : Int) : CompletableFuture<BookingDetailResponse>{
+        return executeCall(context, api.getBooking(id), "get Booking")
+    }
+
+    fun getBooking(context : Context, id : Int, callback : ApiCallback<BookingDetailResponse>){
+        handleApiResponse(context, getBooking(context, id), callback)
+    }
+
+    fun updateBooking(context : Context, request : BookingUpdateRequest) : CompletableFuture<BookingDetailResponse>{
+        return executeCall(context, api.updateBooking(request), "update Booking")
+    }
+
+    fun updateBooking(context : Context, request : BookingUpdateRequest, callback : ApiCallback<BookingDetailResponse>){
+        handleApiResponse(context, updateBooking(context, request), callback)
+    }
+
+    fun cancelBooking(context : Context, request : BookingCancelRequest) : CompletableFuture<String>{
+        return executeCall(context, api.cancelBooking(request), "cancel Booking")
+    }
+
+    fun cancelBooking(context : Context, request : BookingCancelRequest, callback : ApiCallback<String>){
+        handleApiResponse(context, cancelBooking(context, request), callback)
     }
 }

@@ -24,6 +24,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.cancelBooking.CancelBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.putBooking.UpdateBookingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.bookHelper.BookHelperActivity"
             android:exported="false" />
         <activity
@@ -43,7 +49,7 @@
             android:name="HASH_SECRET"
             android:value="${HASH_SECRET}" /> <!-- Launcher Activity -->
         <activity
-            android:name=".activities.ViewFeedbacckActivity"
+            android:name=".ui.viewFeedBack.ViewFeedbacckActivity"
             android:exported="false" />
         <activity
             android:name=".ui.deleteRequest.DeleteRequestActivity"
@@ -168,9 +174,10 @@
         <activity
             android:name=".ui.HelperWalletActivity"
             android:exported="false" />
-        <activity android:name=".ui.FavoriteHelpersActivity"/>
-        <activity android:name=".ui.HelperWalletActivity"
+        <activity
+            android:name=".ui.HelperWalletActivity"
             android:exported="false" />
+        <activity android:name=".ui.FavoriteHelpersActivity" />
         <activity
             android:name=".ui.helperSearch.HelperSearchActivity"
             android:exported="false"

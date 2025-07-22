@@ -125,6 +125,28 @@
                 android:textSize="16sp"
                 android:elevation="4dp" />
 
+            <Button
+                android:id="@+id/btn_edit_booking"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Edit Booking"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_cancel_booking"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Cancel Booking"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
             <!-- Dashboard Activity Button -->
 
             <!--Helper Dashboard Activity Button -->
