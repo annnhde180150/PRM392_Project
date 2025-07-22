@@ -1,9 +1,12 @@
 package com.example.homehelperfinder.ui;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +25,7 @@ public class HelperWalletActivity extends BaseActivity {
     private SharedPrefsHelper sharedPrefsHelper;
     private HelperApiService helperApiService;
     private TextView tv_balance_amount;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +40,24 @@ public class HelperWalletActivity extends BaseActivity {
         setupClickListeners();
         getIncome();
         setupMenuNavigation();
+        getSupportActionBar();
+        setupToolbar();
     }
     private void viewInit(){
         sharedPrefsHelper = SharedPrefsHelper.getInstance(this);
         tv_username = findViewById(R.id.tv_username);
         tv_username.setText(sharedPrefsHelper.getUserName());
         tv_balance_amount = findViewById(R.id.tv_balance_amount);
+        toolbar = findViewById(R.id.toolbar);
+    }
+
+    private void setupToolbar() {
+        // Keep the toolbar setup for compatibility but it's now hidden
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("View Wallet");
+        }
     }
 
     private void setupClickListeners(){
@@ -51,7 +67,7 @@ public class HelperWalletActivity extends BaseActivity {
         helperApiService = new HelperApiService();
         sharedPrefsHelper = SharedPrefsHelper.getInstance(this);
         String helperIdStr = sharedPrefsHelper.getUserId();
-        int helperId = 1; //Hardcode to test
+        int helperId = Integer.parseInt(helperIdStr);
         helperApiService.getIncome(this,helperId, new HelperApiService.ApiCallback<HelperViewIncomeResponse>() {
             @Override
             public void onSuccess(HelperViewIncomeResponse data) {
@@ -66,5 +82,13 @@ public class HelperWalletActivity extends BaseActivity {
 
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

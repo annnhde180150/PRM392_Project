@@ -30,7 +30,7 @@ public class DashboardActivity extends BaseActivity {
     private CardView cardManageUsers, cardManageOrders, cardManagePayments, cardManageSupport, cardManageHelperApplications;
 
     // Bottom Navigation
-    private LinearLayout navHome, navOrders, navMessages, navProfile;
+    private LinearLayout navHome, navOrders, navMessages, navProfile, navFindHelper;
     private TextView tvNavHome, tvNavOrders, tvNavMessages, tvNavProfile;
     private ImageView ivNavHome, ivNavOrders, ivNavMessages, ivNavProfile;
 
@@ -93,6 +93,9 @@ public class DashboardActivity extends BaseActivity {
         ivNavOrders = findViewById(R.id.iv_nav_orders);
         ivNavMessages = findViewById(R.id.iv_nav_messages);
         ivNavProfile = findViewById(R.id.iv_nav_profile);
+
+        navFindHelper = findViewById(R.id.nav_find_helper);
+
     }
 
     private void setupClickListeners() {
@@ -151,6 +154,10 @@ public class DashboardActivity extends BaseActivity {
         navProfile.setOnClickListener(v -> {
             setBottomNavSelected(3);
             Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.editProfile.AdminEditProfileActivity.class);
+            startActivity(intent);
+        });
+        navFindHelper.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity.class);
             startActivity(intent);
         });
     }

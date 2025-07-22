@@ -1,11 +1,13 @@
 package com.example.homehelperfinder.ui.reports.helper;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -28,10 +30,9 @@ public class HelperReportsActivity extends BaseActivity {
     private static final String TAG = "HelperReportsActivity";
 
     // UI Components
-    private TextView tvTitle;
-    private ImageView ivBack;
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private Toolbar toolbar;
     
     // Current period for reports
     private ReportPeriod currentPeriod = ReportPeriod.MONTH;
@@ -46,17 +47,15 @@ public class HelperReportsActivity extends BaseActivity {
         initViews();
         setupViewPager();
         setupTabLayout();
-        setupClickListeners();
+        setupMenuNavigation();
+        getSupportActionBar();
+        setupToolbar();
     }
 
     private void initViews() {
-        tvTitle = findViewById(R.id.tv_title);
-        ivBack = findViewById(R.id.iv_back);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
-        
-        // Set title
-        tvTitle.setText("Báo cáo Helper");
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void setupViewPager() {
@@ -65,6 +64,15 @@ public class HelperReportsActivity extends BaseActivity {
         
         // Disable swipe if needed
         viewPager.setUserInputEnabled(true);
+    }
+
+    private void setupToolbar() {
+        // Keep the toolbar setup for compatibility but it's now hidden
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Helper Report");
+        }
     }
 
     private void setupTabLayout() {
@@ -82,12 +90,7 @@ public class HelperReportsActivity extends BaseActivity {
         }).attach();
     }
 
-    private void setupClickListeners() {
-        ivBack.setOnClickListener(v -> {
-            Logger.d(TAG, "Back button clicked");
-            onBackPressed();
-        });
-    }
+
 
     /**
      * Interface for fragments to listen to period changes
@@ -159,5 +162,14 @@ public class HelperReportsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         Logger.d(TAG, "HelperReportsActivity destroyed");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
