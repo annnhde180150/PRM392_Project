@@ -5,354 +5,201 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:layout_marginTop="40dp"
     tools:context=".ui.HelperWalletActivity">
-
-    <!-- Greeting Section -->
-    <LinearLayout
-        android:id="@+id/greeting_section"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@android:color/white"
-        android:elevation="2dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_greeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hello"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="jacksulivan"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btn_notification"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Notification"
-            android:src="@android:drawable/ic_dialog_info"
-            app:tint="@color/text_secondary" />
-    </LinearLayout>
-
-    <!-- Wallet Card -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_wallet"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/greeting_section">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Title Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_wallet_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="My Wallet"
-                    android:textColor="@color/text_primary"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_wallet_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="More"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-            <!-- Balance Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_balance_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Balance"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/iv_eye"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="6dp"
-                    android:contentDescription="Show/Hide Balance"
-                    android:src="@android:drawable/ic_menu_view"
-                    app:tint="@color/text_secondary" />
-            </LinearLayout>
-
-            <!-- Balance Amount -->
-            <TextView
-                android:id="@+id/tv_balance_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
-                android:text="$990,000,000.00"
-                android:textColor="@color/text_primary"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <!-- Action Buttons Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_transfer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/purple_500"
-                    android:text="Transfer"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
-                <Space
-                    android:layout_width="8dp"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/btn_request"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="@android:color/white"
-                    android:text="Request"
-                    android:textColor="@color/purple_500"
-                    android:textStyle="bold" />
-
-                <Space
-                    android:layout_width="8dp"
-                    android:layout_height="wrap_content" />
-
-                <ImageButton
-                    android:id="@+id/btn_menu"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="Menu"
-                    android:src="@android:drawable/ic_menu_sort_by_size"
-                    app:tint="@color/text_secondary" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="12dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- Toolbar at the top -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            app:title="Wallet"
+            app:titleTextColor="@android:color/white" />
 
-        <!-- Home -->
+        <!-- Greeting Section -->
         <LinearLayout
-            android:id="@+id/nav_home"
-            android:layout_width="0dp"
+            android:id="@+id/greeting_section"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/nav_item_selected_bg"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="4dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
-            <FrameLayout
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="4dp">
-
-                <ImageView
-                    android:id="@+id/iv_nav_home"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/home_description"
-                    android:src="@drawable/ic_home" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/tv_nav_home"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
-                android:textColor="@color/text_primary"
-                android:textSize="12sp"
-                android:textStyle="normal" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tv_greeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="jacksulivan"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_notification"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Notification"
+                android:src="@android:drawable/ic_dialog_info"
+                app:tint="@color/text_secondary" />
         </LinearLayout>
 
-        <!-- Orders -->
-        <LinearLayout
-            android:id="@+id/nav_orders"
-            android:layout_width="0dp"
+        <!-- Wallet Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_wallet"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="4dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/greeting_section">
 
-            <FrameLayout
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="4dp">
-
-                <ImageView
-                    android:id="@+id/iv_nav_orders"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/orders_description"
-                    android:src="@drawable/ic_orders" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/tv_nav_orders"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/orders"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                android:textStyle="normal" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        </LinearLayout>
+                <!-- Title Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <!-- Messages -->
-        <LinearLayout
-            android:id="@+id/nav_messages"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="4dp">
+                    <TextView
+                        android:id="@+id/tv_wallet_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="My Wallet"
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-            <FrameLayout
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="4dp">
+                    <TextView
+                        android:id="@+id/tv_wallet_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="More"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/iv_nav_messages"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/messages_description"
-                    android:src="@drawable/ic_messages" />
 
-            </FrameLayout>
+                <!-- Balance Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_nav_messages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/messages"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/tv_balance_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Balance"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
 
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/iv_eye"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="6dp"
+                        android:contentDescription="Show/Hide Balance"
+                        android:src="@android:drawable/ic_menu_view"
+                        app:tint="@color/text_secondary" />
+                </LinearLayout>
 
-        <!-- Profile -->
-        <LinearLayout
-            android:id="@+id/nav_profile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="4dp">
+                <!-- Balance Amount -->
+                <TextView
+                    android:id="@+id/tv_balance_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="$990,000,000.00"
+                    android:textColor="@color/text_primary"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-            <FrameLayout
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="4dp">
+                <!-- Action Buttons Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_nav_profile"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/profile_description"
-                    android:src="@drawable/ic_profile" />
+                    <Button
+                        android:id="@+id/btn_transfer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/purple_500"
+                        android:text="Transfer"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
 
-            </FrameLayout>
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_nav_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                android:textStyle="normal" />
+                    <Button
+                        android:id="@+id/btn_request"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@android:color/white"
+                        android:text="Request"
+                        android:textColor="@color/purple_500"
+                        android:textStyle="bold" />
 
-        </LinearLayout>
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="wrap_content" />
 
+                    <ImageButton
+                        android:id="@+id/btn_menu"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Menu"
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        app:tint="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
-
-    <!-- Menu FAB -->
-    <include layout="@layout/layout_menu_fab" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

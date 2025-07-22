@@ -16,10 +16,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.data.model.request.AddMoneytoIncomeRequest;
 import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
 import com.example.homehelperfinder.data.model.request.UpdatePaymentRequest;
 import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
+import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.Payment.PaymentApiService;
+import com.example.homehelperfinder.data.remote.helper.HelperApiService;
 import com.vnpay.authentication.VNP_AuthenticationActivity;
 import com.vnpay.authentication.VNP_SdkCompletedCallback;
 
@@ -75,7 +78,7 @@ public class MakePaymentActivity extends AppCompatActivity {
         // Chỉ khởi tạo thanh toán nếu chưa được khởi tạo và chưa hoàn thành
         if (!isPaymentInitiated && !isPaymentCompleted) {
             int currentUserId = getIntent().getIntExtra("USER_ID", 1);
-            int currentBookingId = getIntent().getIntExtra("BOOKING_ID", 3);
+            int currentBookingId = getIntent().getIntExtra("BOOKING_ID", 4);
 
             if (currentUserId != -1 && currentBookingId != -1) {
                 Log.e(TAG, "Call payment api");
@@ -132,6 +135,8 @@ public class MakePaymentActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("payment_prefs", MODE_PRIVATE);
         int paymentId = sharedPreferences.getInt("payment_id", -1);
         long paymentDateMillis = sharedPreferences.getLong("payment_date", -1);
+        int helperId = sharedPreferences.getInt("helperId", -1);
+        int amount = sharedPreferences.getInt("amount", -1);
         String paymentDateRequest = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Instant instant = Instant.ofEpochMilli(paymentDateMillis);
@@ -150,6 +155,22 @@ public class MakePaymentActivity extends AppCompatActivity {
             public void onError(String errorMessage, Throwable throwable) {
 
             }
+        });
+        AddMoneytoIncomeRequest addMoneytoIncomeRequest = new AddMoneytoIncomeRequest();
+        addMoneytoIncomeRequest.setHelperId(helperId);
+        addMoneytoIncomeRequest.setAmount(amount);
+        HelperApiService helperApiService = new HelperApiService();
+        helperApiService.AddMoneytoIncome(this, addMoneytoIncomeRequest,new BaseApiService.ApiCallback<Void>(){
+
+                    @Override
+                    public void onSuccess(Void data) {
+
+                    }
+
+                    @Override
+                    public void onError(String errorMessage, Throwable throwable) {
+
+                    }
         });
         Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
         // Chuyển về màn hình chính
@@ -260,13 +281,14 @@ public class MakePaymentActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
-        //Save paymentId and createDate to SharePreference
+        //Save paymentId, createDate and to SharePreference
         SharedPreferences sharedPreferences = getSharedPreferences("payment_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putInt("payment_id", paymentId);
         editor.putLong("payment_date", cld.getTimeInMillis()); // Calendar to millis
-
+        editor.putInt("amount",data.getAmount());
+        editor.putInt("helperId",data.getHelperId());
         editor.apply();
 
         //Build data to hash and querystring
