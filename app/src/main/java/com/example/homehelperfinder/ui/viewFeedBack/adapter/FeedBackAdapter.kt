@@ -7,13 +7,14 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homehelperfinder.R
+import com.example.homehelperfinder.data.model.response.BookingServiceNameResponse
 import com.example.homehelperfinder.data.model.response.ReviewResponse
 import com.example.homehelperfinder.data.model.response.ServiceResponse
 import com.example.homehelperfinder.utils.DateUtils
 
 class FeedBackAdapter(
     private var reviews: List<ReviewResponse>,
-    private var services: List<ServiceResponse>
+    private var services: List<BookingServiceNameResponse>
 ) : RecyclerView.Adapter<FeedBackAdapter.FeedBackViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedBackViewHolder {
@@ -22,8 +23,8 @@ class FeedBackAdapter(
     }
 
     override fun onBindViewHolder(holder: FeedBackViewHolder, position: Int) {
-//        val serviceName = services.find { it.serviceId == reviews[position].serviceId}?.serviceName
-        holder.bind(reviews[position], "Services")
+        val serviceName = services.find { it.bookingId == reviews[position].getBookingId()}?.serviceName
+        holder.bind(reviews[position], serviceName.toString())
     }
 
     override fun getItemCount(): Int = reviews.size

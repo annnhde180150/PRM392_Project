@@ -170,6 +170,10 @@ public class ReviewResponse {
         }
     }
 
+    public int getBookingId(){
+        return bookingId;
+    }
+
     public String getReviewDate(){
         return reviewDate;
     }

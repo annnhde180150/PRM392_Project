@@ -7,6 +7,7 @@ import com.example.homehelperfinder.data.model.request.BookingCreateRequest
 import com.example.homehelperfinder.data.model.request.BookingUpdateRequest
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
 import com.example.homehelperfinder.data.model.response.BookingDetailResponse
+import com.example.homehelperfinder.data.model.response.BookingServiceNameResponse
 import com.example.homehelperfinder.data.model.response.RequestDetailResponse
 import com.example.homehelperfinder.data.model.response.ServiceResponse
 import com.example.homehelperfinder.data.remote.BaseApiService
@@ -90,5 +91,13 @@ class BookingApiService : BaseApiService() {
 
     fun getHelperSchedule(context : Context, id : Int, callback : ApiCallback<List<BookingDetailResponse>>){
         handleApiResponse(context, getHelperSchedule(context, id), callback)
+    }
+
+    fun getBookingServiceNames(context : Context, id : Int) : CompletableFuture<List<BookingServiceNameResponse>>{
+        return executeCall(context, api.getBookingServiceNames(id), "get Booking Service Names")
+    }
+
+    fun getBookingServiceNames(context : Context, id : Int, callback : ApiCallback<List<BookingServiceNameResponse>>){
+        handleApiResponse(context, getBookingServiceNames(context, id), callback)
     }
 }

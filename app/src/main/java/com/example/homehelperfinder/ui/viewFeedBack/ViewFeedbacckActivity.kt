@@ -9,9 +9,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homehelperfinder.R
+import com.example.homehelperfinder.data.model.response.BookingServiceNameResponse
 import com.example.homehelperfinder.data.model.response.ReviewResponse
 import com.example.homehelperfinder.data.model.response.ServiceResponse
 import com.example.homehelperfinder.data.remote.BaseApiService
+import com.example.homehelperfinder.data.remote.booking.BookingApiService
 import com.example.homehelperfinder.data.remote.review.ReviewApiService
 import com.example.homehelperfinder.data.remote.service.ServiceApiService
 import com.example.homehelperfinder.ui.viewFeedBack.adapter.FeedBackAdapter
@@ -21,17 +23,17 @@ import com.example.homehelperfinder.utils.UserManager
 class ViewFeedbacckActivity : AppCompatActivity() {
     private lateinit var userMan : UserManager
     private lateinit var reviewApi : ReviewApiService
-    private lateinit var serviceApi : ServiceApiService
+    private lateinit var bookingApi : BookingApiService
     private var helperId : Int = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FeedBackAdapter
-    private var serviceList : MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
+    private var serviceList : MutableList<BookingServiceNameResponse> = ArrayList<BookingServiceNameResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        serviceApi = ServiceApiService()
+        bookingApi = BookingApiService()
         reviewApi = ReviewApiService()
         userMan = UserManager.getInstance(this)
 //        helperId = userMan.currentUserId ?: 0
@@ -54,10 +56,11 @@ class ViewFeedbacckActivity : AppCompatActivity() {
 
     private fun fetchServices() {
         try {
-            serviceApi.getActiveServices(
+            bookingApi.getBookingServiceNames(
                 this,
-                object : BaseApiService.ApiCallback<List<ServiceResponse>> {
-                    override fun onSuccess(services: List<ServiceResponse>) {
+                helperId,
+                object : BaseApiService.ApiCallback<List<BookingServiceNameResponse>> {
+                    override fun onSuccess(services: List<BookingServiceNameResponse>) {
                         runOnUiThread(Runnable {
                             serviceList.clear()
                             serviceList.addAll(services)
