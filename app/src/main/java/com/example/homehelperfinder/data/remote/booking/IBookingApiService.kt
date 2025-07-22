@@ -35,4 +35,10 @@ interface IBookingApiService {
 
     @GET("Bookings/GetUserPendingBooking/{id}")
     fun getPendingByUserId(@Path("id") id : Int ) : Call<ApiResponse<List<BookingDetailResponse>>>
+
+    @GET("Bookings/GetUserSchedule/{id}")
+    fun getUserSchedule(@Path("id") id : Int) : Call<ApiResponse<List<BookingDetailResponse>>>
+
+    @GET("Bookings/GetHelperSchedule/{id}")
+    fun getHelperSchedule(@Path("id") id : Int) : Call<ApiResponse<List<BookingDetailResponse>>>
 }

@@ -59,4 +59,12 @@ class ServiceRequestApiService(context : Context) : BaseApiService() {
         handleApiResponse(context, getAvailableRequests(context), callback)
     }
 
+    fun getUserPending(context : Context, id : Int) : CompletableFuture<List<RequestDetailResponse>>{
+        return executeCall(context, apiInterface.getUserUnbookedRequest(id), "GetPendingRequests")
+    }
+
+    fun getUserPending(context : Context, id : Int, callback : ApiCallback<List<RequestDetailResponse>>) {
+        handleApiResponse(context, getUserPending(context, id), callback)
+    }
+
 }
