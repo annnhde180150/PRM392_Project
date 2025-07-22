@@ -26,4 +26,8 @@ class AddressAdapter(
         textView.text = addresses[position].fullAddress
         return textView
     }
+
+    fun getPositionById(id: Int): Int {
+        return addresses.indexOfFirst { it.addressId == id }
+    }
 }

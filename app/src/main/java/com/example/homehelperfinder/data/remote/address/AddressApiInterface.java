@@ -17,6 +17,9 @@ public interface AddressApiInterface {
     @PUT("Address/UserAddress/{userId}")
     Call<ApiResponse<UserAddressResponse>> updateUserAddress(@Path("userId") int userId, @Body UserAddressUpdateRequest request);
 
-    @GET("Address/GetUserAddresses/{userId}")
+    @GET("Address/User/{userId}")
     Call<ApiResponse<List<UserAddressResponse>>> getUserAddresses(@Path("userId") int userId);
+
+    @GET("Address/UserAddress/{id}")
+    Call<ApiResponse<UserAddressResponse>> getUserAddress(@Path("id") int id);
 }

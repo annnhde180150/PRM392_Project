@@ -4,6 +4,9 @@ import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
+import com.example.homehelperfinder.data.model.response.ServiceResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,4 +40,7 @@ Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperI
      */
     @GET("Helper/ViewIncome/{helperId}")
     Call<ApiResponse<HelperViewIncomeResponse>> viewHelperIncome(@Path("helperId") int helperId);
+
+    @GET("Helper/GetHelperServices/{id}")
+    Call<ApiResponse<List<ServiceResponse>>>  getHelperService(@Path("id") int helperId);
 }

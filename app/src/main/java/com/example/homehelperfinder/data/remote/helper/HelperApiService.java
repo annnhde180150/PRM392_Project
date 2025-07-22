@@ -6,10 +6,12 @@ import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
+import com.example.homehelperfinder.data.model.response.ServiceResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.utils.NetworkUtils;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
@@ -82,5 +84,13 @@ public class HelperApiService extends BaseApiService{
                 callback.onError("Phản hồi không thành công hoặc dữ liệu rỗng", null);
             }
         });
+    }
+
+    public CompletableFuture<List<ServiceResponse>> getHelperServices(Context context, int helperId) {
+        return executeCall(context, apiInterface.getHelperService(helperId), "get helper services by ID");
+    }
+
+    public void getHelperServices(Context context, int helperId, BaseApiService.ApiCallback<List<ServiceResponse>> callback) {
+        handleApiResponse(context, getHelperServices(context, helperId), callback);
     }
 }

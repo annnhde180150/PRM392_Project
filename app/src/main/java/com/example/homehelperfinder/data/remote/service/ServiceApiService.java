@@ -27,4 +27,12 @@ public class ServiceApiService extends BaseApiService {
         handleApiResponse(context, getActiveServices(context), callback);
     }
 
+    public CompletableFuture<ServiceResponse> getService(Context context, int Id) {
+        return executeCall(context, apiInterface.getService(Id), "getServiceById");
+    }
+
+    public void getService(Context context, int Id, ApiCallback<ServiceResponse> callback) {
+        handleApiResponse(context, getService(context, Id), callback);
+    }
+
 }

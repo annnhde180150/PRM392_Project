@@ -1,4 +1,4 @@
-package com.example.homehelperfinder.ui.postRequest
+package com.example.homehelperfinder.ui.bookHelper
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -8,23 +8,28 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.*
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homehelperfinder.R
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
+import com.example.homehelperfinder.data.model.response.BookingDetailResponse
 import com.example.homehelperfinder.data.model.response.RequestDetailResponse
 import com.example.homehelperfinder.data.model.response.ServiceResponse
 import com.example.homehelperfinder.data.model.response.UserAddressResponse
 import com.example.homehelperfinder.data.remote.BaseApiService
 import com.example.homehelperfinder.data.remote.address.AddressApiService
+import com.example.homehelperfinder.data.remote.booking.BookingApiService
+import com.example.homehelperfinder.data.remote.helper.HelperApiService
 import com.example.homehelperfinder.data.remote.service.ServiceApiService
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiService
+import com.example.homehelperfinder.databinding.ActivityBookHelperBinding
 import com.example.homehelperfinder.databinding.ActivityPostRequestBinding
+import com.example.homehelperfinder.ui.postRequest.PostRequestActivity
+import com.example.homehelperfinder.ui.postRequest.PostRequestViewModel
 import com.example.homehelperfinder.ui.postRequest.adapter.AddressAdapter
 import com.example.homehelperfinder.ui.postRequest.adapter.ServiceAdapter
 import com.example.homehelperfinder.utils.DateUtils
@@ -35,40 +40,40 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import java.util.Calendar
+import kotlin.getValue
 
-
-class PostRequestActivity() : AppCompatActivity() {
-    private lateinit var serviceService : ServiceApiService
+class BookHelperActivity : AppCompatActivity() {
     private lateinit var addressService : AddressApiService
-    private lateinit var serviceRequestService: ServiceRequestApiService
-    private lateinit var binding : ActivityPostRequestBinding
+    private lateinit var bookingService : BookingApiService
+    private lateinit var helperService : HelperApiService
+    private lateinit var binding : ActivityBookHelperBinding
     private lateinit var serviceAdapter : ServiceAdapter
     private lateinit var addressAdapter : ArrayAdapter<UserAddressResponse>
     private lateinit var userManager: UserManager
     private lateinit var pref : SharedPrefsHelper
+    lateinit var spAddress : Spinner
+    lateinit var rvServices : RecyclerView
+    private var helperId : Int = 0
     private val viewModel : PostRequestViewModel by viewModels()
     private val serviceList: MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
     private val addressList: MutableList<UserAddressResponse> = ArrayList<UserAddressResponse>()
-
-
-    lateinit var spAddress: Spinner
-    lateinit var rvServices : RecyclerView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
-        serviceService = ServiceApiService()
+        helperId = intent.getIntExtra("helperId", 0)
+
         addressService = AddressApiService()
-        serviceRequestService = ServiceRequestApiService(this)
+        bookingService = BookingApiService()
+        helperService = HelperApiService()
         pref = SharedPrefsHelper.getInstance(this)
-
         userManager = UserManager.getInstance(this)
 
-        binding = ActivityPostRequestBinding.inflate(layoutInflater)
+        binding = ActivityBookHelperBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.model = viewModel
         binding.lifecycleOwner = this
-        enableEdgeToEdge()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -79,25 +84,15 @@ class PostRequestActivity() : AppCompatActivity() {
         initView()
     }
 
-    fun initView(){
-        rvServices = findViewById<RecyclerView>(R.id.rvServices)
-        spAddress = findViewById<Spinner>(R.id.spAddress)
-        binding.btnSubmit.setOnClickListener {
-            onSubmit()
-        }
-
-        setupDatePicker()
-        setupServiceRVAdapters()
-        setupAddressSpAdapters()
-    }
-
     fun onSubmit(){
         if (viewModel.serviceId < 1 || viewModel.addressId < 1 || viewModel.startTime.value.isNullOrEmpty() || viewModel.duration.value.isNullOrEmpty()){
-            Toast.makeText(
-                this,
-                "Please fill data in form",
-                Toast.LENGTH_LONG
-            ).show()
+            runOnUiThread(Runnable {
+                Toast.makeText(
+                    this,
+                    "Please fill data in form",
+                    Toast.LENGTH_LONG
+                ).show()
+            })
             return
         }
 
@@ -110,26 +105,27 @@ class PostRequestActivity() : AppCompatActivity() {
 
 
         try{
-            serviceRequestService.createRequest(
+            bookingService.bookHelper(
                 this,
                 request,
-                object : BaseApiService.ApiCallback<RequestDetailResponse>{
-                    override fun onSuccess(data: RequestDetailResponse?) {
+                helperId,
+                object : BaseApiService.ApiCallback<BookingDetailResponse>{
+                    override fun onSuccess(data: BookingDetailResponse?) {
                         runOnUiThread(Runnable {
                             Toast.makeText(
-                                this@PostRequestActivity,
+                                this@BookHelperActivity,
                                 "Insert Successfully" + data.toString(),
                                 Toast.LENGTH_LONG
                             ).show()
                         })
-                        pref.putInt("requestId", data!!.requestId)
+                        pref.putInt("bookingId", data!!.bookingId)
                     }
 
                     override fun onError(errorMessage: String?, throwable: Throwable?) {
                         runOnUiThread(Runnable {
                             Toast.makeText(
-                                this@PostRequestActivity,
-                                "Failed to create service Request: " + errorMessage,
+                                this@BookHelperActivity,
+                                "Failed to create Booking: " + errorMessage,
                                 Toast.LENGTH_LONG
                             ).show()
                         })
@@ -140,13 +136,25 @@ class PostRequestActivity() : AppCompatActivity() {
         }catch (ex : Exception){
             runOnUiThread(Runnable {
                 Toast.makeText(
-                    this@PostRequestActivity,
-                    "Error fetching services: " + ex.message,
+                    this@BookHelperActivity,
+                    "Failed to create Booking: " + ex.message,
                     Toast.LENGTH_LONG
                 ).show()
             })
             ex.printStackTrace()
         }
+    }
+
+    fun initView(){
+        rvServices = findViewById<RecyclerView>(R.id.rvServices)
+        spAddress = findViewById<Spinner>(R.id.spAddress)
+        binding.btnSubmit.setOnClickListener {
+            onSubmit()
+        }
+
+        setupDatePicker()
+        setupServiceRVAdapters()
+        setupAddressSpAdapters()
     }
 
     fun setupDatePicker(){
@@ -214,11 +222,11 @@ class PostRequestActivity() : AppCompatActivity() {
         }
     }
 
-    //region for Setup
     private fun fetchServices() {
         try {
-            serviceService.getActiveServices(
+            helperService.getHelperServices(
                 this,
+                helperId,
                 object : BaseApiService.ApiCallback<List<ServiceResponse>> {
                     override fun onSuccess(services: List<ServiceResponse>) {
                         runOnUiThread(Runnable {
@@ -226,13 +234,15 @@ class PostRequestActivity() : AppCompatActivity() {
                             serviceList.addAll(services)
                             serviceAdapter.notifyDataSetChanged()
                         })
-                        viewModel.serviceId = serviceList[0].serviceId
+                        if (serviceList.isNotEmpty()) {
+                            viewModel.serviceId = serviceList[0].serviceId
+                        }
                     }
 
                     override fun onError(errorMessage: String?, throwable: Throwable?) {
                         runOnUiThread(Runnable {
                             Toast.makeText(
-                                this@PostRequestActivity,
+                                this@BookHelperActivity,
                                 "Failed to load services: " + errorMessage,
                                 Toast.LENGTH_LONG
                             ).show()
@@ -242,7 +252,7 @@ class PostRequestActivity() : AppCompatActivity() {
         } catch (ex: Exception) {
             runOnUiThread(Runnable {
                 Toast.makeText(
-                    this@PostRequestActivity,
+                    this@BookHelperActivity,
                     "Error fetching services: " + ex.message,
                     Toast.LENGTH_LONG
                 ).show()
@@ -264,13 +274,15 @@ class PostRequestActivity() : AppCompatActivity() {
                             addressList.addAll(addresses)
                             addressAdapter.notifyDataSetChanged()
                         })
-                        viewModel.addressId = addressList[0].addressId
+                        if (addressList.isNotEmpty()) {
+                            viewModel.addressId = addressList[0].addressId
+                        }
                     }
 
                     override fun onError(errorMessage: String?, throwable: Throwable?) {
                         runOnUiThread(Runnable {
                             Toast.makeText(
-                                this@PostRequestActivity,
+                                this@BookHelperActivity,
                                 "Failed to load Addresses: " + errorMessage,
                                 Toast.LENGTH_LONG
                             ).show()
@@ -280,7 +292,7 @@ class PostRequestActivity() : AppCompatActivity() {
         } catch (ex: Exception) {
             runOnUiThread(Runnable {
                 Toast.makeText(
-                    this@PostRequestActivity,
+                    this@BookHelperActivity,
                     "Error fetching Addresses: " + ex.message,
                     Toast.LENGTH_LONG
                 ).show()
@@ -288,13 +300,4 @@ class PostRequestActivity() : AppCompatActivity() {
             ex.printStackTrace()
         }
     }
-}
-
-class PostRequestViewModel() : ViewModel(){
-    var serviceId: Int = 0
-    var addressId: Int = 0
-    var startTime: MutableLiveData<String> = MutableLiveData()
-    var duration: MutableLiveData<String> = MutableLiveData()
-    var specialNote: MutableLiveData<String> = MutableLiveData()
-    var address: MutableLiveData<String> = MutableLiveData()
 }

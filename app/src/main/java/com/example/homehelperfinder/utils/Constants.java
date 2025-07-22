@@ -59,7 +59,8 @@ public class Constants {
     // Date Formats
     public static final String DATE_FORMAT_DISPLAY = "dd/MM/yyyy";
     public static final String DATE_FORMAT_API = "yyyy-MM-dd";
-    public static final String DATETIME_FORMAT_API = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATETIME_FORMAT_API = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String DATETIME_FORMAT_DISPLAY = "dd/MM/yyyy HH:mm";
 
     // Chat Constants
     public static final int MAX_MESSAGE_LENGTH = 2000;

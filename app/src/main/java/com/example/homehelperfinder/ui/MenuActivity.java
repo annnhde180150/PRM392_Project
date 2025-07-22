@@ -8,7 +8,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.deleteRequest.DeleteRequestActivity;
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
+import com.example.homehelperfinder.ui.putRequest.EditRequestActivity;
+import com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class MenuActivity extends AppCompatActivity {
@@ -29,6 +32,10 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_post_request;
     private Button btn_helper_booking_list;
     private Button btn_view_wallet;
+    private Button btn_edit_request;
+
+    private Button btn_delete_request;
+    private Button btn_view_avail_requests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,9 @@ public class MenuActivity extends AppCompatActivity {
         btn_post_request = findViewById(R.id.btn_post_request);
         btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
         btn_view_wallet = findViewById(R.id.btn_view_wallet);
+        btn_edit_request = findViewById(R.id.btn_edit_request);
+        btn_delete_request = findViewById(R.id.btn_delete_request);
+        btn_view_avail_requests = findViewById(R.id.btn_view_avail_requests);
     }
 
     private void setupClickListeners() {
@@ -133,7 +143,6 @@ public class MenuActivity extends AppCompatActivity {
             Intent intent = new Intent(MenuActivity.this, PostRequestActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
         });
         btn_helper_booking_list.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, HelperBookingListActivity.class);
@@ -145,7 +154,21 @@ public class MenuActivity extends AppCompatActivity {
             Intent intent = new Intent(MenuActivity.this, HelperWalletActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
+        });
+        btn_edit_request.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, EditRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_delete_request.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, DeleteRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_view_avail_requests.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, ViewAvailableRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
     }
 
