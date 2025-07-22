@@ -123,7 +123,7 @@ public class HelperDashboardActivity extends BaseActivity {
         });
 
         btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
             startActivity(intent);
         });
         btnNotification.setOnClickListener(v -> {
@@ -132,6 +132,9 @@ public class HelperDashboardActivity extends BaseActivity {
         });
         btn_view_income.setOnClickListener(v -> {
             Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+        navProfile.setOnClickListener(v -> {
+            setBottomNavSelected(3);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
             startActivity(intent);
         });
     }

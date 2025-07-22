@@ -139,6 +139,22 @@ public class CustomerDashboardActivity extends BaseActivity {
             startActivity(intent);
         });
 
+        // Statistics cards click listeners for reports
+        cardTotalSpent.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+            startActivity(intent);
+        });
+
+        cardActiveRequests.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+            startActivity(intent);
+        });
+
+        cardCompletedServices.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+            startActivity(intent);
+        });
+
         // Bottom Navigation
         navHome.setOnClickListener(v -> {
             // Already on home, just highlight
