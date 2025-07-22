@@ -2,6 +2,7 @@ package com.example.homehelperfinder.ui.putBooking
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +21,7 @@ import com.example.homehelperfinder.data.remote.booking.BookingApiService
 import com.example.homehelperfinder.data.remote.helper.HelperApiService
 import com.example.homehelperfinder.databinding.ActivityBookHelperBinding
 import com.example.homehelperfinder.databinding.ActivityUpdateBookingBinding
+import com.example.homehelperfinder.ui.MakePaymentActivity
 import com.example.homehelperfinder.ui.bookHelper.BookHelperActivity
 import com.example.homehelperfinder.ui.postRequest.adapter.ServiceAdapter
 import com.example.homehelperfinder.utils.DateUtils
@@ -43,7 +45,7 @@ class UpdateBookingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 //        id = intent.getIntExtra("bookingId", 0)
-        id = 9
+        id = 4
 
         bookingService = BookingApiService()
         helperService = HelperApiService()
@@ -72,6 +74,13 @@ class UpdateBookingActivity : AppCompatActivity() {
         }
         binding.btnUpdateBooking.setOnClickListener {
             onSubmit()
+        }
+        binding.btnPayment.setOnClickListener {
+
+            var intent = Intent(this, MakePaymentActivity::class.java)
+            intent.putExtra("BOOKING_ID", id)
+            intent.putExtra("USER_ID", viewModel.userId)
+            startActivity(intent)
         }
     }
 

@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class HelperBookingListActivity extends AppCompatActivity implements BookingAdapter.OnBookingActionListener {
+public class HelperBookingListActivity extends AppCompatActivity implements BookingAdapter.OnBookingActionListener  {
 
     private RecyclerView recyclerView;
     private BookingAdapter adapter;
