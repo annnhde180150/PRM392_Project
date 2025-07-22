@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote.helper;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.model.request.AddMoneytoIncomeRequest;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
@@ -81,5 +82,24 @@ public class HelperApiService extends BaseApiService{
 
     public void getHelperServices(Context context, int helperId, BaseApiService.ApiCallback<List<ServiceResponse>> callback) {
         handleApiResponse(context, getHelperServices(context, helperId), callback);
+    }
+    
+    public void AddMoneytoIncome(Context context, AddMoneytoIncomeRequest addMoneytoIncomeRequest, BaseApiService.ApiCallback<Void> callback) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            callback.onError("No internet connection available", null);
+            return;
+        }
+        Call<ApiResponse<Void>> call = apiInterface.addMoneyToWallet(addMoneytoIncomeRequest);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+                callback.onError("Phản hồi không thành công hoặc dữ liệu rỗng", null);
+            }
+        });
     }
 }

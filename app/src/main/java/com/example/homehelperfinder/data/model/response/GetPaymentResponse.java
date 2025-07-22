@@ -20,6 +20,9 @@ public class GetPaymentResponse {
     @SerializedName("amount")
     private int amount;
 
+    @SerializedName("helperId")
+    private int helperId;
+
     @SerializedName("paymentDate")
     private String paymentDate;
 

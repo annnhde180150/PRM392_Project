@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.data.remote.helper;
 
+import com.example.homehelperfinder.data.model.request.AddMoneytoIncomeRequest;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
@@ -38,4 +39,7 @@ public interface HelperApiInterface {
 
     @GET("Helper/GetHelperServices/{id}")
     Call<ApiResponse<List<ServiceResponse>>>  getHelperService(@Path("id") int helperId);
+    
+    @PUT("Helper/addMoneyToWallet")
+    Call<ApiResponse<Void>> addMoneyToWallet(@Body AddMoneytoIncomeRequest addMoneytoIncomeRequest);
 }

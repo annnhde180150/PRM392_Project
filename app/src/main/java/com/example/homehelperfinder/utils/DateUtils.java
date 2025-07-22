@@ -39,7 +39,23 @@ public class DateUtils {
         }
 
         try {
-            Date date = apiFormat.parse(apiDateString);
+            Date date = null;
+
+            // Try ISO 8601 format first (common for APIs)
+            try {
+                SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+                date = isoFormat.parse(apiDateString);
+            } catch (ParseException e) {
+                // Try without 'Z'
+                try {
+                    SimpleDateFormat isoFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                    date = isoFormat2.parse(apiDateString);
+                } catch (ParseException e2) {
+                    // Try standard API format
+                    date = apiFormat.parse(apiDateString);
+                }
+            }
+
             return date != null ? displayFormat.format(date) : "";
         } catch (ParseException e) {
             Logger.e("DateUtils", "Error parsing date: " + apiDateString, e);

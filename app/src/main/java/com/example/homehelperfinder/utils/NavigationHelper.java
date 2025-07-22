@@ -100,11 +100,25 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to Helper Dashboard");
     }
 
+    // Navigate to Helper Reports
+    public static void navigateToHelperReports(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Helper Reports");
+    }
+
     // Navigate to Profile Management
     public static void navigateToProfileManagement(Context context) {
         Intent intent = new Intent(context, ProfileManagementActivity.class);
         context.startActivity(intent);
         Logger.d("NavigationHelper", "Navigated to ProfileManagement");
+    }
+
+    // Navigate to Customer Reports
+    public static void navigateToCustomerReports(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Customer Reports");
     }
 
     // Navigate to Notifications

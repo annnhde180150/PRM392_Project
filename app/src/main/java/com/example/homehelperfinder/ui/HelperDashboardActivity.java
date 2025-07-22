@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +22,9 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.HelperAvailableRequest;
 import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HelperDashboardActivity extends BaseActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -29,7 +32,7 @@ public class HelperDashboardActivity extends BaseActivity {
     private SharedPrefsHelper sharedPrefsHelper;
     private TextView tv_greeting, tvNavProfile;
     private ImageButton btnNotification;
-    private LinearLayout navProfile;
+    private LinearLayout navProfile,nav_orders,nav_home;
     private ImageView ivNavProfile;
     private CardView btn_view_income;
 
@@ -47,6 +50,30 @@ public class HelperDashboardActivity extends BaseActivity {
         initViews();
         setupClickListeners();
         setupMenuNavigation();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+             return true;
+            }
+            if (item.getItemId() == R.id.nav_orders) {
+                Intent intent = new Intent(HelperDashboardActivity.this, HelperBookingListActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_profile) {
+                Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            if (item.getItemId()== R.id.nav_messages){
+                //Implement intent message activity
+                return true;
+            }
+            return false;
+        });
     }
     private void setupClickListeners() {
         HelperAvailableStatusApiService api = new HelperAvailableStatusApiService(this);
@@ -97,15 +124,11 @@ public class HelperDashboardActivity extends BaseActivity {
         });
 
         btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
             startActivity(intent);
         });
         btnNotification.setOnClickListener(v -> {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
-            startActivity(intent);
-        });
-        btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
             startActivity(intent);
         });
         navProfile.setOnClickListener(v -> {
@@ -127,50 +150,4 @@ public class HelperDashboardActivity extends BaseActivity {
         ivNavProfile = findViewById(R.id.iv_nav_profile);
         navProfile = findViewById(R.id.nav_profile);
     }
-    private void setBottomNavSelected(int index) {
-        // Reset all navigation items
-        resetBottomNavItems();
-
-        // Set selected item
-        switch (index) {
-//            case 0: // Home
-//                tvNavHome.setTextColor(getResources().getColor(R.color.text_primary));
-//                ivNavHome.setColorFilter(getResources().getColor(R.color.text_primary));
-//                navHome.setBackgroundResource(R.drawable.nav_item_selected_bg);
-//                break;
-//            case 1: // Orders
-//                tvNavOrders.setTextColor(getResources().getColor(R.color.text_primary));
-//                ivNavOrders.setColorFilter(getResources().getColor(R.color.text_primary));
-//                break;
-//            case 2: // Messages
-//                tvNavMessages.setTextColor(getResources().getColor(R.color.text_primary));
-//                ivNavMessages.setColorFilter(getResources().getColor(R.color.text_primary));
-//                break;
-            case 3: // Profile
-                tvNavProfile.setTextColor(getResources().getColor(R.color.text_primary));
-                ivNavProfile.setColorFilter(getResources().getColor(R.color.text_primary));
-                break;
-        }
-    }
-
-
-    private void resetBottomNavItems() {
-        int defaultColor = getResources().getColor(R.color.text_secondary);
-
-//        tvNavHome.setTextColor(defaultColor);
-//        tvNavOrders.setTextColor(defaultColor);
-//        tvNavMessages.setTextColor(defaultColor);
-//        tvNavProfile.setTextColor(defaultColor);
-//
-//        ivNavHome.setColorFilter(defaultColor);
-//        ivNavOrders.setColorFilter(defaultColor);
-//        ivNavMessages.setColorFilter(defaultColor);
-//        ivNavProfile.setColorFilter(defaultColor);
-//
-//        navHome.setBackgroundResource(android.R.color.transparent);
-//        navOrders.setBackgroundResource(android.R.color.transparent);
-//        navMessages.setBackgroundResource(android.R.color.transparent);
-        navProfile.setBackgroundResource(android.R.color.transparent);
-    }
-
 }

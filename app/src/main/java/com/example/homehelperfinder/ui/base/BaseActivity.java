@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -129,5 +131,34 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Logger.d(getClass().getSimpleName(), "Navigated to Menu from FAB");
             });
         }
+    }
+
+    /**
+     * Handle options menu item selection
+     * Override this method in child activities if needed
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_my_reviews) {
+            Intent intent = new Intent(this, com.example.homehelperfinder.ui.review.MyReviewsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_notifications) {
+            Intent intent = new Intent(this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_profile) {
+            Intent intent = new Intent(this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_helper_reports) {
+            Intent intent = new Intent(this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

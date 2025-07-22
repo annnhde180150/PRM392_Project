@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.ui.listBooking;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,9 +26,11 @@ import com.example.homehelperfinder.data.model.request.ServiceRequestUpdateStatu
 import com.example.homehelperfinder.data.model.response.GetAllServiceRequestResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.serviceRequest.GetAllServiceRequestService;
+import com.example.homehelperfinder.ui.HelperDashboardActivity;
 import com.example.homehelperfinder.ui.listBooking.adapter.BookingAdapter;
 import com.example.homehelperfinder.utils.DateUtils;
 import com.example.homehelperfinder.utils.UserManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,6 +61,30 @@ public class HelperBookingListActivity extends AppCompatActivity implements Book
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_orders);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                Intent intent = new Intent(HelperBookingListActivity.this, HelperDashboardActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_orders) {
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_profile) {
+                Intent intent = new Intent(HelperBookingListActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            if (item.getItemId()== R.id.nav_messages){
+                //implement Chat intent
+                return true;
+            }
+            return false;
         });
 
         initViews();

@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/nav_orders"
+        android:title="@string/orders"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_orders"/>
+    <item
+        android:id="@+id/nav_messages"
+        android:title="@string/messages"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_messages"/>
+    <item
+        android:id="@+id/nav_profile"
+        android:title="@string/profile"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_profile"/>
+</menu>

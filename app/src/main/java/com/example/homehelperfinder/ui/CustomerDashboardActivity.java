@@ -2,6 +2,7 @@ package com.example.homehelperfinder.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -139,6 +140,22 @@ public class CustomerDashboardActivity extends BaseActivity {
             startActivity(intent);
         });
 
+        // Statistics cards click listeners for reports
+        cardTotalSpent.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+            startActivity(intent);
+        });
+
+        cardActiveRequests.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+            startActivity(intent);
+        });
+
+        cardCompletedServices.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+            startActivity(intent);
+        });
+
         // Bottom Navigation
         navHome.setOnClickListener(v -> {
             // Already on home, just highlight
@@ -230,10 +247,16 @@ public class CustomerDashboardActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         // Navigate back to user type selection or login
         Intent intent = new Intent(CustomerDashboardActivity.this, LoginActivity.class);
         startActivity(intent);
         super.onBackPressed();
     }
-} 
+}

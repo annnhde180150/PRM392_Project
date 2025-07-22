@@ -186,6 +186,26 @@
             android:name=".ui.helperSearch.HelperDetailActivity"
             android:exported="false"
             android:label="Helper Details" />
+        <activity
+            android:name=".ui.reports.CustomerReportsActivity"
+            android:exported="false"
+            android:label="Customer Report" />
+        <activity
+            android:name=".ui.reports.helper.HelperReportsActivity"
+            android:exported="false"
+            android:label="Helper Reports" />
+        <activity
+            android:name=".ui.review.MyReviewsActivity"
+            android:exported="false"
+            android:label="My Reviews" />
+        <activity
+            android:name=".ui.review.CreateReviewActivity"
+            android:exported="false"
+            android:label="Create Review" />
+        <activity
+            android:name=".ui.review.HelperReviewsActivity"
+            android:exported="false"
+            android:label="Helper Reviews" />
     </application>
 
 </manifest>
