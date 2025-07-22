@@ -19,6 +19,7 @@ import com.example.homehelperfinder.databinding.ActivityViewAvailableRequestBind
 import com.example.homehelperfinder.ui.acceptRequest.AcceptRequestActivity
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity
 import com.example.homehelperfinder.ui.viewRequests.adapter.RequestAdapter
+import com.example.homehelperfinder.utils.ActivityResultHandler
 
 class ViewAvailableRequestActivity : AppCompatActivity() {
     private lateinit var binding : ActivityViewAvailableRequestBinding
@@ -26,6 +27,7 @@ class ViewAvailableRequestActivity : AppCompatActivity() {
     private lateinit var bookingApi : BookingApiService
     private lateinit var requestApi : ServiceRequestApiService
     private lateinit var requestAdapter : RequestAdapter
+    private lateinit var resultHandler: ActivityResultHandler
     private val serviceList : MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,10 @@ class ViewAvailableRequestActivity : AppCompatActivity() {
         serviceApi = ServiceApiService()
         bookingApi = BookingApiService()
         requestApi = ServiceRequestApiService(this)
+        resultHandler = ActivityResultHandler(this){
+            fetchRequests()
+        }
+        resultHandler.register()
 
         fetchRequests()
 
@@ -80,7 +86,7 @@ class ViewAvailableRequestActivity : AppCompatActivity() {
                                 val intent = Intent(this@ViewAvailableRequestActivity,
                                     AcceptRequestActivity::class.java)
                                 intent.putExtra("requestId", response.requestId)
-                                startActivity(intent)
+                                resultHandler.launch(intent)
                             }
                             binding.recyclerViewAvailableRequests.adapter = requestAdapter
                             binding.recyclerViewAvailableRequests.layoutManager =

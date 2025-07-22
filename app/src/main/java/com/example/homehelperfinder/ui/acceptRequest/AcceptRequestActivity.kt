@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.ui.acceptRequest
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -88,6 +89,8 @@ class AcceptRequestActivity : AppCompatActivity() {
                                 "Acccept Succesfully",
                                 Toast.LENGTH_LONG
                             ).show()
+                            setResult(Activity.RESULT_OK)
+                            finish()
                         }
 
                         override fun onError(errorMessage: String?, throwable: Throwable?) {
