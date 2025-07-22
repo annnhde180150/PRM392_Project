@@ -30,10 +30,8 @@ public class HelperDashboardActivity extends BaseActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchActiveStatus;
     private SharedPrefsHelper sharedPrefsHelper;
-    private TextView tv_greeting, tvNavProfile;
+    private TextView tv_greeting;
     private ImageButton btnNotification;
-    private LinearLayout navProfile,nav_orders,nav_home;
-    private ImageView ivNavProfile;
     private CardView btn_view_income;
 
     @Override
@@ -131,11 +129,6 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
         });
-        navProfile.setOnClickListener(v -> {
-            setBottomNavSelected(3);
-            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void initViews() {
@@ -145,9 +138,5 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting = findViewById(R.id.tv_greeting);
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
-
-        tvNavProfile = findViewById(R.id.tv_nav_profile);
-        ivNavProfile = findViewById(R.id.iv_nav_profile);
-        navProfile = findViewById(R.id.nav_profile);
     }
 }
