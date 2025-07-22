@@ -1,141 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp">
-
-    <androidx.cardview.widget.CardView
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:contentPadding="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/gray_light">
-        <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="10dp">
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:contentPadding="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/gray_light">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivService"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginRight="25dp"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/RoundedImage"
-                    android:src="@drawable/illustration_home_electronic_fixing"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingRight="20dp">
-                    <TextView
-                        android:id="@+id/tvServiceName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:text="Home Electronic Device Fixing"/>
-
-                    <TextView
-                        android:id="@+id/tvSeeDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="See Detail"
-                        android:textStyle="bold"
-                        android:layout_marginTop="13dp"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentPadding="20dp"
-                app:cardCornerRadius="20dp"
-                android:layout_marginTop="20dp">
-
+                android:orientation="vertical">
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivService"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginRight="25dp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/RoundedImage"
+                        android:src="@drawable/illustration_home_electronic_fixing"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingRight="20dp">
+                        <TextView
+                            android:id="@+id/tvServiceName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:text="Home Electronic Device Fixing"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="Comment"
-                        android:textColor="@color/black"
-                        android:textSize="13sp"
-                        android:textStyle="bold"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="3dp"
-                        android:background="@color/gray_white"
-                        android:layout_marginVertical="8dp"/>
+                    app:contentPadding="20dp"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginTop="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-                        <RatingBar
-                            android:id="@+id/rbFeedback"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:numStars="5"
-                            android:stepSize="1"
-                            android:rating="4.3"
-                            android:progressTint="@android:color/holo_orange_light"
-                            android:secondaryProgressTint="@android:color/darker_gray"
-                            android:backgroundTint="@android:color/darker_gray"
-                            style="@style/Widget.AppCompat.RatingBar.Small" />
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4.5"
+                            android:layout_marginBottom="10dp"
+                            android:text="Comment"
+                            android:textColor="@color/black"
+                            android:textSize="13sp"
                             android:textStyle="bold"/>
 
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:background="@color/gray_white"
+                            android:layout_marginVertical="8dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+                            <RatingBar
+                                android:id="@+id/rbFeedback"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:numStars="5"
+                                android:stepSize="1"
+                                android:rating="4.3"
+                                android:progressTint="@android:color/holo_orange_light"
+                                android:secondaryProgressTint="@android:color/darker_gray"
+                                android:backgroundTint="@android:color/darker_gray"
+                                style="@style/Widget.AppCompat.RatingBar.Small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4.5"
+                                android:textStyle="bold"/>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:id="@+id/tvDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="14 Jul"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/tvDate"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tvFeedback"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="14 Jul"
-                            android:textStyle="bold"/>
+                            android:text="Lorem ipsum dolor sit amet,
+                        consectetuer adipiscing elit. Aenean commodo ligula eget dolor."
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvFeedback"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Lorem ipsum dolor sit amet,
-                        consectetuer adipiscing elit. Aenean commodo ligula eget dolor."
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
 
+            </LinearLayout>
 
-                </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

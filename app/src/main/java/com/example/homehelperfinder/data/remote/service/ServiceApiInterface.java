@@ -7,8 +7,12 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface ServiceApiInterface {
     @GET("Service/active")
     Call<ApiResponse<List<ServiceResponse>>> getActiveServices();
+
+    @GET("Service/GetService/{id}")
+    Call<ApiResponse<ServiceResponse>> getService(@Path("id") int Id);
 }

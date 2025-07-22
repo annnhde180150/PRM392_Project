@@ -2,7 +2,6 @@ package com.example.homehelperfinder.ui.postRequest
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -35,7 +34,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import okhttp3.Address
 import java.util.Calendar
 
 
@@ -47,9 +45,11 @@ class PostRequestActivity() : AppCompatActivity() {
     private lateinit var serviceAdapter : ServiceAdapter
     private lateinit var addressAdapter : ArrayAdapter<UserAddressResponse>
     private lateinit var userManager: UserManager
+    private lateinit var pref : SharedPrefsHelper
     private val viewModel : PostRequestViewModel by viewModels()
     private val serviceList: MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
     private val addressList: MutableList<UserAddressResponse> = ArrayList<UserAddressResponse>()
+
 
     lateinit var spAddress: Spinner
     lateinit var rvServices : RecyclerView
@@ -60,6 +60,7 @@ class PostRequestActivity() : AppCompatActivity() {
         serviceService = ServiceApiService()
         addressService = AddressApiService()
         serviceRequestService = ServiceRequestApiService(this)
+        pref = SharedPrefsHelper.getInstance(this)
 
         userManager = UserManager.getInstance(this)
 
@@ -91,39 +92,61 @@ class PostRequestActivity() : AppCompatActivity() {
     }
 
     fun onSubmit(){
+        if (viewModel.serviceId < 1 || viewModel.addressId < 1 || viewModel.startTime.value.isNullOrEmpty() || viewModel.duration.value.isNullOrEmpty()){
+            Toast.makeText(
+                this,
+                "Please fill data in form",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
         val request = NewRequestRequest(1,
             viewModel.serviceId,
             viewModel.addressId,
-            DateUtils.formatDateForApi(viewModel.startTime.value),
+            DateUtils.formatDateTimeForApi(viewModel.startTime.value),
             viewModel.duration.value.toDouble(),
             viewModel.specialNote.value)
 
-        serviceRequestService.createRequest(
-            this,
-            request,
-            object : BaseApiService.ApiCallback<RequestDetailResponse>{
-                override fun onSuccess(data: RequestDetailResponse?) {
-                    runOnUiThread(Runnable {
-                        Toast.makeText(
-                            this@PostRequestActivity,
-                            "Insert Successfully" + data.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    })
-                }
 
-                override fun onError(errorMessage: String?, throwable: Throwable?) {
-                    runOnUiThread(Runnable {
-                        Toast.makeText(
-                            this@PostRequestActivity,
-                            "Failed to create service Request: " + errorMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    })
-                }
+        try{
+            serviceRequestService.createRequest(
+                this,
+                request,
+                object : BaseApiService.ApiCallback<RequestDetailResponse>{
+                    override fun onSuccess(data: RequestDetailResponse?) {
+                        runOnUiThread(Runnable {
+                            Toast.makeText(
+                                this@PostRequestActivity,
+                                "Insert Successfully" + data.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        })
+                        pref.putInt("requestId", data!!.requestId)
+                    }
 
-            }
-        )
+                    override fun onError(errorMessage: String?, throwable: Throwable?) {
+                        runOnUiThread(Runnable {
+                            Toast.makeText(
+                                this@PostRequestActivity,
+                                "Failed to create service Request: " + errorMessage,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        })
+                    }
+
+                }
+            )
+        }catch (ex : Exception){
+            runOnUiThread(Runnable {
+                Toast.makeText(
+                    this@PostRequestActivity,
+                    "Error fetching services: " + ex.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+            ex.printStackTrace()
+        }
     }
 
     fun setupDatePicker(){
@@ -163,6 +186,7 @@ class PostRequestActivity() : AppCompatActivity() {
         }
         serviceAdapter = ServiceAdapter(serviceList){ service ->
             viewModel.serviceId = service.getServiceId()
+            serviceAdapter.setSelected(viewModel.serviceId)
         }
 
         rvServices.adapter = serviceAdapter
@@ -247,7 +271,7 @@ class PostRequestActivity() : AppCompatActivity() {
                         runOnUiThread(Runnable {
                             Toast.makeText(
                                 this@PostRequestActivity,
-                                "Failed to load services: " + errorMessage,
+                                "Failed to load Addresses: " + errorMessage,
                                 Toast.LENGTH_LONG
                             ).show()
                         })
@@ -257,7 +281,7 @@ class PostRequestActivity() : AppCompatActivity() {
             runOnUiThread(Runnable {
                 Toast.makeText(
                     this@PostRequestActivity,
-                    "Error fetching services: " + ex.message,
+                    "Error fetching Addresses: " + ex.message,
                     Toast.LENGTH_LONG
                 ).show()
             })

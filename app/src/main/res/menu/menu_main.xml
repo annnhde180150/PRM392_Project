@@ -24,6 +24,13 @@
         android:orderInCategory="250" />
 
     <item
+        android:id="@+id/action_my_reviews"
+        android:title="My Reviews"
+        android:icon="@drawable/ic_star"
+        app:showAsAction="never"
+        android:orderInCategory="260" />
+
+    <item
         android:id="@+id/action_settings"
         android:title="Settings"
         android:icon="@drawable/ic_settings"

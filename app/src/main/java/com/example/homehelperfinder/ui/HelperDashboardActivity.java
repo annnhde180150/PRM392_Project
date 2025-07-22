@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,10 +30,8 @@ public class HelperDashboardActivity extends BaseActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchActiveStatus;
     private SharedPrefsHelper sharedPrefsHelper;
-    private TextView tv_greeting, tvNavProfile;
+    private TextView tv_greeting;
     private ImageButton btnNotification;
-    private LinearLayout navProfile,nav_orders,nav_home;
-    private ImageView ivNavProfile;
     private CardView btn_view_income;
 
     @Override
@@ -139,6 +138,5 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting = findViewById(R.id.tv_greeting);
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
-
     }
 }
