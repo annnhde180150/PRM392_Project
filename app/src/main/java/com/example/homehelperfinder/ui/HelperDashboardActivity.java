@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -130,6 +131,11 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
         });
+        navProfile.setOnClickListener(v -> {
+            setBottomNavSelected(3);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -140,5 +146,8 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
 
+        tvNavProfile = findViewById(R.id.tv_nav_profile);
+        ivNavProfile = findViewById(R.id.iv_nav_profile);
+        navProfile = findViewById(R.id.nav_profile);
     }
 }

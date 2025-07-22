@@ -33,6 +33,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_view_wallet;
     private Button btn_test_search_helper;
     private Button btn_helper_reports;
+    private Button btn_my_reviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_view_wallet = findViewById(R.id.btn_view_wallet);
         btn_test_search_helper = findViewById(R.id.btn_test_search_helper);
         btn_helper_reports = findViewById(R.id.btn_helper_reports);
+        btn_my_reviews = findViewById(R.id.btn_my_reviews);
     }
 
     private void setupClickListeners() {
@@ -173,6 +175,11 @@ public class MenuActivity extends AppCompatActivity {
 
         btn_helper_reports.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
+            startActivity(intent);
+        });
+
+        btn_my_reviews.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.review.MyReviewsActivity.class);
             startActivity(intent);
         });
 

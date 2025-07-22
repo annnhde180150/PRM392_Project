@@ -2,6 +2,7 @@ package com.example.homehelperfinder.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -170,6 +171,12 @@ public class DashboardActivity extends BaseActivity {
 
         // Set Home as selected by default
         setBottomNavSelected(0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private void setBottomNavSelected(int index) {

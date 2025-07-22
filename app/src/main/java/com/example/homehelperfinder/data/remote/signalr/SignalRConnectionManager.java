@@ -55,7 +55,7 @@ public class SignalRConnectionManager {
             hubConnection = HubConnectionBuilder.create(Constants.SIGNALR_HUB_URL)
                     .withAccessTokenProvider(Single.fromCallable(() -> {
                         String token = prefsHelper.getAuthToken();
-                        Logger.d(TAG, "Providing auth token for SignalR connection");
+                        Logger.d(TAG, "Providing auth token for SignalR connection: " + token);
                         return token;
                     }))
                     .build();
