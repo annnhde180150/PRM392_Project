@@ -132,7 +132,7 @@ public class HelperDashboardActivity extends BaseActivity {
             startActivity(intent);
         });
         navProfile.setOnClickListener(v -> {
-            setBottomNavSelected(3);
+//            setBottomNavSelected(3);
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
             startActivity(intent);
         });

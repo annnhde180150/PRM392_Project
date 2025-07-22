@@ -32,4 +32,7 @@ interface IBookingApiService {
 
     @POST("Bookings/CancelBooking")
     fun cancelBooking(@Body request : BookingCancelRequest) : Call<ApiResponse<String>>
+
+    @GET("Bookings/GetUserPendingBooking/{id}")
+    fun getPendingByUserId(@Path("id") id : Int ) : Call<ApiResponse<List<BookingDetailResponse>>>
 }

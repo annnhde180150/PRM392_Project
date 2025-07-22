@@ -15,6 +15,7 @@ import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
 import com.example.homehelperfinder.ui.putBooking.UpdateBookingActivity;
 import com.example.homehelperfinder.ui.putRequest.EditRequestActivity;
+import com.example.homehelperfinder.ui.viewPendingBooking.ViewPendingBookingActivity;
 import com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
@@ -44,6 +45,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_cancel_booking;
     private Button btn_helper_reports;
     private Button btn_my_reviews;
+    private Button btn_view_pending_booking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_cancel_booking = findViewById(R.id.btn_cancel_booking);
         btn_helper_reports = findViewById(R.id.btn_helper_reports);
         btn_my_reviews = findViewById(R.id.btn_my_reviews);
+        btn_view_pending_booking = findViewById(R.id.btn_view_pending_booking);
     }
 
     private void setupClickListeners() {
@@ -201,6 +204,11 @@ public class MenuActivity extends AppCompatActivity {
         });
         btn_cancel_booking.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, CancelBookingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_view_pending_booking.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, ViewPendingBookingActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });

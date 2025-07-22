@@ -67,4 +67,12 @@ class BookingApiService : BaseApiService() {
     fun cancelBooking(context : Context, request : BookingCancelRequest, callback : ApiCallback<String>){
         handleApiResponse(context, cancelBooking(context, request), callback)
     }
+
+    fun getBookingByUser(context : Context, id : Int) : CompletableFuture<List<BookingDetailResponse>>{
+        return executeCall(context, api.getPendingByUserId(id), "get Bookings")
+    }
+
+    fun getBookingByUser(context : Context, id : Int, callback : ApiCallback<List<BookingDetailResponse>>){
+        handleApiResponse(context, getBookingByUser(context, id), callback)
+    }
 }

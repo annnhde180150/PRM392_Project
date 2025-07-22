@@ -24,6 +24,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.viewPendingBooking.ViewPendingBookingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.cancelBooking.CancelBookingActivity"
             android:exported="false" />
         <activity
