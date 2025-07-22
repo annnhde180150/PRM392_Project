@@ -177,7 +177,7 @@
                         android:textColor="@color/black"
                         android:paddingStart="12dp"
                         android:text="@={viewModel.specialNote}"
-                        android:inputType="datetime"/>
+                        android:inputType="text"/>
                 </LinearLayout>
 
                 <!-- Duration Input -->

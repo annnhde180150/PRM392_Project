@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.data.remote.user;
 
+import com.example.homehelperfinder.data.model.request.ChangePasswordRequest;
 import com.example.homehelperfinder.data.model.request.UserAddressUpdateRequest;
 import com.example.homehelperfinder.data.model.request.UserUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
@@ -14,5 +15,6 @@ import retrofit2.http.Path;
 
 public interface UserApiInterface {
 
-
+    @PUT("User/change-password/{userId}")
+    Call<ApiResponse<String>> changePassword(@Path("userId") int userId, @Body ChangePasswordRequest request);
 }

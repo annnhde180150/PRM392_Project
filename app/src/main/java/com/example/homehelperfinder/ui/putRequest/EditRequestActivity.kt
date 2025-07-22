@@ -1,7 +1,9 @@
 package com.example.homehelperfinder.ui.putRequest
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -28,6 +30,7 @@ import com.example.homehelperfinder.databinding.ActivityEditRequestBinding
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity
 import com.example.homehelperfinder.ui.postRequest.adapter.AddressAdapter
 import com.example.homehelperfinder.ui.postRequest.adapter.ServiceAdapter
+import com.example.homehelperfinder.ui.viewPendingRequest.ViewUserPendingRequetsActivity
 import com.example.homehelperfinder.utils.DateUtils
 import com.example.homehelperfinder.utils.SharedPrefsHelper
 import com.example.homehelperfinder.utils.UserManager
@@ -57,8 +60,8 @@ class EditRequestActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         pref = SharedPrefsHelper.getInstance(this)
-//        val id = intent.getIntExtra("Id", 0)
-        id = pref.getInt("requestId")
+        id = intent.getIntExtra("requestId", 0)
+//        id = pref.getInt("requestId")
 
 
         serviceRequestService = ServiceRequestApiService(this)
@@ -88,6 +91,8 @@ class EditRequestActivity : AppCompatActivity() {
         setupDatePicker()
         setupAddressSpAdapters()
         setupServiceRVAdapters()
+        binding.tvServiceId.text = id.toString()
+        val intent = Intent(this, ViewUserPendingRequetsActivity::class.java);
 
         binding.btnConfirm.setOnClickListener {
             onSubmit()
@@ -135,6 +140,7 @@ class EditRequestActivity : AppCompatActivity() {
                             "Update request Successfully ",
                             Toast.LENGTH_LONG
                         ).show()
+                        setResult(Activity.RESULT_OK)
                         finish()
                     }
 
@@ -172,19 +178,36 @@ class EditRequestActivity : AppCompatActivity() {
 
             // Date Picker
             val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                // After picking date, show Time Picker
                 val timePicker = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+
+                    val selectedCalendar = Calendar.getInstance().apply {
+                        set(Calendar.YEAR, selectedYear)
+                        set(Calendar.MONTH, selectedMonth)
+                        set(Calendar.DAY_OF_MONTH, selectedDay)
+                        set(Calendar.HOUR_OF_DAY, selectedHour)
+                        set(Calendar.MINUTE, selectedMinute)
+                        set(Calendar.SECOND, 0)
+                    }
+
+                    if (selectedCalendar.timeInMillis < System.currentTimeMillis()) {
+                        Toast.makeText(this, "Cannot select past time", Toast.LENGTH_SHORT).show()
+                        return@TimePickerDialog
+                    }
+
                     val formatted = String.format(
                         "%02d/%02d/%04d %02d:%02d",
                         selectedDay, selectedMonth + 1, selectedYear,
                         selectedHour, selectedMinute
                     )
                     viewModel.startTime.value = formatted
+
                 }, hour, minute, true)
 
                 timePicker.show()
 
             }, year, month, day)
+
+            datePicker.datePicker.minDate = System.currentTimeMillis()
 
             datePicker.show()
         }

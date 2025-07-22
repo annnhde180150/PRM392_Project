@@ -54,6 +54,8 @@
     <string name="view_requests">View Requests</string>
     <string name="chat">Chat</string>
     <string name="requests">Requests</string>
+    <string name="pending">Pending Bookings</string>
+    <string name="incoming">Incoming Bookings</string>
 
     <!-- Profile Management -->
     <string name="profile_management">Profile Management</string>

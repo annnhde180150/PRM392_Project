@@ -147,6 +147,50 @@
                 android:textSize="16sp"
                 android:elevation="4dp" />
 
+            <Button
+                android:id="@+id/btn_view_pending_booking"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="View Pending Booking"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_view_pending_request"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="View User Pending Request"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_view_user_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="View User Schedule"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_view_helper_review"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="View Helper Reviews"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
             <!-- Dashboard Activity Button -->
 
             <!--Helper Dashboard Activity Button -->

@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class HelperBookingListActivity extends AppCompatActivity implements BookingAdapter.OnBookingActionListener {
+public class HelperBookingListActivity extends AppCompatActivity implements BookingAdapter.OnBookingActionListener  {
 
     private RecyclerView recyclerView;
     private BookingAdapter adapter;
@@ -140,7 +140,7 @@ public class HelperBookingListActivity extends AppCompatActivity implements Book
                         String formattedEndTime = data.getScheduledEndTime();
                         try {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.ENGLISH);
+                                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
                                 DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.getDefault());
 
                                 LocalDateTime startDateTime = LocalDateTime.parse(data.getScheduledStartTime(), inputFormatter);

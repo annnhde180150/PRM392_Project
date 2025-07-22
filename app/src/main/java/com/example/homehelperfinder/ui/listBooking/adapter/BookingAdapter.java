@@ -46,7 +46,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
     public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
         ListBookingModel item = bookingList.get(position);
         holder.tvServiceName.setText(item.getServiceName());
-        holder.tvPrice.setText(item.getPrice());
+        holder.tvPrice.setText(item.getPrice() + " Vnd");
         holder.tvAddress.setText(item.getAddress());
         holder.tvStartTime.setText("Start: " + item.getStartTime());
         holder.tvEndTime.setText(" - End: " + item.getEndTime());

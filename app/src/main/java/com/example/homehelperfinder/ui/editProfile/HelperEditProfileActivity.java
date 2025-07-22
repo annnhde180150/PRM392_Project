@@ -62,13 +62,16 @@ import com.example.homehelperfinder.data.model.response.HelperDocumentResponse;
 import com.example.homehelperfinder.data.model.request.HelperSkillRequest;
 import com.example.homehelperfinder.data.model.request.HelperWorkAreaRequest;
 import android.view.MenuItem;
+import com.example.homehelperfinder.data.model.request.ChangePasswordRequest;
+import com.example.homehelperfinder.data.remote.user.UserApiService;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 
 public class HelperEditProfileActivity extends BaseActivity {
     
     private TextInputEditText etFullName, etEmail, etPhoneNumber, etBio;
     private ImageView ivProfilePicture, ivIdPreview, ivCvPreview;
     private ImageButton btnChangePicture, btnEditProfile;
-    private Button btnConfirm, btnAddSkill, btnAddWorkArea, btnUploadId, btnUploadCV, btnLogout;
+    private Button btnConfirm, btnAddSkill, btnAddWorkArea, btnUploadId, btnUploadCV, btnLogout, btnChangePassword;
     private RecyclerView rvSkills, rvWorkAreas;
     private TextView tvHelperId, tvRegistrationDate, tvHelperFullName;
     private Toolbar toolbar;
@@ -104,6 +107,8 @@ public class HelperEditProfileActivity extends BaseActivity {
 
     private boolean profileLoaded = false;
 
+    private UserApiService userApiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +122,7 @@ public class HelperEditProfileActivity extends BaseActivity {
 
         // Initialize UserManager
         userManager = UserManager.getInstance(this);
+        userApiService = new UserApiService();
 
         initViews();
         setupImagePickers();
@@ -125,6 +131,9 @@ public class HelperEditProfileActivity extends BaseActivity {
         fetchServices();
         loadCurrentProfile();
         setEditMode(false);
+
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangePassword.setOnClickListener(v -> showChangePasswordDialog());
     }
 
     private void setupToolbar() {
@@ -914,6 +923,44 @@ public class HelperEditProfileActivity extends BaseActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    private void showChangePasswordDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Change Password")
+                .setView(dialogView)
+                .create();
+
+        dialogView.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
+        dialogView.findViewById(R.id.btnOk).setOnClickListener(v -> {
+            String currentPassword = ((android.widget.EditText) dialogView.findViewById(R.id.etCurrentPassword)).getText().toString();
+            String newPassword = ((android.widget.EditText) dialogView.findViewById(R.id.etNewPassword)).getText().toString();
+            String confirmPassword = ((android.widget.EditText) dialogView.findViewById(R.id.etConfirmPassword)).getText().toString();
+            if (TextUtils.isEmpty(currentPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
+                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!newPassword.equals(confirmPassword)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ChangePasswordRequest req = new ChangePasswordRequest(currentPassword, newPassword, confirmPassword);
+            userApiService.changePassword(this, userManager.getCurrentUserId(), req, new BaseApiService.ApiCallback<String>() {
+                @Override
+                public void onSuccess(String message) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(HelperEditProfileActivity.this, message, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    });
+                }
+                @Override
+                public void onError(String errorMessage, Throwable throwable) {
+                    runOnUiThread(() -> Toast.makeText(HelperEditProfileActivity.this, "Failed: " + errorMessage, Toast.LENGTH_LONG).show());
+                }
+            });
+        });
+        dialog.show();
     }
 
     @Override

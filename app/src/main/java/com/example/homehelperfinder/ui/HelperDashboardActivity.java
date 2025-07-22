@@ -25,17 +25,16 @@ import com.example.homehelperfinder.ui.activeBookings.ActiveBookingsActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
+import com.example.homehelperfinder.utils.UserManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HelperDashboardActivity extends BaseActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchActiveStatus;
     private SharedPrefsHelper sharedPrefsHelper;
-    private TextView tv_greeting, tvNavProfile;
+    private TextView tv_greeting;
     private ImageButton btnNotification;
-    private LinearLayout navProfile,nav_orders,nav_home;
-    private ImageView ivNavProfile;
-    private CardView btn_view_income, btn_active_bookings;
+    private CardView btn_view_income,btn_view_wallet, btn_avail_requests,btn_active_bookings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,6 @@ public class HelperDashboardActivity extends BaseActivity {
             if (item.getItemId() == R.id.nav_profile) {
                 Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
                 startActivity(intent);
-                finish();
                 return true;
             }
             if (item.getItemId()== R.id.nav_messages){
@@ -80,8 +78,8 @@ public class HelperDashboardActivity extends BaseActivity {
         HelperAvailableStatusApiService api = new HelperAvailableStatusApiService(this);
         HelperAvailableRequest request = new HelperAvailableRequest();
         String userIdStr = sharedPrefsHelper.getUserId();
-        int userId = 1; // HardCore to test
-        request.setUserId(userId);
+        UserManager userManager = UserManager.getInstance(this);
+        request.setUserId(userManager.getCurrentUserId());
         // Kiểm tra trạng thái ban đầu (nếu cần)
         boolean isChecked = switchActiveStatus.isChecked();
         Log.d("SwitchStatus", "Trạng thái ban đầu: " + (isChecked ? "Đang hoạt động" : "Không hoạt động"));
@@ -141,9 +139,12 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
         });
-        navProfile.setOnClickListener(v -> {
-            setBottomNavSelected(3);
-            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
+        btn_view_wallet.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.HelperWalletActivity.class);
+            startActivity(intent);
+        });
+        btn_avail_requests.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity.class);
             startActivity(intent);
         });
     }
@@ -156,9 +157,7 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
         btn_active_bookings = findViewById(R.id.card_active_bookings);
-
-        tvNavProfile = findViewById(R.id.tv_nav_profile);
-        ivNavProfile = findViewById(R.id.iv_nav_profile);
-        navProfile = findViewById(R.id.nav_profile);
+        btn_view_wallet = findViewById(R.id.card_manage_view_Wallet);
+        btn_avail_requests = findViewById(R.id.card_view_request);
     }
 }

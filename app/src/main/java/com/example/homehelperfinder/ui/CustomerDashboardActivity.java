@@ -30,10 +30,10 @@ public class CustomerDashboardActivity extends BaseActivity {
     private TextView tvAvailableHelpersCount, tvAvailableHelpersGrowth;
 
     // Quick Actions Cards
-    private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile, cardActiveBookings;
+    private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile, cardPending, cardIncoming,cardActiveBookings;
 
     // Bottom Navigation
-    private LinearLayout navHome, navRequests, navMessages, navProfile;
+    private LinearLayout navHome, navRequests, navMessages, navProfile,tvFindHelper;
     private TextView tvNavHome, tvNavRequests, tvNavMessages, tvNavProfile;
     private ImageView ivNavHome, ivNavRequests, ivNavMessages, ivNavProfile;
 
@@ -84,6 +84,8 @@ public class CustomerDashboardActivity extends BaseActivity {
         cardChat = findViewById(R.id.card_chat);
         cardProfile = findViewById(R.id.card_profile);
         cardActiveBookings = findViewById(R.id.card_active_bookings);
+        cardPending = findViewById(R.id.pending_booking);
+        cardIncoming = findViewById(R.id.incoming);
 
         // Bottom Navigation
         navHome = findViewById(R.id.nav_home);
@@ -95,6 +97,7 @@ public class CustomerDashboardActivity extends BaseActivity {
         tvNavRequests = findViewById(R.id.tv_nav_requests);
         tvNavMessages = findViewById(R.id.tv_nav_messages);
         tvNavProfile = findViewById(R.id.tv_nav_profile);
+        tvFindHelper = findViewById(R.id.nav_find_helper);
 
         ivNavHome = findViewById(R.id.iv_nav_home);
         ivNavRequests = findViewById(R.id.iv_nav_requests);
@@ -122,9 +125,8 @@ public class CustomerDashboardActivity extends BaseActivity {
         });
 
         cardViewRequests.setOnClickListener(v -> {
-            // TODO: Navigate to customer requests list
-            // Intent intent = new Intent(CustomerDashboardActivity.this, CustomerRequestsActivity.class);
-            // startActivity(intent);
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.viewPendingRequest.ViewUserPendingRequetsActivity.class);
+            startActivity(intent);
         });
 
         cardChat.setOnClickListener(v -> {
@@ -145,6 +147,15 @@ public class CustomerDashboardActivity extends BaseActivity {
                 startActivity(intent);
             });
         }
+        cardPending.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.viewPendingBooking.ViewPendingBookingActivity.class);
+            startActivity(intent);
+        });
+
+        cardIncoming.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.viewSchedule.ViewUserScheduleActivity.class);
+            startActivity(intent);
+        });
 
         ivFavoriteHelpers.setOnClickListener(v -> {
             Intent intent = new Intent(this, FavoriteHelpersActivity.class);
@@ -192,6 +203,12 @@ public class CustomerDashboardActivity extends BaseActivity {
             Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
             startActivity(intent);
         });
+        tvFindHelper.setOnClickListener(
+                v -> {
+                    Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity.class);
+                    startActivity(intent);
+                }
+        );
     }
 
     private void loadDashboardData() {

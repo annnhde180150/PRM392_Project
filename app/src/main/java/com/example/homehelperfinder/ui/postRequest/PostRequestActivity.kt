@@ -2,6 +2,7 @@ package com.example.homehelperfinder.ui.postRequest
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -25,6 +26,7 @@ import com.example.homehelperfinder.data.remote.address.AddressApiService
 import com.example.homehelperfinder.data.remote.service.ServiceApiService
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiService
 import com.example.homehelperfinder.databinding.ActivityPostRequestBinding
+import com.example.homehelperfinder.ui.CustomerDashboardActivity
 import com.example.homehelperfinder.ui.postRequest.adapter.AddressAdapter
 import com.example.homehelperfinder.ui.postRequest.adapter.ServiceAdapter
 import com.example.homehelperfinder.utils.DateUtils
@@ -46,6 +48,7 @@ class PostRequestActivity() : AppCompatActivity() {
     private lateinit var addressAdapter : ArrayAdapter<UserAddressResponse>
     private lateinit var userManager: UserManager
     private lateinit var pref : SharedPrefsHelper
+    private var userId : Int = 0
     private val viewModel : PostRequestViewModel by viewModels()
     private val serviceList: MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
     private val addressList: MutableList<UserAddressResponse> = ArrayList<UserAddressResponse>()
@@ -63,6 +66,7 @@ class PostRequestActivity() : AppCompatActivity() {
         pref = SharedPrefsHelper.getInstance(this)
 
         userManager = UserManager.getInstance(this)
+        userId = userManager.currentUserId
 
         binding = ActivityPostRequestBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -86,6 +90,10 @@ class PostRequestActivity() : AppCompatActivity() {
             onSubmit()
         }
 
+        binding.btnClose.setOnClickListener {
+            finish()
+        }
+
         setupDatePicker()
         setupServiceRVAdapters()
         setupAddressSpAdapters()
@@ -101,7 +109,8 @@ class PostRequestActivity() : AppCompatActivity() {
             return
         }
 
-        val request = NewRequestRequest(1,
+        val request = NewRequestRequest(
+            userId,
             viewModel.serviceId,
             viewModel.addressId,
             DateUtils.formatDateTimeForApi(viewModel.startTime.value),
@@ -122,7 +131,10 @@ class PostRequestActivity() : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                         })
-                        pref.putInt("requestId", data!!.requestId)
+//                        pref.putInt("requestId", data!!.requestId)
+                        val intent = Intent(this@PostRequestActivity, CustomerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }
 
                     override fun onError(errorMessage: String?, throwable: Throwable?) {
@@ -160,19 +172,36 @@ class PostRequestActivity() : AppCompatActivity() {
 
             // Date Picker
             val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                // After picking date, show Time Picker
                 val timePicker = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+
+                    val selectedCalendar = Calendar.getInstance().apply {
+                        set(Calendar.YEAR, selectedYear)
+                        set(Calendar.MONTH, selectedMonth)
+                        set(Calendar.DAY_OF_MONTH, selectedDay)
+                        set(Calendar.HOUR_OF_DAY, selectedHour)
+                        set(Calendar.MINUTE, selectedMinute)
+                        set(Calendar.SECOND, 0)
+                    }
+
+                    if (selectedCalendar.timeInMillis < System.currentTimeMillis()) {
+                        Toast.makeText(this, "Cannot select past time", Toast.LENGTH_SHORT).show()
+                        return@TimePickerDialog
+                    }
+
                     val formatted = String.format(
                         "%02d/%02d/%04d %02d:%02d",
                         selectedDay, selectedMonth + 1, selectedYear,
                         selectedHour, selectedMinute
                     )
                     viewModel.startTime.value = formatted
+
                 }, hour, minute, true)
 
                 timePicker.show()
 
             }, year, month, day)
+
+            datePicker.datePicker.minDate = System.currentTimeMillis()
 
             datePicker.show()
         }

@@ -1,7 +1,9 @@
 package com.example.homehelperfinder.ui.putBooking
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +22,7 @@ import com.example.homehelperfinder.data.remote.booking.BookingApiService
 import com.example.homehelperfinder.data.remote.helper.HelperApiService
 import com.example.homehelperfinder.databinding.ActivityBookHelperBinding
 import com.example.homehelperfinder.databinding.ActivityUpdateBookingBinding
+import com.example.homehelperfinder.ui.MakePaymentActivity
 import com.example.homehelperfinder.ui.bookHelper.BookHelperActivity
 import com.example.homehelperfinder.ui.postRequest.adapter.ServiceAdapter
 import com.example.homehelperfinder.utils.DateUtils
@@ -27,23 +30,25 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class UpdateBookingActivity : AppCompatActivity() {
-    private lateinit var bookingService : BookingApiService
-    private lateinit var helperService : HelperApiService
-    private lateinit var binding : ActivityUpdateBookingBinding
-    private lateinit var viewModel : UpdateBookingViewModel
+    private lateinit var bookingService: BookingApiService
+    private lateinit var helperService: HelperApiService
+    private lateinit var binding: ActivityUpdateBookingBinding
+    private lateinit var viewModel: UpdateBookingViewModel
     private val serviceList: MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
-    private lateinit var serviceAdapter : ServiceAdapter
-    private var helperId : Int = 0
-    private var id : Int = 0
+    private lateinit var serviceAdapter: ServiceAdapter
+    private var helperId: Int = 0
+    private var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-//        id = intent.getIntExtra("bookingId", 0)
-        id = 9
+        id = intent.getIntExtra("bookingId", 0)
+//        id = 4
 
         bookingService = BookingApiService()
         helperService = HelperApiService()
@@ -64,7 +69,7 @@ class UpdateBookingActivity : AppCompatActivity() {
         initView()
     }
 
-    fun initView(){
+    fun initView() {
         setupDatePicker()
         setupServiceRVAdapters()
         binding.btnBack.setOnClickListener {
@@ -73,10 +78,16 @@ class UpdateBookingActivity : AppCompatActivity() {
         binding.btnUpdateBooking.setOnClickListener {
             onSubmit()
         }
+        binding.btnPayment.setOnClickListener {
+
+            var intent = Intent(this, MakePaymentActivity::class.java)
+            intent.putExtra("BOOKING_ID", id)
+            intent.putExtra("USER_ID", viewModel.userId)
+            startActivity(intent)
+        }
     }
 
-    fun onSubmit()
-    {
+    fun onSubmit() {
         val request = BookingUpdateRequest(
             viewModel.bookingId,
             viewModel.userId,
@@ -100,7 +111,7 @@ class UpdateBookingActivity : AppCompatActivity() {
             bookingService.updateBooking(
                 this,
                 request,
-                object : BaseApiService.ApiCallback<BookingDetailResponse>{
+                object : BaseApiService.ApiCallback<BookingDetailResponse> {
                     override fun onSuccess(data: BookingDetailResponse?) {
                         runOnUiThread(Runnable {
                             runOnUiThread {
@@ -110,6 +121,8 @@ class UpdateBookingActivity : AppCompatActivity() {
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
+                            setResult(Activity.RESULT_OK)
+                            finish()
                         })
                     }
 
@@ -125,7 +138,7 @@ class UpdateBookingActivity : AppCompatActivity() {
 
                 }
             )
-        }catch (ex : Exception){
+        } catch (ex: Exception) {
             runOnUiThread(Runnable {
                 Toast.makeText(
                     this@UpdateBookingActivity,
@@ -137,13 +150,13 @@ class UpdateBookingActivity : AppCompatActivity() {
         }
     }
 
-    fun setupServiceRVAdapters(){
+    fun setupServiceRVAdapters() {
         val flexBoxLayoutManager = FlexboxLayoutManager(this).apply {
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
             justifyContent = JustifyContent.FLEX_START
         }
-        serviceAdapter = ServiceAdapter(serviceList){ service ->
+        serviceAdapter = ServiceAdapter(serviceList) { service ->
             viewModel.serviceId = service.getServiceId()
             serviceAdapter.setSelected(viewModel.serviceId)
         }
@@ -152,12 +165,12 @@ class UpdateBookingActivity : AppCompatActivity() {
         binding.rvServices.layoutManager = flexBoxLayoutManager
     }
 
-    fun fetchBooking(){
-        try{
+    fun fetchBooking() {
+        try {
             bookingService.getBooking(
                 this,
                 id,
-                object : BaseApiService.ApiCallback<BookingDetailResponse>{
+                object : BaseApiService.ApiCallback<BookingDetailResponse> {
                     override fun onSuccess(data: BookingDetailResponse?) {
                         runOnUiThread(Runnable {
                             runOnUiThread {
@@ -167,10 +180,12 @@ class UpdateBookingActivity : AppCompatActivity() {
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
-                            data?.let{
+                            data?.let {
                                 helperId = data.helperId
-                                viewModel.endDate.value = DateUtils.formatDateTimeForDisplay(data.scheduledEndTime)
-                                viewModel.startDate.value = DateUtils.formatDateTimeForDisplay(data.scheduledStartTime)
+                                viewModel.endDate.value =
+                                    DateUtils.formatDateTimeForDisplay(data.scheduledEndTime)
+                                viewModel.startDate.value =
+                                    DateUtils.formatDateTimeForDisplay(data.scheduledStartTime)
                                 viewModel.serviceId = data.serviceId
                                 viewModel.bookingId = data.bookingId
                                 viewModel.userId = data.userId
@@ -194,7 +209,7 @@ class UpdateBookingActivity : AppCompatActivity() {
 
                 }
             )
-        }catch (ex : Exception){
+        } catch (ex: Exception) {
             runOnUiThread(Runnable {
                 Toast.makeText(
                     this@UpdateBookingActivity,
@@ -245,7 +260,7 @@ class UpdateBookingActivity : AppCompatActivity() {
         }
     }
 
-    fun setupDatePicker(){
+    fun setupDatePicker() {
         binding.etStartDate.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
@@ -254,24 +269,53 @@ class UpdateBookingActivity : AppCompatActivity() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
 
-            // Date Picker
             val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                // After picking date, show Time Picker
                 val timePicker = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+
+                    val selectedCalendar = Calendar.getInstance().apply {
+                        set(Calendar.YEAR, selectedYear)
+                        set(Calendar.MONTH, selectedMonth)
+                        set(Calendar.DAY_OF_MONTH, selectedDay)
+                        set(Calendar.HOUR_OF_DAY, selectedHour)
+                        set(Calendar.MINUTE, selectedMinute)
+                        set(Calendar.SECOND, 0)
+                    }
+
+                    if (selectedCalendar.timeInMillis < System.currentTimeMillis()) {
+                        Toast.makeText(this, "Cannot select past time", Toast.LENGTH_SHORT).show()
+                        return@TimePickerDialog
+                    }
+
+                    if (viewModel.endDate.value != null) {
+                        val endDate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                            .parse(viewModel.endDate.value!!)
+                        if (selectedCalendar.time.after(endDate)) {
+                            Toast.makeText(
+                                this,
+                                "Start time must be before end time",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@TimePickerDialog
+                        }
+                    }
+
                     val formatted = String.format(
                         "%02d/%02d/%04d %02d:%02d",
                         selectedDay, selectedMonth + 1, selectedYear,
                         selectedHour, selectedMinute
                     )
                     viewModel.startDate.value = formatted
+
                 }, hour, minute, true)
 
                 timePicker.show()
 
             }, year, month, day)
 
+            datePicker.datePicker.minDate = System.currentTimeMillis()
             datePicker.show()
         }
+
         binding.etEndDate.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
@@ -280,24 +324,53 @@ class UpdateBookingActivity : AppCompatActivity() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
 
-            // Date Picker
             val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                // After picking date, show Time Picker
                 val timePicker = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+
+                    val selectedCalendar = Calendar.getInstance().apply {
+                        set(Calendar.YEAR, selectedYear)
+                        set(Calendar.MONTH, selectedMonth)
+                        set(Calendar.DAY_OF_MONTH, selectedDay)
+                        set(Calendar.HOUR_OF_DAY, selectedHour)
+                        set(Calendar.MINUTE, selectedMinute)
+                        set(Calendar.SECOND, 0)
+                    }
+
+                    if (selectedCalendar.timeInMillis < System.currentTimeMillis()) {
+                        Toast.makeText(this, "Cannot select past time", Toast.LENGTH_SHORT).show()
+                        return@TimePickerDialog
+                    }
+
+                    if (viewModel.startDate.value != null) {
+                        val startDate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                            .parse(viewModel.startDate.value!!)
+                        if (selectedCalendar.time.before(startDate)) {
+                            Toast.makeText(
+                                this,
+                                "End time must be after start time",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@TimePickerDialog
+                        }
+                    }
+
                     val formatted = String.format(
                         "%02d/%02d/%04d %02d:%02d",
                         selectedDay, selectedMonth + 1, selectedYear,
                         selectedHour, selectedMinute
                     )
                     viewModel.endDate.value = formatted
+
                 }, hour, minute, true)
 
                 timePicker.show()
 
             }, year, month, day)
 
+            datePicker.datePicker.minDate = System.currentTimeMillis()
             datePicker.show()
         }
+
     }
 }
 

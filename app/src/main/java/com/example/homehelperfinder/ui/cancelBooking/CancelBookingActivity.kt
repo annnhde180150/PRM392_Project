@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.ui.cancelBooking
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -64,7 +65,8 @@ class CancelBookingActivity : AppCompatActivity() {
                                 "cancel booking Successfully ",
                                 Toast.LENGTH_LONG
                             ).show()
-//                            finish()
+                            setResult(Activity.RESULT_OK)
+                            finish()
                         }
 
                         override fun onError(errorMessage: String?, throwable: Throwable?) {

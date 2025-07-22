@@ -31,6 +31,13 @@
             android:exported="false" />
         <activity
             android:name=".ui.activeBookings.UpdateBookingStatusActivity"
+            android:name=".ui.viewSchedule.ViewUserScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.viewPendingRequest.ViewUserPendingRequetsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.viewPendingBooking.ViewPendingBookingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cancelBooking.CancelBookingActivity"
@@ -183,9 +190,7 @@
         <activity
             android:name=".ui.HelperWalletActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.HelperWalletActivity"
-            android:exported="false" />
+
         <activity android:name=".ui.FavoriteHelpersActivity" />
         <activity
             android:name=".ui.helperSearch.HelperSearchActivity"

@@ -28,4 +28,7 @@ interface ServiceRequestApiInterface {
 
     @GET("ServiceRequests/GetAvailableRequests")
     fun getAvailableRequest() : Call<ApiResponse<List<RequestDetailResponse>>>
+
+    @GET("ServiceRequests/GetUserUnbookedRequest/{id}")
+    fun getUserUnbookedRequest(@Path("id") id : Int) : Call<ApiResponse<List<RequestDetailResponse>>>
 }
