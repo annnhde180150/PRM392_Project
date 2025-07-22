@@ -15,8 +15,11 @@ import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
 import com.example.homehelperfinder.ui.putBooking.UpdateBookingActivity;
 import com.example.homehelperfinder.ui.putRequest.EditRequestActivity;
+import com.example.homehelperfinder.ui.viewFeedBack.ViewFeedbacckActivity;
 import com.example.homehelperfinder.ui.viewPendingBooking.ViewPendingBookingActivity;
+import com.example.homehelperfinder.ui.viewPendingRequest.ViewUserPendingRequetsActivity;
 import com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity;
+import com.example.homehelperfinder.ui.viewSchedule.ViewUserScheduleActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class MenuActivity extends AppCompatActivity {
@@ -46,6 +49,9 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_helper_reports;
     private Button btn_my_reviews;
     private Button btn_view_pending_booking;
+    private Button btn_view_pending_request;
+    private Button btn_view_user_schedule;
+    private Button btn_view_helper_review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +92,9 @@ public class MenuActivity extends AppCompatActivity {
         btn_helper_reports = findViewById(R.id.btn_helper_reports);
         btn_my_reviews = findViewById(R.id.btn_my_reviews);
         btn_view_pending_booking = findViewById(R.id.btn_view_pending_booking);
+        btn_view_pending_request = findViewById(R.id.btn_view_pending_request);
+        btn_view_user_schedule = findViewById(R.id.btn_view_user_schedule);
+        btn_view_helper_review = findViewById(R.id.btn_view_helper_review);
     }
 
     private void setupClickListeners() {
@@ -209,6 +218,21 @@ public class MenuActivity extends AppCompatActivity {
         });
         btn_view_pending_booking.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, ViewPendingBookingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_view_pending_request.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, ViewUserPendingRequetsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_view_user_schedule.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, ViewUserScheduleActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_view_helper_review.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, ViewFeedbacckActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });

@@ -174,10 +174,10 @@ public class SearchChatActivity extends BaseActivity implements SearchResultsAda
         String selectedType = spinnerSearchType.getText().toString();
         switch (selectedType) {
             case "Users":
-                currentRequest.setSearchType("user");
+                currentRequest.setSearchType("users");
                 break;
             case "Helpers":
-                currentRequest.setSearchType("helper");
+                currentRequest.setSearchType("helpers");
                 break;
             default:
                 currentRequest.setSearchType("all");

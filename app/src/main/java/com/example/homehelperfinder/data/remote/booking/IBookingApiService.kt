@@ -7,6 +7,7 @@ import com.example.homehelperfinder.data.model.request.BookingUpdateRequest
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
 import com.example.homehelperfinder.data.model.response.ApiResponse
 import com.example.homehelperfinder.data.model.response.BookingDetailResponse
+import com.example.homehelperfinder.data.model.response.BookingServiceNameResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -35,4 +36,13 @@ interface IBookingApiService {
 
     @GET("Bookings/GetUserPendingBooking/{id}")
     fun getPendingByUserId(@Path("id") id : Int ) : Call<ApiResponse<List<BookingDetailResponse>>>
+
+    @GET("Bookings/GetUserSchedule/{id}")
+    fun getUserSchedule(@Path("id") id : Int) : Call<ApiResponse<List<BookingDetailResponse>>>
+
+    @GET("Bookings/GetHelperSchedule/{id}")
+    fun getHelperSchedule(@Path("id") id : Int) : Call<ApiResponse<List<BookingDetailResponse>>>
+
+    @GET("Bookings/GetHelperBookingServiceNames/{id}")
+    fun getBookingServiceNames(@Path("id") id : Int) : Call<ApiResponse<List<BookingServiceNameResponse>>>
 }

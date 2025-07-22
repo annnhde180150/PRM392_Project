@@ -169,4 +169,16 @@ public class ReviewResponse {
             return getFormattedDate();
         }
     }
+
+    public int getBookingId(){
+        return bookingId;
+    }
+
+    public String getReviewDate(){
+        return reviewDate;
+    }
+
+    public String getComment(){
+        return comment;
+    }
 }
