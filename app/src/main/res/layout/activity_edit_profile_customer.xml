@@ -114,6 +114,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="2dp"/>
 
+                <Button
+                    android:id="@+id/btnChangePassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Password"
+                    app:layout_constraintTop_toBottomOf="@id/tvUserId"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"/>
+
                 <!-- Full Name -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilFullName"
@@ -123,7 +133,7 @@
                     android:layout_marginTop="24dp"
                     app:endIconDrawable="@drawable/ic_person"
                     app:endIconMode="custom"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserId"
+                    app:layout_constraintTop_toBottomOf="@id/btnChangePassword"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="32dp"
@@ -228,6 +238,8 @@
                     app:layout_constraintTop_toBottomOf="@id/rvAddresses"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
+
+
                 <!-- Confirm Button -->
                 <Button
                     android:id="@+id/btnConfirm"
@@ -243,7 +255,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp" />
 
-                <!-- Logout Button -->
+
                 <Button
                     android:id="@+id/btnLogout"
                     android:layout_width="0dp"

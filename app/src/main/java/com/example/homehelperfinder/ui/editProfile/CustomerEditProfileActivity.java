@@ -56,6 +56,8 @@ import android.app.AlertDialog;
 import com.example.homehelperfinder.data.model.request.UserAddressUpdateRequest;
 import com.example.homehelperfinder.data.model.request.UserAddressCreateRequest;
 import android.view.MenuItem;
+import com.example.homehelperfinder.data.model.request.ChangePasswordRequest;
+import com.example.homehelperfinder.data.model.response.ApiResponse;
 
 public class CustomerEditProfileActivity extends BaseActivity {
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -73,6 +75,8 @@ public class CustomerEditProfileActivity extends BaseActivity {
     private UserAddressAdapter addressAdapter;
     private List<UserAddressResponse> addressList = new ArrayList<>();
     private Button btnAddAddress;
+    private Button btnChangePassword;
+    private UserApiService userApiService;
 
     private int currentUserId;
     private EditProfileApiService editProfileApiService;
@@ -99,12 +103,15 @@ public class CustomerEditProfileActivity extends BaseActivity {
         });
 
         userManager = UserManager.getInstance(this);
+        userApiService = new UserApiService();
 
         initViews();
         setupImagePicker();
         loadCurrentProfile();
         setEditMode(false);
 
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangePassword.setOnClickListener(v -> showChangePasswordDialog());
     }
     private void setupToolbar() {
         toolbar = findViewById(R.id.toolbar);
@@ -511,6 +518,44 @@ public class CustomerEditProfileActivity extends BaseActivity {
             .show();
     }
 
+    private void showChangePasswordDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Change Password")
+                .setView(dialogView)
+                .create();
+
+        dialogView.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
+        dialogView.findViewById(R.id.btnOk).setOnClickListener(v -> {
+            String currentPassword = ((android.widget.EditText) dialogView.findViewById(R.id.etCurrentPassword)).getText().toString();
+            String newPassword = ((android.widget.EditText) dialogView.findViewById(R.id.etNewPassword)).getText().toString();
+            String confirmPassword = ((android.widget.EditText) dialogView.findViewById(R.id.etConfirmPassword)).getText().toString();
+            if (TextUtils.isEmpty(currentPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
+                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!newPassword.equals(confirmPassword)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ChangePasswordRequest req = new ChangePasswordRequest(currentPassword, newPassword, confirmPassword);
+            userApiService.changePassword(this, userManager.getCurrentUserId(), req, new BaseApiService.ApiCallback<String>() {
+                @Override
+                public void onSuccess(String message) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(CustomerEditProfileActivity.this, message, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    });
+                }
+                @Override
+                public void onError(String errorMessage, Throwable throwable) {
+                    runOnUiThread(() -> Toast.makeText(CustomerEditProfileActivity.this, "Failed: " + errorMessage, Toast.LENGTH_LONG).show());
+                }
+            });
+        });
+        dialog.show();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -587,7 +632,6 @@ public class CustomerEditProfileActivity extends BaseActivity {
                                 Toast.makeText(CustomerEditProfileActivity.this, 
                                     "Logged out successfully", Toast.LENGTH_SHORT).show();
                                 
-                                //TODO: Edit dashboard for customer later
                                 // Navigate to login screen or main activity
                                 Intent intent = new Intent(CustomerEditProfileActivity.this, WelcomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
