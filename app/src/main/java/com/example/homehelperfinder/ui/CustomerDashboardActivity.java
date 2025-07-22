@@ -32,7 +32,7 @@ public class CustomerDashboardActivity extends BaseActivity {
     private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile;
 
     // Bottom Navigation
-    private LinearLayout navHome, navRequests, navMessages, navProfile;
+    private LinearLayout navHome, navRequests, navMessages, navProfile,tvFindHelper;
     private TextView tvNavHome, tvNavRequests, tvNavMessages, tvNavProfile;
     private ImageView ivNavHome, ivNavRequests, ivNavMessages, ivNavProfile;
 
@@ -93,6 +93,7 @@ public class CustomerDashboardActivity extends BaseActivity {
         tvNavRequests = findViewById(R.id.tv_nav_requests);
         tvNavMessages = findViewById(R.id.tv_nav_messages);
         tvNavProfile = findViewById(R.id.tv_nav_profile);
+        tvFindHelper = findViewById(R.id.nav_find_helper);
 
         ivNavHome = findViewById(R.id.iv_nav_home);
         ivNavRequests = findViewById(R.id.iv_nav_requests);
@@ -180,6 +181,12 @@ public class CustomerDashboardActivity extends BaseActivity {
             Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
             startActivity(intent);
         });
+        tvFindHelper.setOnClickListener(
+                v -> {
+                    Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity.class);
+                    startActivity(intent);
+                }
+        );
     }
 
     private void loadDashboardData() {
