@@ -169,4 +169,12 @@ public class ReviewResponse {
             return getFormattedDate();
         }
     }
+
+    public String getReviewDate(){
+        return reviewDate;
+    }
+
+    public String getComment(){
+        return comment;
+    }
 }

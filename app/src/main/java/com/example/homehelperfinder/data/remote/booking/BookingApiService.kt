@@ -75,4 +75,20 @@ class BookingApiService : BaseApiService() {
     fun getBookingByUser(context : Context, id : Int, callback : ApiCallback<List<BookingDetailResponse>>){
         handleApiResponse(context, getBookingByUser(context, id), callback)
     }
+
+    fun getUserSchedule(context : Context, id : Int) : CompletableFuture<List<BookingDetailResponse>>{
+        return executeCall(context, api.getUserSchedule(id), "get user schedule")
+    }
+
+    fun getUserSchedule(context : Context, id : Int, callback : ApiCallback<List<BookingDetailResponse>>){
+        handleApiResponse(context, getUserSchedule(context, id), callback)
+    }
+
+    fun getHelperSchedule(context : Context, id : Int) : CompletableFuture<List<BookingDetailResponse>>{
+        return executeCall(context, api.getHelperSchedule(id), "get user schedule")
+    }
+
+    fun getHelperSchedule(context : Context, id : Int, callback : ApiCallback<List<BookingDetailResponse>>){
+        handleApiResponse(context, getHelperSchedule(context, id), callback)
+    }
 }
