@@ -63,7 +63,6 @@ public class HelperDashboardActivity extends BaseActivity {
             if (item.getItemId() == R.id.nav_profile) {
                 Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.HelperEditProfileActivity.class);
                 startActivity(intent);
-                finish();
                 return true;
             }
             if (item.getItemId()== R.id.nav_messages){

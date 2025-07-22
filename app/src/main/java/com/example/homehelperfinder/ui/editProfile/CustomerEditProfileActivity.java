@@ -632,7 +632,6 @@ public class CustomerEditProfileActivity extends BaseActivity {
                                 Toast.makeText(CustomerEditProfileActivity.this, 
                                     "Logged out successfully", Toast.LENGTH_SHORT).show();
                                 
-                                //TODO: Edit dashboard for customer later
                                 // Navigate to login screen or main activity
                                 Intent intent = new Intent(CustomerEditProfileActivity.this, WelcomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
