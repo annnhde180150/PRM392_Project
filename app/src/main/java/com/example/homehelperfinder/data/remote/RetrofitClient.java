@@ -12,6 +12,7 @@ import com.example.homehelperfinder.data.remote.profile.EditProfileApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
 import com.example.homehelperfinder.data.remote.report.CustomerReportApiInterface;
 import com.example.homehelperfinder.data.remote.report.HelperReportApiInterface;
+import com.example.homehelperfinder.data.remote.review.ReviewApiInterface;
 import com.example.homehelperfinder.data.remote.serviceRequest.GetAllServiceRequestInterface;
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
@@ -183,6 +184,11 @@ public class RetrofitClient {
         return getAuthenticatedClient().create(com.example.homehelperfinder.data.remote.admin.HelperApplicationsApiInterface.class);
     }
 
+    public static com.example.homehelperfinder.data.remote.booking.IBookingApiService getBookingApiService() {
+        Logger.d("RetrofitClient", "Creating HelperApplicationsApiInterface service with authentication");
+        return getAuthenticatedClient().create(com.example.homehelperfinder.data.remote.booking.IBookingApiService.class);
+    }
+    
     public static EditProfileApiInterface getEditProfileApiInterface() {
         Logger.d("RetrofitClient", "Creating EditProfileApiInterface service");
         return getAuthenticatedClient().create(EditProfileApiInterface.class);
@@ -230,5 +236,10 @@ public class RetrofitClient {
     public static HelperReportApiInterface getHelperReportApiService() {
         Logger.d("RetrofitClient", "Creating HelperReportApiInterface service with authentication");
         return getAuthenticatedClient().create(HelperReportApiInterface.class);
+    }
+
+    public static ReviewApiInterface getReviewApiInterface() {
+        Logger.d("RetrofitClient", "Creating ReviewApiInterface service with authentication");
+        return getAuthenticatedClient().create(ReviewApiInterface.class);
     }
 }

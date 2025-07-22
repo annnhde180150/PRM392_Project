@@ -92,6 +92,61 @@
                 android:textSize="16sp"
                 android:elevation="4dp" />
 
+            <Button
+                android:id="@+id/btn_edit_request"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Edit Request"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_delete_request"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Delete Request"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_view_avail_requests"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="View UnBooked Requests"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_edit_booking"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Edit Booking"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_cancel_booking"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Cancel Booking"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
             <!-- Dashboard Activity Button -->
 
             <!--Helper Dashboard Activity Button -->
@@ -205,6 +260,22 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:drawableStart="@drawable/ic_notification"
+                android:drawablePadding="8dp"
+                android:gravity="center" />
+
+            <!-- My Reviews Button -->
+            <Button
+                android:id="@+id/btn_my_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_secondary_bg"
+                android:elevation="4dp"
+                android:text="My Reviews"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_star"
                 android:drawablePadding="8dp"
                 android:gravity="center" />
 

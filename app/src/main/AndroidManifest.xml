@@ -6,9 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- Network Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- Notification Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Notification Permissions -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -26,46 +24,56 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.cancelBooking.CancelBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.putBooking.UpdateBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.bookHelper.BookHelperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.acceptRequest.AcceptRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.viewRequests.ViewAvailableRequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.listBooking.HelperBookingListActivity"
             android:exported="false"
-            android:theme="@style/Theme.HomeHelperFinder" />
-        <!-- Google Maps API Key -->
+            android:theme="@style/Theme.HomeHelperFinder" /> <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
         <meta-data
             android:name="HASH_SECRET"
-            android:value="${HASH_SECRET}" />
-
-        <!-- Launcher Activity -->
+            android:value="${HASH_SECRET}" /> <!-- Launcher Activity -->
         <activity
-            android:name=".activities.ViewFeedbacckActivity"
+            android:name=".ui.viewFeedBack.ViewFeedbacckActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.DeleteRequestActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".activities.HelperDashboardActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".activities.EditRequestActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".activities.PostRequestActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".activities.LoginActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".activities.UserTypeActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".activities.WelcomeActivity"-->
-<!--            android:exported="false" />-->
+            android:name=".ui.deleteRequest.DeleteRequestActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".activities.HelperDashboardActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activities.EditRequestActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activities.PostRequestActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activities.LoginActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activities.UserTypeActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activities.WelcomeActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".ui.MenuActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
@@ -98,7 +106,7 @@
             android:name=".ui.HelperDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PutRequest.EditRequestActivity"
+            android:name=".ui.putRequest.EditRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.postRequest.PostRequestActivity"
@@ -163,9 +171,13 @@
             android:name=".ui.admin.HelperApplicationDetailActivity"
             android:exported="false"
             android:label="Application Detail" />
-        <activity android:name=".ui.FavoriteHelpersActivity"/>
-        <activity android:name=".ui.HelperWalletActivity"
+        <activity
+            android:name=".ui.HelperWalletActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.HelperWalletActivity"
+            android:exported="false" />
+        <activity android:name=".ui.FavoriteHelpersActivity" />
         <activity
             android:name=".ui.helperSearch.HelperSearchActivity"
             android:exported="false"
@@ -182,6 +194,18 @@
             android:name=".ui.reports.helper.HelperReportsActivity"
             android:exported="false"
             android:label="Helper Reports" />
+        <activity
+            android:name=".ui.review.MyReviewsActivity"
+            android:exported="false"
+            android:label="My Reviews" />
+        <activity
+            android:name=".ui.review.CreateReviewActivity"
+            android:exported="false"
+            android:label="Create Review" />
+        <activity
+            android:name=".ui.review.HelperReviewsActivity"
+            android:exported="false"
+            android:label="Helper Reviews" />
     </application>
 
 </manifest>

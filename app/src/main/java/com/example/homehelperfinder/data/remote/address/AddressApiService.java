@@ -34,6 +34,13 @@ public class AddressApiService extends BaseApiService{
         handleApiResponse(context, updateUserAddress(context, addressId, request), callback);
     }
 
+    public CompletableFuture<UserAddressResponse> getAddress(Context context, int id) {
+        return executeCall(context, apiInterface.getUserAddress(id), "Get Addresses by id");
+    }
+
+    public void getAddress(Context context, int id, BaseApiService.ApiCallback<UserAddressResponse> callback) {
+        handleApiResponse(context, getAddress(context, id), callback);
+    }
 
     public CompletableFuture<Void> deleteUserAddress(Context context, int addressId) {
         return executeCall(context, apiInterface.deleteUserAddress(addressId), "Delete address by ID");

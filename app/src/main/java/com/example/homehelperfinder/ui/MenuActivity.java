@@ -8,9 +8,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.cancelBooking.CancelBookingActivity;
+import com.example.homehelperfinder.ui.deleteRequest.DeleteRequestActivity;
 import com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
+import com.example.homehelperfinder.ui.putBooking.UpdateBookingActivity;
+import com.example.homehelperfinder.ui.putRequest.EditRequestActivity;
+import com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
 
 public class MenuActivity extends AppCompatActivity {
@@ -31,8 +36,14 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_post_request;
     private Button btn_helper_booking_list;
     private Button btn_view_wallet;
+    private Button btn_edit_request;
+    private Button btn_delete_request;
+    private Button btn_view_avail_requests;
     private Button btn_test_search_helper;
+    private Button btn_edit_booking;
+    private Button btn_cancel_booking;
     private Button btn_helper_reports;
+    private Button btn_my_reviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +75,14 @@ public class MenuActivity extends AppCompatActivity {
         btn_post_request = findViewById(R.id.btn_post_request);
         btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
         btn_view_wallet = findViewById(R.id.btn_view_wallet);
+        btn_edit_request = findViewById(R.id.btn_edit_request);
+        btn_delete_request = findViewById(R.id.btn_delete_request);
+        btn_view_avail_requests = findViewById(R.id.btn_view_avail_requests);
         btn_test_search_helper = findViewById(R.id.btn_test_search_helper);
+        btn_edit_booking = findViewById(R.id.btn_edit_booking);
+        btn_cancel_booking = findViewById(R.id.btn_cancel_booking);
         btn_helper_reports = findViewById(R.id.btn_helper_reports);
+        btn_my_reviews = findViewById(R.id.btn_my_reviews);
     }
 
     private void setupClickListeners() {
@@ -139,7 +156,6 @@ public class MenuActivity extends AppCompatActivity {
             Intent intent = new Intent(MenuActivity.this, PostRequestActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
         });
 
         // Add customer dashboard button
@@ -162,7 +178,31 @@ public class MenuActivity extends AppCompatActivity {
             Intent intent = new Intent(MenuActivity.this, HelperWalletActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
+        });
+        btn_edit_request.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, EditRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_delete_request.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, DeleteRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_view_avail_requests.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, ViewAvailableRequestActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_edit_booking.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, UpdateBookingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        btn_cancel_booking.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, CancelBookingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
         btn_test_search_helper.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, HelperSearchActivity.class);
@@ -173,6 +213,11 @@ public class MenuActivity extends AppCompatActivity {
 
         btn_helper_reports.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
+            startActivity(intent);
+        });
+
+        btn_my_reviews.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.review.MyReviewsActivity.class);
             startActivity(intent);
         });
 

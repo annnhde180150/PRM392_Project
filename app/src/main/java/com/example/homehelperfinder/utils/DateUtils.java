@@ -8,12 +8,28 @@ import java.util.Locale;
 public class DateUtils {
 
     private static final SimpleDateFormat displayFormat = new SimpleDateFormat(Constants.DATE_FORMAT_DISPLAY, Locale.getDefault());
+    private static final SimpleDateFormat displayDateTimeFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT_DISPLAY, Locale.getDefault());
     private static final SimpleDateFormat apiFormat = new SimpleDateFormat(Constants.DATE_FORMAT_API, Locale.getDefault());
     private static final SimpleDateFormat apiDateTimeFormat = new SimpleDateFormat(Constants.DATETIME_FORMAT_API, Locale.getDefault());
 
     // Private constructor to prevent instantiation
     private DateUtils() {
         throw new UnsupportedOperationException("DateUtils class cannot be instantiated");
+    }
+
+    // Convert API DateTime string to display format
+    public static String formatDateTimeForDisplay(String apiDateTimeString) {
+        if (ValidationUtils.isEmpty(apiDateTimeString)) {
+            return "";
+        }
+
+        try {
+            Date date = apiDateTimeFormat.parse(apiDateTimeString);
+            return date != null ? displayDateTimeFormat.format(date) : "";
+        } catch (ParseException e) {
+            Logger.e("DateUtils", "Error parsing date: " + apiDateTimeString, e);
+            return apiDateTimeString; // Return original if parsing fails
+        }
     }
 
     // Convert API date string to display format
@@ -59,6 +75,21 @@ public class DateUtils {
         } catch (ParseException e) {
             Logger.e("DateUtils", "Error parsing display date: " + displayDateString, e);
             return displayDateString; // Return original if parsing fails
+        }
+    }
+
+    // Convert display DateTime string to API format
+    public static String formatDateTimeForApi(String displayDateTimeString) {
+        if (ValidationUtils.isEmpty(displayDateTimeString)) {
+            return "";
+        }
+
+        try {
+            Date date = displayDateTimeFormat.parse(displayDateTimeString);
+            return date != null ? apiDateTimeFormat.format(date) : "";
+        } catch (ParseException e) {
+            Logger.e("DateUtils", "Error parsing display date: " + displayDateTimeString, e);
+            return displayDateTimeString; // Return original if parsing fails
         }
     }
 

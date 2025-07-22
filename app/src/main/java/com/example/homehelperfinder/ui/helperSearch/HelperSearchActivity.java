@@ -19,6 +19,7 @@ import com.example.homehelperfinder.data.remote.helper.HelperApiService;
 import com.example.homehelperfinder.data.remote.service.ServiceApiService;
 import com.example.homehelperfinder.data.remote.favorite.FavoriteHelperApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.ui.bookHelper.BookHelperActivity;
 import com.example.homehelperfinder.ui.helperSearch.adapter.HelperSearchAdapter;
 import com.example.homehelperfinder.ui.helperSearch.adapter.ServiceSelectionAdapter;
 import com.example.homehelperfinder.utils.LocationUtils;
@@ -284,6 +285,10 @@ public class HelperSearchActivity extends BaseActivity implements ServiceSelecti
         // Navigate to chat or contact helper
         // You can implement chat functionality here
         Toast.makeText(this, "Contacting " + helper.getHelperName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, BookHelperActivity.class);
+        intent.putExtra("helperId", helper.getHelperId());
+        startActivity(intent);
+        finish();
     }
 
     @Override

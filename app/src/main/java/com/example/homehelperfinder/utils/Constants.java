@@ -3,7 +3,7 @@ package com.example.homehelperfinder.utils;
 public class Constants {
 
     // Network Configuration
-    public static final String BASE_URL = "https://helper-finder.azurewebsites.net";
+    public static final String BASE_URL = "http://10.0.2.2:5272";
     public static final String API_BASE_PATH = "/api/";
     public static final String RETROFIT_BASE_URL = BASE_URL + API_BASE_PATH;
 
@@ -59,7 +59,8 @@ public class Constants {
     // Date Formats
     public static final String DATE_FORMAT_DISPLAY = "dd/MM/yyyy";
     public static final String DATE_FORMAT_API = "yyyy-MM-dd";
-    public static final String DATETIME_FORMAT_API = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATETIME_FORMAT_API = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String DATETIME_FORMAT_DISPLAY = "dd/MM/yyyy HH:mm";
 
     // Chat Constants
     public static final int MAX_MESSAGE_LENGTH = 2000;

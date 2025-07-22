@@ -8,6 +8,7 @@ import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.HelperSearchResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
+import com.example.homehelperfinder.data.model.response.ServiceResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
 import com.example.homehelperfinder.utils.NetworkUtils;
@@ -75,6 +76,14 @@ public class HelperApiService extends BaseApiService{
         });
     }
 
+    public CompletableFuture<List<ServiceResponse>> getHelperServices(Context context, int helperId) {
+        return executeCall(context, apiInterface.getHelperService(helperId), "get helper services by ID");
+    }
+
+    public void getHelperServices(Context context, int helperId, BaseApiService.ApiCallback<List<ServiceResponse>> callback) {
+        handleApiResponse(context, getHelperServices(context, helperId), callback);
+    }
+    
     public void AddMoneytoIncome(Context context, AddMoneytoIncomeRequest addMoneytoIncomeRequest, BaseApiService.ApiCallback<Void> callback) {
         if (!NetworkUtils.isNetworkAvailable(context)) {
             callback.onError("No internet connection available", null);

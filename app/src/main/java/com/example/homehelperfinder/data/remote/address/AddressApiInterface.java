@@ -17,6 +17,9 @@ import retrofit2.http.Path;
 
 public interface AddressApiInterface {
 
+    @GET("Address/User/{userId}")
+    Call<ApiResponse<List<UserAddressResponse>>> getUserAddresses(@Path("userId") int userId);
+
     @GET("Address/UserAddress/{id}")
     Call<ApiResponse<UserAddressResponse>> getUserAddress(@Path("id") int id);
     @PUT("Address/UserAddress/{id}")

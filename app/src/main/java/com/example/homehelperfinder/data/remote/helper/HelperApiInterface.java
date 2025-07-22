@@ -6,6 +6,9 @@ import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
 import com.example.homehelperfinder.data.model.response.HelperSearchResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
+import com.example.homehelperfinder.data.model.response.ServiceResponse;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -34,6 +37,9 @@ public interface HelperApiInterface {
     @GET("Helper/ViewIncome/{helperId}")
     Call<ApiResponse<HelperViewIncomeResponse>> viewHelperIncome(@Path("helperId") int helperId);
 
+    @GET("Helper/GetHelperServices/{id}")
+    Call<ApiResponse<List<ServiceResponse>>>  getHelperService(@Path("id") int helperId);
+    
     @PUT("Helper/addMoneyToWallet")
     Call<ApiResponse<Void>> addMoneyToWallet(@Body AddMoneytoIncomeRequest addMoneytoIncomeRequest);
 }
