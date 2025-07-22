@@ -183,9 +183,7 @@
         <activity
             android:name=".ui.HelperWalletActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.HelperWalletActivity"
-            android:exported="false" />
+
         <activity android:name=".ui.FavoriteHelpersActivity" />
         <activity
             android:name=".ui.helperSearch.HelperSearchActivity"
