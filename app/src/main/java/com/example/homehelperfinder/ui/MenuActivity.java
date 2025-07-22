@@ -32,6 +32,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button btn_helper_booking_list;
     private Button btn_view_wallet;
     private Button btn_test_search_helper;
+    private Button btn_helper_reports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_helper_booking_list = findViewById(R.id.btn_helper_booking_list);
         btn_view_wallet = findViewById(R.id.btn_view_wallet);
         btn_test_search_helper = findViewById(R.id.btn_test_search_helper);
+        btn_helper_reports = findViewById(R.id.btn_helper_reports);
     }
 
     private void setupClickListeners() {
@@ -167,6 +169,11 @@ public class MenuActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        });
+
+        btn_helper_reports.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
+            startActivity(intent);
         });
 
         // Add admin edit profile button

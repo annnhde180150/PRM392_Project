@@ -101,4 +101,7 @@
     <!-- Report colors -->
     <color name="orange">#FF9800</color>
     <color name="primary_light">#E3F2FD</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
 </resources>

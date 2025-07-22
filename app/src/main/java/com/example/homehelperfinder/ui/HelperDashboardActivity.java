@@ -97,15 +97,11 @@ public class HelperDashboardActivity extends BaseActivity {
         });
 
         btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
             startActivity(intent);
         });
         btnNotification.setOnClickListener(v -> {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
-            startActivity(intent);
-        });
-        btn_view_income.setOnClickListener(v -> {
-            Intent intent = new Intent(HelperDashboardActivity.this, HelperWalletActivity.class);
             startActivity(intent);
         });
         navProfile.setOnClickListener(v -> {
