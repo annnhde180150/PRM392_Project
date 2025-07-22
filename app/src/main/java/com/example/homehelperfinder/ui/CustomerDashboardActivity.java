@@ -120,9 +120,8 @@ public class CustomerDashboardActivity extends BaseActivity {
         });
 
         cardViewRequests.setOnClickListener(v -> {
-            // TODO: Navigate to customer requests list
-            // Intent intent = new Intent(CustomerDashboardActivity.this, CustomerRequestsActivity.class);
-            // startActivity(intent);
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.viewPendingRequest.ViewUserPendingRequetsActivity.class);
+            startActivity(intent);
         });
 
         cardChat.setOnClickListener(v -> {

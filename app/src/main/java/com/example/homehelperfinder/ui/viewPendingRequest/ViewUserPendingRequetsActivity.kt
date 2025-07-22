@@ -18,6 +18,7 @@ import com.example.homehelperfinder.databinding.ActivityViewUserPendingRequetsBi
 import com.example.homehelperfinder.ui.deleteRequest.DeleteRequestActivity
 import com.example.homehelperfinder.ui.putRequest.EditRequestActivity
 import com.example.homehelperfinder.ui.viewPendingRequest.adapter.PendingRequestAdapter
+import com.example.homehelperfinder.utils.ActivityResultHandler
 import com.example.homehelperfinder.utils.UserManager
 
 class ViewUserPendingRequetsActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class ViewUserPendingRequetsActivity : AppCompatActivity() {
     private lateinit var serviceApi : ServiceApiService
     private lateinit var requestAdapter : PendingRequestAdapter
     private lateinit var userMan : UserManager
+    private lateinit var resultHandler: ActivityResultHandler
     private val serviceList : MutableList<ServiceResponse> = ArrayList<ServiceResponse>()
     private var id : Int = 0
 
@@ -36,8 +38,11 @@ class ViewUserPendingRequetsActivity : AppCompatActivity() {
         requestApi = ServiceRequestApiService(this)
         serviceApi = ServiceApiService()
         userMan = UserManager.getInstance(this)
-//        id = userMan.currentUserId
-        id = 1
+        resultHandler = ActivityResultHandler(this){
+            fetchRequests()
+        }
+        resultHandler.register()
+        id = userMan.currentUserId
 
         binding = ActivityViewUserPendingRequetsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -49,6 +54,7 @@ class ViewUserPendingRequetsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        initView()
     }
 
     fun initView(){
@@ -84,12 +90,12 @@ class ViewUserPendingRequetsActivity : AppCompatActivity() {
                                 onEditClick = { response ->
                                     val intent = Intent(this@ViewUserPendingRequetsActivity, EditRequestActivity::class.java)
                                     intent.putExtra("requestId", response.requestId)
-                                    startActivity(intent)
+                                    resultHandler.launch(intent)
                                 },
                                 onCancelClick = { response ->
                                     val intent = Intent(this@ViewUserPendingRequetsActivity, DeleteRequestActivity::class.java)
                                     intent.putExtra("requestId", response.requestId)
-                                    startActivity(intent)
+                                    resultHandler.launch(intent)
                                 })
                             binding.recyclerViewAvailableRequests.adapter = requestAdapter
                             binding.recyclerViewAvailableRequests.layoutManager =

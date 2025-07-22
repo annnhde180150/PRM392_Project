@@ -1,5 +1,6 @@
 package com.example.homehelperfinder.ui.deleteRequest
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,7 @@ import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApi
 import com.example.homehelperfinder.databinding.ActivityDeleteRequestBinding
 import com.example.homehelperfinder.databinding.ActivityEditRequestBinding
 import com.example.homehelperfinder.ui.putRequest.EditRequestViewModel
+import com.example.homehelperfinder.utils.DateUtils
 import com.example.homehelperfinder.utils.SharedPrefsHelper
 
 class DeleteRequestActivity : AppCompatActivity() {
@@ -35,7 +37,8 @@ class DeleteRequestActivity : AppCompatActivity() {
         serviceRequestService = ServiceRequestApiService(this)
         serviceService = ServiceApiService()
 
-        id = pref.getInt("requestId")
+//        id = pref.getInt("requestId")
+        id = intent.getIntExtra("requestId", 0)
 
         binding = ActivityDeleteRequestBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -66,6 +69,7 @@ class DeleteRequestActivity : AppCompatActivity() {
                             "Delete request Successfully",
                             Toast.LENGTH_LONG
                         ).show()
+                        setResult(Activity.RESULT_OK)
                         finish()
                     }
 
@@ -146,7 +150,7 @@ class DeleteRequestActivity : AppCompatActivity() {
                 id,
                 object : BaseApiService.ApiCallback<RequestDetailResponse> {
                     override fun onSuccess(request: RequestDetailResponse) {
-                        viewModel.startTime.value = request.requestedStartTime
+                        viewModel.startTime.value = DateUtils.formatDateTimeForDisplay(request.requestedStartTime)
                         viewModel.requestId = request.requestId
                         viewModel.duration.value = request.requestedDurationHours.toString()
                         viewModel.serviceId.value = request.serviceId.toString()

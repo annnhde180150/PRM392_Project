@@ -2,6 +2,7 @@ package com.example.homehelperfinder.ui.postRequest
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -25,6 +26,7 @@ import com.example.homehelperfinder.data.remote.address.AddressApiService
 import com.example.homehelperfinder.data.remote.service.ServiceApiService
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiService
 import com.example.homehelperfinder.databinding.ActivityPostRequestBinding
+import com.example.homehelperfinder.ui.CustomerDashboardActivity
 import com.example.homehelperfinder.ui.postRequest.adapter.AddressAdapter
 import com.example.homehelperfinder.ui.postRequest.adapter.ServiceAdapter
 import com.example.homehelperfinder.utils.DateUtils
@@ -89,7 +91,7 @@ class PostRequestActivity() : AppCompatActivity() {
         }
 
         binding.btnClose.setOnClickListener {
-            onSubmit()
+            finish()
         }
 
         setupDatePicker()
@@ -130,7 +132,9 @@ class PostRequestActivity() : AppCompatActivity() {
                             ).show()
                         })
 //                        pref.putInt("requestId", data!!.requestId)
-
+                        val intent = Intent(this@PostRequestActivity, CustomerDashboardActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }
 
                     override fun onError(errorMessage: String?, throwable: Throwable?) {
