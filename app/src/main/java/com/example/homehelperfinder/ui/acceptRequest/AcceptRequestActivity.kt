@@ -73,8 +73,8 @@ class AcceptRequestActivity : AppCompatActivity() {
         binding.btnConfirm.setOnClickListener {
             val request = AcceptRequestRequest(
                 viewModel.requestId,
-//                userManager.currentUserId
-                1
+                userManager.currentUserId
+//                1
             )
 
             try{

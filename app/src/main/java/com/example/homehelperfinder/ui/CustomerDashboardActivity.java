@@ -29,7 +29,7 @@ public class CustomerDashboardActivity extends BaseActivity {
     private TextView tvAvailableHelpersCount, tvAvailableHelpersGrowth;
 
     // Quick Actions Cards
-    private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile;
+    private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile, cardPending, cardIncoming;
 
     // Bottom Navigation
     private LinearLayout navHome, navRequests, navMessages, navProfile,tvFindHelper;
@@ -82,6 +82,8 @@ public class CustomerDashboardActivity extends BaseActivity {
         cardViewRequests = findViewById(R.id.card_view_requests);
         cardChat = findViewById(R.id.card_chat);
         cardProfile = findViewById(R.id.card_profile);
+        cardPending = findViewById(R.id.pending_booking);
+        cardIncoming = findViewById(R.id.incoming);
 
         // Bottom Navigation
         navHome = findViewById(R.id.nav_home);
@@ -132,6 +134,16 @@ public class CustomerDashboardActivity extends BaseActivity {
 
         cardProfile.setOnClickListener(v -> {
             Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
+            startActivity(intent);
+        });
+
+        cardPending.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.viewPendingBooking.ViewPendingBookingActivity.class);
+            startActivity(intent);
+        });
+
+        cardIncoming.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.viewSchedule.ViewUserScheduleActivity.class);
             startActivity(intent);
         });
 

@@ -24,6 +24,7 @@ import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiS
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
+import com.example.homehelperfinder.utils.UserManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HelperDashboardActivity extends BaseActivity {
@@ -32,7 +33,7 @@ public class HelperDashboardActivity extends BaseActivity {
     private SharedPrefsHelper sharedPrefsHelper;
     private TextView tv_greeting;
     private ImageButton btnNotification;
-    private CardView btn_view_income,btn_view_wallet;
+    private CardView btn_view_income,btn_view_wallet, btn_avail_requests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,8 @@ public class HelperDashboardActivity extends BaseActivity {
         HelperAvailableStatusApiService api = new HelperAvailableStatusApiService(this);
         HelperAvailableRequest request = new HelperAvailableRequest();
         String userIdStr = sharedPrefsHelper.getUserId();
-        int userId = 1; // HardCore to test
-        request.setUserId(userId);
+        UserManager userManager = UserManager.getInstance(this);
+        request.setUserId(userManager.getCurrentUserId());
         // Kiểm tra trạng thái ban đầu (nếu cần)
         boolean isChecked = switchActiveStatus.isChecked();
         Log.d("SwitchStatus", "Trạng thái ban đầu: " + (isChecked ? "Đang hoạt động" : "Không hoạt động"));
@@ -132,6 +133,10 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.HelperWalletActivity.class);
             startActivity(intent);
         });
+        btn_avail_requests.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -142,5 +147,6 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
         btn_view_wallet = findViewById(R.id.card_manage_view_Wallet);
+        btn_avail_requests = findViewById(R.id.card_view_request);
     }
 }

@@ -18,6 +18,7 @@ import com.example.homehelperfinder.ui.cancelBooking.CancelBookingActivity
 import com.example.homehelperfinder.ui.putBooking.UpdateBookingActivity
 import com.example.homehelperfinder.ui.viewPendingBooking.ViewPendingBookingActivity
 import com.example.homehelperfinder.ui.viewPendingBooking.adapter.PendingBookingAdapter
+import com.example.homehelperfinder.utils.ActivityResultHandler
 import com.example.homehelperfinder.utils.UserManager
 
 class ViewUserScheduleActivity : AppCompatActivity(), PendingBookingAdapter.OnPendingBookingActionListener {
@@ -25,6 +26,7 @@ class ViewUserScheduleActivity : AppCompatActivity(), PendingBookingAdapter.OnPe
     private lateinit var bookingApi : BookingApiService
     private lateinit var userMan : UserManager
     private lateinit var bookingAdapter : PendingBookingAdapter
+    private lateinit var resultHandler: ActivityResultHandler
     private var bookingList : MutableList<BookingDetailResponse> = ArrayList<BookingDetailResponse>()
     private var userId : Int = 0
 
@@ -34,8 +36,12 @@ class ViewUserScheduleActivity : AppCompatActivity(), PendingBookingAdapter.OnPe
 
         bookingApi = BookingApiService()
         userMan = UserManager.getInstance(this)
-//        userId = userMan.currentUserId
-        userId = 1
+        resultHandler = ActivityResultHandler(this){
+            fetchPendingBookings()
+        }
+        resultHandler.register()
+        userId = userMan.currentUserId
+//        userId = 1
 
         binding = ActivityViewUserScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -115,12 +121,12 @@ class ViewUserScheduleActivity : AppCompatActivity(), PendingBookingAdapter.OnPe
     override fun onEditBooking(booking: BookingDetailResponse) {
         val intent = Intent(this, UpdateBookingActivity::class.java)
         intent.putExtra("bookingId", booking.bookingId)
-        startActivity(intent)
+        resultHandler.launch(intent)
     }
 
     override fun onCancelBooking(booking: BookingDetailResponse) {
         val intent = Intent(this, CancelBookingActivity::class.java)
         intent.putExtra("bookingId", booking.bookingId)
-        startActivity(intent)
+        resultHandler.launch(intent)
     }
 }
