@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.HelperAvailableRequest;
 import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiService;
+import com.example.homehelperfinder.ui.activeBookings.ActiveBookingsActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
@@ -34,7 +35,7 @@ public class HelperDashboardActivity extends BaseActivity {
     private ImageButton btnNotification;
     private LinearLayout navProfile,nav_orders,nav_home;
     private ImageView ivNavProfile;
-    private CardView btn_view_income;
+    private CardView btn_view_income, btn_active_bookings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,15 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.reports.helper.HelperReportsActivity.class);
             startActivity(intent);
         });
+        
+        if (btn_active_bookings != null) {
+            btn_active_bookings.setOnClickListener(v -> {
+                Intent intent = new Intent(HelperDashboardActivity.this, ActiveBookingsActivity.class);
+                intent.putExtra("isHelperView", true);
+                startActivity(intent);
+            });
+        }
+        
         btnNotification.setOnClickListener(v -> {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
@@ -145,6 +155,7 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting = findViewById(R.id.tv_greeting);
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
+        btn_active_bookings = findViewById(R.id.card_active_bookings);
 
         tvNavProfile = findViewById(R.id.tv_nav_profile);
         ivNavProfile = findViewById(R.id.iv_nav_profile);

@@ -3,8 +3,10 @@ package com.example.homehelperfinder.data.remote.booking
 import com.example.homehelperfinder.data.model.request.AcceptRequestRequest
 import com.example.homehelperfinder.data.model.request.BookingCancelRequest
 import com.example.homehelperfinder.data.model.request.BookingCreateRequest
+import com.example.homehelperfinder.data.model.request.BookingStatusUpdateRequest
 import com.example.homehelperfinder.data.model.request.BookingUpdateRequest
 import com.example.homehelperfinder.data.model.request.NewRequestRequest
+import com.example.homehelperfinder.data.model.response.ActiveBookingResponse
 import com.example.homehelperfinder.data.model.response.ApiResponse
 import com.example.homehelperfinder.data.model.response.BookingDetailResponse
 import retrofit2.Call
@@ -32,4 +34,13 @@ interface IBookingApiService {
 
     @POST("Bookings/CancelBooking")
     fun cancelBooking(@Body request : BookingCancelRequest) : Call<ApiResponse<String>>
+    
+    @GET("Bookings/ActiveByUser/{userId}")
+    fun getActiveBookingsByUser(@Path("userId") userId : Int) : Call<ApiResponse<List<ActiveBookingResponse>>>
+    
+    @GET("Bookings/ActiveByHelper/{helperId}")
+    fun getActiveBookingsByHelper(@Path("helperId") helperId : Int) : Call<ApiResponse<List<ActiveBookingResponse>>>
+    
+    @PUT("Bookings/{bookingId}/status")
+    fun updateBookingStatus(@Path("bookingId") bookingId : Int, @Body request : BookingStatusUpdateRequest) : Call<ApiResponse<BookingDetailResponse>>
 }

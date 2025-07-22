@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.example.homehelperfinder.R;
+import com.example.homehelperfinder.ui.activeBookings.ActiveBookingsActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.utils.UserManager;
 
@@ -29,7 +30,7 @@ public class CustomerDashboardActivity extends BaseActivity {
     private TextView tvAvailableHelpersCount, tvAvailableHelpersGrowth;
 
     // Quick Actions Cards
-    private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile;
+    private CardView cardPostRequest, cardViewRequests, cardChat, cardProfile, cardActiveBookings;
 
     // Bottom Navigation
     private LinearLayout navHome, navRequests, navMessages, navProfile;
@@ -82,6 +83,7 @@ public class CustomerDashboardActivity extends BaseActivity {
         cardViewRequests = findViewById(R.id.card_view_requests);
         cardChat = findViewById(R.id.card_chat);
         cardProfile = findViewById(R.id.card_profile);
+        cardActiveBookings = findViewById(R.id.card_active_bookings);
 
         // Bottom Navigation
         navHome = findViewById(R.id.nav_home);
@@ -134,6 +136,15 @@ public class CustomerDashboardActivity extends BaseActivity {
             Intent intent = new Intent(CustomerDashboardActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
             startActivity(intent);
         });
+
+        // Active Bookings click
+        if (cardActiveBookings != null) {
+            cardActiveBookings.setOnClickListener(v -> {
+                Intent intent = new Intent(CustomerDashboardActivity.this, ActiveBookingsActivity.class);
+                intent.putExtra("isHelperView", false);
+                startActivity(intent);
+            });
+        }
 
         ivFavoriteHelpers.setOnClickListener(v -> {
             Intent intent = new Intent(this, FavoriteHelpersActivity.class);
