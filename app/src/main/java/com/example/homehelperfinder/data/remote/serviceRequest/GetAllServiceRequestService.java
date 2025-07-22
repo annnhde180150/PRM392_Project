@@ -70,4 +70,60 @@ public class GetAllServiceRequestService extends BaseApiService {
             }
         });
     };
+
+    public void getActiveBookingsByUserId(Context context, int userId, BaseApiService.ApiCallback<List<GetAllServiceRequestResponse>> callback) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            callback.onError("No internet connection available", null);
+            return;
+        }
+        Call<ApiResponse<List<GetAllServiceRequestResponse>>> call = apiInterface.getActiveBookingsByUserId(userId);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<GetAllServiceRequestResponse>>> call, Response<ApiResponse<List<GetAllServiceRequestResponse>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<List<GetAllServiceRequestResponse>> apiResponse = response.body();
+                    if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(apiResponse.getMessage() != null ? apiResponse.getMessage() : "Dữ liệu rỗng", null);
+                    }
+                } else {
+                    callback.onError("Phản hồi không thành công hoặc dữ liệu rỗng", null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<GetAllServiceRequestResponse>>> call, Throwable t) {
+                callback.onError("Lỗi kết nối API", t);
+            }
+        });
+    }
+
+    public void getActiveBookingsByHelperId(Context context, int helperId, BaseApiService.ApiCallback<List<GetAllServiceRequestResponse>> callback) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            callback.onError("No internet connection available", null);
+            return;
+        }
+        Call<ApiResponse<List<GetAllServiceRequestResponse>>> call = apiInterface.getActiveBookingsByHelperId(helperId);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<GetAllServiceRequestResponse>>> call, Response<ApiResponse<List<GetAllServiceRequestResponse>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<List<GetAllServiceRequestResponse>> apiResponse = response.body();
+                    if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(apiResponse.getMessage() != null ? apiResponse.getMessage() : "Dữ liệu rỗng", null);
+                    }
+                } else {
+                    callback.onError("Phản hồi không thành công hoặc dữ liệu rỗng", null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<GetAllServiceRequestResponse>>> call, Throwable t) {
+                callback.onError("Lỗi kết nối API", t);
+            }
+        });
+    }
 }

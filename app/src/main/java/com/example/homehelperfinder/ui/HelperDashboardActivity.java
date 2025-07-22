@@ -22,6 +22,7 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.HelperAvailableRequest;
 import com.example.homehelperfinder.data.remote.helper.HelperAvailableStatusApiService;
 import com.example.homehelperfinder.ui.activeBookings.ActiveBookingsActivity;
+import com.example.homehelperfinder.ui.activeBookings.UpdateBookingStatusActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.utils.SharedPrefsHelper;
@@ -130,7 +131,8 @@ public class HelperDashboardActivity extends BaseActivity {
         if (btn_active_bookings != null) {
             btn_active_bookings.setOnClickListener(v -> {
                 Intent intent = new Intent(HelperDashboardActivity.this, ActiveBookingsActivity.class);
-                intent.putExtra("isHelperView", true);
+                intent.putExtra(ActiveBookingsActivity.EXTRA_MODE, "helper");
+                intent.putExtra(ActiveBookingsActivity.EXTRA_ID, 0);
                 startActivity(intent);
             });
         }

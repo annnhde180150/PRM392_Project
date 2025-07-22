@@ -20,10 +20,4 @@ public class BookingStatusUpdateRequest {
     
     @SerializedName("status")
     private String status;
-    
-    @SerializedName("actualStartTime")
-    private String actualStartTime;
-    
-    @SerializedName("actualEndTime")
-    private String actualEndTime;
 } 

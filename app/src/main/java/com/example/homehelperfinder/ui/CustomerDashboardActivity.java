@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.example.homehelperfinder.R;
-import com.example.homehelperfinder.ui.activeBookings.ActiveBookingsActivity;
+import com.example.homehelperfinder.ui.activeBookings.UpdateBookingStatusActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.utils.UserManager;
 
@@ -142,7 +142,7 @@ public class CustomerDashboardActivity extends BaseActivity {
         // Active Bookings click
         if (cardActiveBookings != null) {
             cardActiveBookings.setOnClickListener(v -> {
-                Intent intent = new Intent(CustomerDashboardActivity.this, ActiveBookingsActivity.class);
+                Intent intent = new Intent(CustomerDashboardActivity.this, UpdateBookingStatusActivity.class);
                 intent.putExtra("isHelperView", false);
                 startActivity(intent);
             });

@@ -17,4 +17,10 @@ public interface GetAllServiceRequestInterface {
 
     @PUT("ServiceRequests/UpdateRequestStatus")
     Call<ApiResponse<Void>> updateRequestStatus(@Body ServiceRequestUpdateStatusRequest request);
+
+    @GET("Bookings/ActiveByUser/{userId}")
+    Call<ApiResponse<List<GetAllServiceRequestResponse>>> getActiveBookingsByUserId(@Path("userId") int userId);
+
+    @GET("Bookings/ActiveByHelper/{helperId}")
+    Call<ApiResponse<List<GetAllServiceRequestResponse>>> getActiveBookingsByHelperId(@Path("helperId") int helperId);
 }

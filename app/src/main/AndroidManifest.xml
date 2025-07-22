@@ -24,13 +24,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activeBookings.ActiveBookingsActivity"
+            android:name=".ui.activeBookings.UpdateBookingStatusActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activeBookings.BookingDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activeBookings.UpdateBookingStatusActivity"
             android:name=".ui.viewSchedule.ViewUserScheduleActivity"
             android:exported="false" />
         <activity
@@ -220,6 +219,9 @@
             android:name=".ui.review.HelperReviewsActivity"
             android:exported="false"
             android:label="Helper Reviews" />
+        <activity
+            android:name=".ui.activeBookings.ActiveBookingsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

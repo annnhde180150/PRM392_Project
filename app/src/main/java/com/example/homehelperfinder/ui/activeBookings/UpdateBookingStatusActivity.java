@@ -25,6 +25,7 @@ import com.example.homehelperfinder.ui.base.BaseActivity;
 import com.example.homehelperfinder.utils.DateUtils;
 import com.example.homehelperfinder.utils.UserManager;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -32,6 +33,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class UpdateBookingStatusActivity extends BaseActivity {
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+    private Toolbar toolbar;
     private UserManager userManager;
     private int currentUserId;
     private RadioGroup radioGroupStatus;
@@ -42,7 +45,6 @@ public class UpdateBookingStatusActivity extends BaseActivity {
     
     private BookingApiService bookingApiService;
     private int bookingId;
-    private Date startDate, endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,6 @@ public class UpdateBookingStatusActivity extends BaseActivity {
         radioInProgress = findViewById(R.id.radio_in_progress);
         radioCompleted = findViewById(R.id.radio_completed);
         radioCancelled = findViewById(R.id.radio_cancelled);
-        tvStartTime = findViewById(R.id.tv_start_time);
-        tvEndTime = findViewById(R.id.tv_end_time);
-        btnPickStartTime = findViewById(R.id.btn_pick_start_time);
-        btnPickEndTime = findViewById(R.id.btn_pick_end_time);
         btnUpdate = findViewById(R.id.btn_update);
         progressBar = findViewById(R.id.progress_bar);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -78,67 +76,23 @@ public class UpdateBookingStatusActivity extends BaseActivity {
 
         // Set current time as default
         Calendar calendar = Calendar.getInstance();
-        startDate = calendar.getTime();
-        endDate = calendar.getTime();
-        updateTimeDisplays();
+
 
         // Set click listeners
-        btnPickStartTime.setOnClickListener(v -> showDateTimePicker(true));
-        btnPickEndTime.setOnClickListener(v -> showDateTimePicker(false));
         btnUpdate.setOnClickListener(v -> updateBookingStatus());
         //
         userManager = UserManager.getInstance(this);
         currentUserId = userManager.getCurrentUserId();
+        setupToolbar();
     }
 
-    private void showDateTimePicker(boolean isStartTime) {
-        Calendar calendar = Calendar.getInstance();
-        if (isStartTime && startDate != null) {
-            calendar.setTime(startDate);
-        } else if (!isStartTime && endDate != null) {
-            calendar.setTime(endDate);
-        }
+    private void setupToolbar() {
+        toolbar = findViewById(R.id.toolbar);
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
-            calendar.set(Calendar.YEAR, selectedYear);
-            calendar.set(Calendar.MONTH, selectedMonth);
-            calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
-
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timeView, selectedHour, selectedMinute) -> {
-                calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
-                calendar.set(Calendar.MINUTE, selectedMinute);
-
-                if (isStartTime) {
-                    startDate = calendar.getTime();
-                } else {
-                    endDate = calendar.getTime();
-                }
-
-                updateTimeDisplays();
-            }, hour, minute, true);
-
-            timePickerDialog.show();
-        }, year, month, day);
-
-        datePickerDialog.show();
-    }
-
-    private void updateTimeDisplays() {
-
-
-        if (startDate != null) {
-            tvStartTime.setText(DateUtils.formatDateTime(startDate));
-        }
-
-        if (endDate != null) {
-            tvEndTime.setText(DateUtils.formatDateTime(endDate));
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Update booking status");
         }
     }
 
@@ -168,9 +122,6 @@ public class UpdateBookingStatusActivity extends BaseActivity {
         request.setBookingId(bookingId);
         request.setHelperId(currentUserId);
         request.setStatus(status);
-        request.setActualStartTime(DateUtils.formatDateTimeForApi(startDate));
-        request.setActualEndTime(DateUtils.formatDateTimeForApi(endDate));
-
         // Send API request
         bookingApiService.updateBookingStatus(this, bookingId, request, new BaseApiService.ApiCallback<BookingDetailResponse>() {
             @Override
