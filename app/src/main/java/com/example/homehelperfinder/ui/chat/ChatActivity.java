@@ -1,11 +1,14 @@
 package com.example.homehelperfinder.ui.chat;
 
 import android.content.Intent;
+import java.util.ArrayList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +52,7 @@ public class ChatActivity extends BaseActivity {
     private EditText etMessage;
     private ImageButton btnSend;
     private ImageButton btnBack;
+    private LinearLayout layoutEmptyState;
 
     // Data
     private ChatMessageAdapter adapter;
@@ -86,6 +90,7 @@ public class ChatActivity extends BaseActivity {
         etMessage = findViewById(R.id.etMessage);
         btnSend = findViewById(R.id.btnSend);
         btnBack = findViewById(R.id.btnBack);
+        layoutEmptyState = findViewById(R.id.layoutEmptyState);
     }
 
     private void initData() {
@@ -103,19 +108,35 @@ public class ChatActivity extends BaseActivity {
                 intent.getIntExtra(Constants.INTENT_OTHER_HELPER_ID, -1) : null;
         participantName = intent.getStringExtra("participant_name");
 
-        // Set participant name
-        if (participantName != null && !participantName.isEmpty()) {
-            tvParticipantName.setText(participantName);
-        } else {
-            tvParticipantName.setText("Chat");
-        }
-
         // Validate that we have either otherUserId or otherHelperId
         if (otherUserId == null && otherHelperId == null) {
-            Logger.e(TAG, "No recipient specified");
-            Toast.makeText(this, "Error: No recipient specified", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+            Logger.e(TAG, "No recipient specified - otherUserId: " + otherUserId + ", otherHelperId: " + otherHelperId);
+
+            // Check if we have the old intent keys for backward compatibility
+            if (intent.hasExtra("otherUserId")) {
+                otherUserId = intent.getIntExtra("otherUserId", -1);
+                if (otherUserId == -1) otherUserId = null;
+                Logger.d(TAG, "Found otherUserId from legacy key: " + otherUserId);
+            }
+
+            if (intent.hasExtra("otherHelperId")) {
+                otherHelperId = intent.getIntExtra("otherHelperId", -1);
+                if (otherHelperId == -1) otherHelperId = null;
+                Logger.d(TAG, "Found otherHelperId from legacy key: " + otherHelperId);
+            }
+
+            // Check participant name from legacy key
+            if (participantName == null && intent.hasExtra("otherUserName")) {
+                participantName = intent.getStringExtra("otherUserName");
+                Logger.d(TAG, "Found participant name from legacy key: " + participantName);
+            }
+
+            // Final validation
+            if (otherUserId == null && otherHelperId == null) {
+                Toast.makeText(this, "Error: No recipient specified", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
         }
 
         // Convert -1 to null for proper API calls
@@ -123,6 +144,13 @@ public class ChatActivity extends BaseActivity {
         if (bookingId != null && bookingId == -1) bookingId = null;
         if (otherUserId != null && otherUserId == -1) otherUserId = null;
         if (otherHelperId != null && otherHelperId == -1) otherHelperId = null;
+
+        // Update participant name after processing legacy keys
+        if (participantName != null && !participantName.isEmpty()) {
+            tvParticipantName.setText(participantName);
+        } else {
+            tvParticipantName.setText("Chat");
+        }
     }
 
     private void setupRecyclerView() {
@@ -175,11 +203,21 @@ public class ChatActivity extends BaseActivity {
 
     private void onMessagesLoaded(List<ChatMessageResponse> messages) {
         hideLoading();
-        adapter.setMessages(messages);
 
-        if (messages != null && !messages.isEmpty()) {
-            rvMessages.scrollToPosition(messages.size() - 1);
-            markMessagesAsRead(messages);
+        if (messages != null) {
+            adapter.setMessages(messages);
+
+            if (!messages.isEmpty()) {
+                rvMessages.scrollToPosition(messages.size() - 1);
+                markMessagesAsRead(messages);
+                hideEmptyState();
+            } else {
+                showEmptyState();
+            }
+        } else {
+            // Handle null messages list
+            adapter.setMessages(new ArrayList<>());
+            showEmptyState();
         }
     }
 
@@ -248,6 +286,7 @@ public class ChatActivity extends BaseActivity {
     private void onMessageSent(ChatMessageResponse message) {
         adapter.addMessage(message);
         rvMessages.scrollToPosition(adapter.getItemCount() - 1);
+        hideEmptyState(); // Hide empty state when first message is sent
         Logger.d(TAG, "Message sent successfully");
     }
 
@@ -260,6 +299,18 @@ public class ChatActivity extends BaseActivity {
         hideLoading();
         Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
         Logger.e(TAG, "Error: " + errorMessage, throwable);
+    }
+
+    private void showEmptyState() {
+        if (layoutEmptyState != null) {
+            layoutEmptyState.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideEmptyState() {
+        if (layoutEmptyState != null) {
+            layoutEmptyState.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -374,6 +425,7 @@ public class ChatActivity extends BaseActivity {
                 runOnUiThread(() -> {
                     adapter.addMessage(chatMessage);
                     rvMessages.scrollToPosition(adapter.getItemCount() - 1);
+                    hideEmptyState(); // Hide empty state when real-time message is received
                     Logger.d(TAG, "Real-time message added to chat");
                 });
 

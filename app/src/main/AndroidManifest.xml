@@ -130,6 +130,10 @@
             android:exported="false"
             android:label="Messages" />
         <activity
+            android:name=".ui.chat.SearchChatActivity"
+            android:exported="false"
+            android:label="Search Chat" />
+        <activity
             android:name=".ui.chat.ChatActivity"
             android:exported="false"
             android:label="Chat" />

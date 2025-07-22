@@ -1,11 +1,13 @@
 package com.example.homehelperfinder.data.remote.chat;
 
 import com.example.homehelperfinder.data.model.request.MarkAsReadRequest;
+import com.example.homehelperfinder.data.model.request.SearchChatRequest;
 import com.example.homehelperfinder.data.model.request.SendMessageRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.ChatConversationResponse;
 import com.example.homehelperfinder.data.model.response.ChatMessageResponse;
 import com.example.homehelperfinder.data.model.response.MarkAsReadResponse;
+import com.example.homehelperfinder.data.model.response.SearchChatResponse;
 
 import java.util.List;
 
@@ -66,4 +68,10 @@ public interface ChatApiInterface {
      */
     @GET("chat/booking/{bookingId}")
     Call<ApiResponse<List<ChatMessageResponse>>> getBookingChat(@Path("bookingId") int bookingId);
+
+    /**
+     * Search users and helpers for chat
+     */
+    @POST("Chat/search")
+    Call<ApiResponse<SearchChatResponse>> searchUsersForChat(@Body SearchChatRequest request);
 }

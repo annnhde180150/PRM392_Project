@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Profile Picture -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_person"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/border_light" />
+
+        <!-- User Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <!-- Name and Type -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="John Doe"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/tvUserType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_user_type_badge"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="john.doe@example.com"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Helper-specific info -->
+            <LinearLayout
+                android:id="@+id/layoutHelperInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:visibility="gone">
+
+                <!-- Rating -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_star"
+                        app:tint="@color/rating_star" />
+
+                    <TextView
+                        android:id="@+id/tvRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.5"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="2dp" />
+
+                </LinearLayout>
+
+                <!-- Availability Status -->
+                <TextView
+                    android:id="@+id/tvAvailabilityStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Available"
+                    android:textSize="12sp"
+                    android:textColor="@color/status_available"
+                    android:layout_marginStart="12dp"
+                    android:drawableStart="@drawable/ic_circle"
+                    android:drawablePadding="4dp"
+                    app:drawableTint="@color/status_available" />
+
+            </LinearLayout>
+
+            <!-- Skills (for helpers) -->
+            <TextView
+                android:id="@+id/tvSkills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cleaning, Cooking"
+                android:textSize="12sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:visibility="gone" />
+
+            <!-- Conversation Status -->
+            <LinearLayout
+                android:id="@+id/layoutConversationStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_chat"
+                    app:tint="@color/primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Existing conversation"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Action Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chat"
+            android:textSize="12sp"
+            android:layout_marginStart="8dp"
+            app:icon="@drawable/ic_chat"
+            app:iconSize="16dp"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

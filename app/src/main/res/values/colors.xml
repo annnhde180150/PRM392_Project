@@ -88,4 +88,13 @@
     <color name="status_revision_text">#0C5460</color>
     <color name="status_unknown_bg">#E2E3E5</color>
     <color name="status_unknown_text">#383D41</color>
+
+    <!-- Search Chat colors -->
+    <color name="user_badge_color">#4285F4</color>
+    <color name="helper_badge_color">#34A853</color>
+    <color name="rating_star">#FFB300</color>
+    <color name="status_available">#4CAF50</color>
+    <color name="status_busy">#FF9800</color>
+    <color name="status_offline">#9E9E9E</color>
+    <color name="border_light">#E0E0E0</color>
 </resources>

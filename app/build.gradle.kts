@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation("androidx.gridlayout:gridlayout:1.0.0")
+    implementation(libs.androidx.gridlayout)
     implementation(libs.support.annotations)
     implementation(libs.firebase.storage)
 
@@ -83,7 +83,7 @@ dependencies {
     implementation(libs.androidx.cardview)
 
     // SwipeRefreshLayout
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(libs.androidx.swiperefreshlayout)
 
     implementation(libs.androidx.gridlayout)
     implementation(libs.androidx.navigation.fragment)
@@ -105,8 +105,9 @@ dependencies {
     annotationProcessor(libs.glide.compiler)
     compileOnly(libs.projectlombok.lombok)
     annotationProcessor(libs.projectlombok.lombok)
-    implementation ("com.google.android.material:material:1.11.0")
-    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation (libs.material)
+    implementation(libs.flexbox)
+    implementation(libs.circleimageview)
 
     // Microsoft SignalR Java Client for real-time messaging
     implementation(libs.signalr)

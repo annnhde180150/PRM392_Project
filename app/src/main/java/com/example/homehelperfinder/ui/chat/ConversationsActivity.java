@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class ConversationsActivity extends BaseActivity implements Conversations
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView tvEmptyState;
     private ImageButton btnBack;
+    private LinearLayout searchBar;
 
     // Data
     private ConversationsAdapter adapter;
@@ -66,6 +68,12 @@ public class ConversationsActivity extends BaseActivity implements Conversations
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         tvEmptyState = findViewById(R.id.tvEmptyState);
         btnBack = findViewById(R.id.btnBack);
+        searchBar = findViewById(R.id.searchBar);
+
+        // Setup search bar click listener
+        if (searchBar != null) {
+            searchBar.setOnClickListener(v -> openSearchChat());
+        }
     }
 
     private void initData() {
@@ -234,5 +242,13 @@ public class ConversationsActivity extends BaseActivity implements Conversations
             signalRService.removeCallback(signalRCallback);
             Logger.d(TAG, "SignalR callback removed from conversations");
         }
+    }
+
+    /**
+     * Open search chat activity
+     */
+    private void openSearchChat() {
+        Intent intent = new Intent(this, SearchChatActivity.class);
+        startActivity(intent);
     }
 }
