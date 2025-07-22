@@ -72,6 +72,20 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to Dashboard");
     }
 
+    // Navigate to Customer Dashboard
+    public static void navigateToCustomerDashboard(Context context) {
+        navigateToCustomerDashboard(context, false);
+    }
+
+    public static void navigateToCustomerDashboard(Context context, boolean clearStack) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.CustomerDashboardActivity.class);
+        if (clearStack) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Customer Dashboard");
+    }
+
     // Navigate to Helper Dashboard
     public static void navigateToHelperDashboard(Context context) {
         navigateToHelperDashboard(context, false);
@@ -100,11 +114,25 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to Notifications");
     }
 
+    // Navigate to Helper Search
+    public static void navigateToHelperSearch(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Helper Search");
+    }
+
     // Navigate to Helper Applications
     public static void navigateToHelperApplications(Context context) {
         Intent intent = new Intent(context, com.example.homehelperfinder.ui.admin.HelperApplicationsActivity.class);
         context.startActivity(intent);
         Logger.d("NavigationHelper", "Navigated to Helper Applications");
+    }
+
+    // Navigate to Admin Edit Profile
+    public static void navigateToAdminEditProfile(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.editProfile.AdminEditProfileActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Admin Edit Profile");
     }
 
     // Navigate to Menu (for testing)
@@ -203,7 +231,7 @@ public class NavigationHelper {
             // Navigate based on user type
             switch (userType) {
                 case Constants.USER_TYPE_CUSTOMER:
-                    navigateToDashboard(context, true);
+                    navigateToCustomerDashboard(context, true);
                     break;
                 case Constants.USER_TYPE_HELPER:
                     navigateToHelperDashboard(context, true);

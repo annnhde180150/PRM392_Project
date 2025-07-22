@@ -384,14 +384,14 @@ public class LoginActivity extends BaseActivity {
     private void navigateToUserDashboard(String userType) {
         switch (userType) {
             case Constants.USER_TYPE_CUSTOMER:
-                NavigationHelper.navigateToDashboard(this);
+                NavigationHelper.navigateToCustomerDashboard(this);
                 break;
             case Constants.USER_TYPE_HELPER:
                 NavigationHelper.navigateToHelperDashboard(this);
                 break;
             case Constants.USER_TYPE_ADMIN:
                 // Navigate to admin dashboard - you may need to implement this
-                NavigationHelper.navigateToMenu(this);
+                NavigationHelper.navigateToDashboard(this);
                 break;
         }
         finish(); // Close login activity

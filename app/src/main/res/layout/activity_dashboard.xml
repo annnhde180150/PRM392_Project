@@ -743,7 +743,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/profile_description"
-                        android:src="@drawable/ic_profile" />
+                        android:src="@drawable/ic_profile_black" />
 
                 </FrameLayout>
 

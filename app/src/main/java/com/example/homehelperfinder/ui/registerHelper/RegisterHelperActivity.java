@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -61,6 +62,18 @@ import com.example.homehelperfinder.data.model.request.HelperRequest;
 import com.example.homehelperfinder.data.model.request.HelperSkillRequest;
 import com.example.homehelperfinder.data.model.request.HelperWorkAreaRequest;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
+import android.app.AlertDialog;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.widget.EditText;
+import android.content.DialogInterface;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONObject;
+
 
 public class RegisterHelperActivity extends BaseActivity {
     private SkillAdapter skillAdapter;
@@ -440,7 +453,11 @@ public class RegisterHelperActivity extends BaseActivity {
         if (!valid) return;
 
         boolean isPrimary = cbIsPrimarySkill.isChecked();
-        HelperSkillResponse newSkill = new HelperSkillResponse(selectedService, years, isPrimary);
+        
+        HelperSkillResponse newSkill = new HelperSkillResponse();
+        newSkill.setServiceName(selectedService);
+        newSkill.setYearsOfExperience(years);
+        newSkill.setPrimarySkill(isPrimary);
 
         if (skillToEdit != null && position >= 0) {
             skillAdapter.updateSkill(position, newSkill);
@@ -522,7 +539,13 @@ public class RegisterHelperActivity extends BaseActivity {
         Double longitude = lngStr.isEmpty() ? null : Double.parseDouble(lngStr);
         Double radiusKm = radiusStr.isEmpty() ? null : Double.parseDouble(radiusStr);
 
-        HelperWorkAreaResponse newArea = new HelperWorkAreaResponse(city, district, ward, latitude, longitude, radiusKm);
+        HelperWorkAreaResponse newArea = new HelperWorkAreaResponse();
+        newArea.setCity(city);
+        newArea.setDistrict(district);
+        newArea.setWard(ward);
+        newArea.setLatitude(latitude != null ? latitude : 0.0);
+        newArea.setLongitude(longitude != null ? longitude : 0.0);
+        newArea.setRadiusKm(radiusKm != null ? radiusKm : 0.0);
 
         if (areaToEdit != null && position >= 0) {
             workAreaAdapter.updateWorkArea(position, newArea);
@@ -679,8 +702,7 @@ public class RegisterHelperActivity extends BaseActivity {
                 runOnUiThread(() -> {
                     hideLoading();
                     Toast.makeText(RegisterHelperActivity.this, "Registration successful! Wait for approval to continue", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(RegisterHelperActivity.this, LoginActivity.class));
-                    finish();
+                    showOtpDialog(etEmail.getText().toString().trim());
                 });
             }
 
@@ -778,5 +800,95 @@ public class RegisterHelperActivity extends BaseActivity {
         }
 
         return valid;
+    }
+
+    private void showOtpDialog(String email) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_otp_verification, null);
+        builder.setView(view);
+        builder.setCancelable(false);
+        android.app.AlertDialog dialog = builder.create();
+
+        ImageView imgIcon = view.findViewById(R.id.imgOtpIcon);
+        imgIcon.setImageResource(R.drawable.ic_email); // Use your icon here
+        TextView tvTitle = view.findViewById(R.id.tvOtpTitle);
+        TextView tvSubtitle = view.findViewById(R.id.tvOtpSubtitle);
+        EditText[] otpFields = new EditText[] {
+            view.findViewById(R.id.etOtp1),
+            view.findViewById(R.id.etOtp2),
+            view.findViewById(R.id.etOtp3),
+            view.findViewById(R.id.etOtp4),
+            view.findViewById(R.id.etOtp5),
+            view.findViewById(R.id.etOtp6)
+        };
+        Button btnVerify = view.findViewById(R.id.btnVerifyOtp);
+
+        // Auto-move focus
+        for (int i = 0; i < otpFields.length; i++) {
+            final int idx = i;
+            otpFields[i].setText("");
+            otpFields[i].setOnKeyListener((v, keyCode, event) -> {
+                if (otpFields[idx].getText().length() == 1 && idx < otpFields.length - 1) {
+                    otpFields[idx + 1].requestFocus();
+                }
+                return false;
+            });
+        }
+
+        btnVerify.setOnClickListener(v -> {
+            StringBuilder otp = new StringBuilder();
+            for (EditText et : otpFields) {
+                String digit = et.getText().toString().trim();
+                if (digit.length() != 1) {
+                    et.setError(" ");
+                    et.requestFocus();
+                    return;
+                }
+                otp.append(digit);
+            }
+            verifyOtp(email, otp.toString(), dialog);
+        });
+
+
+
+        dialog.show();
+    }
+
+    private void verifyOtp(String email, String otp, AlertDialog dialog) {
+        showLoading("Verifying OTP...");
+        AuthApiService authApiService = new AuthApiService();
+        authApiService.verifyOtp(this, email, otp, new AuthApiService.AuthCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                runOnUiThread(() -> {
+                    hideLoading();
+                    dialog.dismiss();
+                    Toast.makeText(RegisterHelperActivity.this, "Email verified! Please login.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RegisterHelperActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
+            }
+            @Override
+            public void onError(String errorMessage, Throwable throwable) {
+                runOnUiThread(() -> {
+                    hideLoading();
+                    Toast.makeText(RegisterHelperActivity.this, errorMessage != null ? errorMessage : "Verification failed", Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

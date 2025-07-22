@@ -149,8 +149,7 @@ public class DashboardActivity extends BaseActivity {
 
         navProfile.setOnClickListener(v -> {
             setBottomNavSelected(3);
-            // TODO: Navigate to profile screen
-            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.editProfile.AdminEditProfileActivity.class);
             startActivity(intent);
         });
     }

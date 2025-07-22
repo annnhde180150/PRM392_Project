@@ -3,10 +3,12 @@ package com.example.homehelperfinder.data.remote.chat;
 import android.content.Context;
 
 import com.example.homehelperfinder.data.model.request.MarkAsReadRequest;
+import com.example.homehelperfinder.data.model.request.SearchChatRequest;
 import com.example.homehelperfinder.data.model.request.SendMessageRequest;
 import com.example.homehelperfinder.data.model.response.ChatConversationResponse;
 import com.example.homehelperfinder.data.model.response.ChatMessageResponse;
 import com.example.homehelperfinder.data.model.response.MarkAsReadResponse;
+import com.example.homehelperfinder.data.model.response.SearchChatResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.RetrofitClient;
 
@@ -88,5 +90,32 @@ public class ChatApiService extends BaseApiService {
 
     public void getBookingChat(Context context, int bookingId, ApiCallback<List<ChatMessageResponse>> callback) {
         handleApiResponse(context, getBookingChat(context, bookingId), callback);
+    }
+
+    // Search Users and Helpers for Chat
+    public CompletableFuture<SearchChatResponse> searchUsersForChat(Context context, SearchChatRequest request) {
+        return executeCall(context, apiInterface.searchUsersForChat(request), "searchUsersForChat");
+    }
+
+    public void searchUsersForChat(Context context, SearchChatRequest request, ApiCallback<SearchChatResponse> callback) {
+        handleApiResponse(context, searchUsersForChat(context, request), callback);
+    }
+
+    // Convenience method for simple search
+    public void searchUsersForChat(Context context, String searchTerm, int pageNumber, int pageSize, ApiCallback<SearchChatResponse> callback) {
+        SearchChatRequest request = new SearchChatRequest(searchTerm, pageNumber, pageSize);
+        searchUsersForChat(context, request, callback);
+    }
+
+    // Convenience method for user-only search
+    public void searchUsersOnly(Context context, String searchTerm, int pageNumber, int pageSize, ApiCallback<SearchChatResponse> callback) {
+        SearchChatRequest request = SearchChatRequest.forUsers(searchTerm, pageNumber, pageSize);
+        searchUsersForChat(context, request, callback);
+    }
+
+    // Convenience method for helper-only search
+    public void searchHelpersOnly(Context context, String searchTerm, int pageNumber, int pageSize, Double minimumRating, ApiCallback<SearchChatResponse> callback) {
+        SearchChatRequest request = SearchChatRequest.forHelpers(searchTerm, pageNumber, pageSize, minimumRating);
+        searchUsersForChat(context, request, callback);
     }
 }

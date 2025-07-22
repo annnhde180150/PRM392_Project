@@ -1,6 +1,8 @@
 [versions]
 agp = "8.10.1"
 cardview = "1.0.0"
+circleimageview = "3.1.0"
+flexbox = "3.0.0"
 gridlayout = "1.0.0"
 gson = "2.11.0"
 gsonVersion = "2.8.5"
@@ -28,13 +30,17 @@ navigationFragment = "2.9.1"
 navigationUi = "2.9.1"
 signalr = "9.0.7"
 rxjava = "3.1.11"
+swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-gridlayout = { module = "androidx.gridlayout:gridlayout", version.ref = "gridlayout" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 gson-v285 = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

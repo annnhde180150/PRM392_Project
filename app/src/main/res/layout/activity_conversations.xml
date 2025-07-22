@@ -43,11 +43,15 @@
 
     <!-- Search Bar -->
     <LinearLayout
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
         <LinearLayout
             android:layout_width="0dp"

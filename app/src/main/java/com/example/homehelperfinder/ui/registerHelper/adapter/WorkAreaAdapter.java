@@ -17,6 +17,7 @@ import java.util.List;
 public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAreaViewHolder> {
     private final List<HelperWorkAreaResponse> workAreaList;
     private WorkAreaActionListener actionListener;
+    private boolean showEditDeleteButtons = true;
 
     public WorkAreaAdapter(List<HelperWorkAreaResponse> workAreaList) {
         this.workAreaList = workAreaList;
@@ -24,6 +25,11 @@ public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAr
 
     public void setWorkAreaActionListener(WorkAreaActionListener listener) {
         this.actionListener = listener;
+    }
+
+    public void setShowEditDeleteButtons(boolean show) {
+        this.showEditDeleteButtons = show;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -41,6 +47,11 @@ public class WorkAreaAdapter extends RecyclerView.Adapter<WorkAreaAdapter.WorkAr
             info += ", " + area.getWard();
         }
         holder.tvWorkAreaInfo.setText(info);
+        
+        // Show/hide edit and delete buttons based on edit mode
+        holder.btnEdit.setVisibility(showEditDeleteButtons ? View.VISIBLE : View.GONE);
+        holder.btnDelete.setVisibility(showEditDeleteButtons ? View.VISIBLE : View.GONE);
+        
         holder.btnEdit.setOnClickListener(v -> {
             if (actionListener != null) actionListener.onEdit(position);
         });

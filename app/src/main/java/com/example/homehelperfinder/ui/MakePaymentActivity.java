@@ -8,18 +8,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.data.model.request.GetPaymentRequest;
 import com.example.homehelperfinder.data.model.request.UpdatePaymentRequest;
 import com.example.homehelperfinder.data.model.response.GetPaymentResponse;
 import com.example.homehelperfinder.data.remote.Payment.PaymentApiService;
 import com.vnpay.authentication.VNP_AuthenticationActivity;
 import com.vnpay.authentication.VNP_SdkCompletedCallback;
-import com.example.homehelperfinder.R;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -29,17 +32,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import retrofit2.Call;
 
 public class MakePaymentActivity extends AppCompatActivity {
     private static final String TAG = "MakePaymentActivity";
@@ -134,12 +135,12 @@ public class MakePaymentActivity extends AppCompatActivity {
         String paymentDateRequest = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Instant instant = Instant.ofEpochMilli(paymentDateMillis);
-            paymentDateRequest= DateTimeFormatter.ISO_INSTANT.format(instant);
+            paymentDateRequest = DateTimeFormatter.ISO_INSTANT.format(instant);
         }
         updatePaymentRequest.setPaymentDate(paymentDateRequest);
         updatePaymentRequest.setPaymentId(paymentId);
         updatePaymentRequest.setAction("Success");
-        paymentApiService.updatePaymentStatus(this,updatePaymentRequest, new PaymentApiService.ApiCallback<Void>() {
+        paymentApiService.updatePaymentStatus(this, updatePaymentRequest, new PaymentApiService.ApiCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
 
@@ -168,12 +169,12 @@ public class MakePaymentActivity extends AppCompatActivity {
         String paymentDateRequest = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Instant instant = Instant.ofEpochMilli(paymentDateMillis);
-            paymentDateRequest= DateTimeFormatter.ISO_INSTANT.format(instant);
+            paymentDateRequest = DateTimeFormatter.ISO_INSTANT.format(instant);
         }
         updatePaymentRequest.setPaymentDate(paymentDateRequest);
         updatePaymentRequest.setPaymentId(paymentId);
         updatePaymentRequest.setAction("Cancelled");
-        paymentApiService.updatePaymentStatus(this,updatePaymentRequest, new PaymentApiService.ApiCallback<Void>() {
+        paymentApiService.updatePaymentStatus(this, updatePaymentRequest, new PaymentApiService.ApiCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
 
@@ -305,10 +306,10 @@ public class MakePaymentActivity extends AppCompatActivity {
         String queryUrl = query.toString();
         String vnp_SecureHash = hmacSHA512(hashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        openSdk(queryUrl,vnp_CreateDate,paymentId);
+        openSdk(queryUrl, vnp_CreateDate, paymentId);
     }
 
-    public void openSdk(String url,String paymentDate,int paymentId) {
+    public void openSdk(String url, String paymentDate, int paymentId) {
         // Set callback TRƯỚC khi start activity
         VNP_AuthenticationActivity.setSdkCompletedCallback(new VNP_SdkCompletedCallback() {
             @Override

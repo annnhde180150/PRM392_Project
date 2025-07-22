@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote.auth;
 
 import com.example.homehelperfinder.data.model.request.HelperRequest;
 import com.example.homehelperfinder.data.model.request.LoginRequest;
+import com.example.homehelperfinder.data.model.request.OtpVerificationRequest;
 import com.example.homehelperfinder.data.model.request.UserRequest;
 import com.example.homehelperfinder.data.model.response.AdminLoginResponse;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
@@ -37,4 +38,7 @@ public interface AuthApiInterface {
 
     @POST("Authentication/register/user")
     Call<ApiResponse<UserResponse>> registerUser(@Body UserRequest request);
+
+    @POST("Authentication/verify-otp")
+    Call<ApiResponse<Void>> verifyOtp(@Body OtpVerificationRequest request);
 }

@@ -2,6 +2,7 @@ package com.example.homehelperfinder.data.remote.address;
 
 import android.content.Context;
 
+import com.example.homehelperfinder.data.model.request.UserAddressCreateRequest;
 import com.example.homehelperfinder.data.model.request.UserAddressUpdateRequest;
 import com.example.homehelperfinder.data.model.response.UserAddressResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
@@ -19,18 +20,18 @@ public class AddressApiService extends BaseApiService{
         this.apiInterface = RetrofitClient.getAddressApiInterface();
     }
 
-    public CompletableFuture<UserAddressResponse> updateUserAddress(Context context, int userId, UserAddressUpdateRequest request) {
-        return executeCall(context, apiInterface.updateUserAddress(userId, request), "Update user profile by ID");
+    public CompletableFuture<UserAddressResponse> getUserAddress(Context context, int addressId) {
+        return executeCall(context, apiInterface.getUserAddress(addressId), "Get user address by ID");
     }
-    public void updateUserAddress(Context context, int userId, UserAddressUpdateRequest request, BaseApiService.ApiCallback<UserAddressResponse> callback) {
-        handleApiResponse(context, updateUserAddress(context, userId, request), callback);
+    public void getUserAddress(Context context, int addressId, BaseApiService.ApiCallback<UserAddressResponse> callback) {
+        handleApiResponse(context, getUserAddress(context, addressId), callback);
     }
 
-    public CompletableFuture<List<UserAddressResponse>> getUserAddresses(Context context, int userId) {
-        return executeCall(context, apiInterface.getUserAddresses(userId), "Get Addresses by userId");
+    public CompletableFuture<UserAddressResponse> updateUserAddress(Context context, int addressId, UserAddressUpdateRequest request) {
+        return executeCall(context, apiInterface.updateUserAddress(addressId, request), "Update user address");
     }
-    public void getUserAddresses(Context context, int userId, BaseApiService.ApiCallback<List<UserAddressResponse>> callback) {
-        handleApiResponse(context, getUserAddresses(context, userId), callback);
+    public void updateUserAddress(Context context, int addressId, UserAddressUpdateRequest request, BaseApiService.ApiCallback<UserAddressResponse> callback) {
+        handleApiResponse(context, updateUserAddress(context, addressId, request), callback);
     }
 
     public CompletableFuture<UserAddressResponse> getAddress(Context context, int id) {
@@ -40,4 +41,28 @@ public class AddressApiService extends BaseApiService{
     public void getAddress(Context context, int id, BaseApiService.ApiCallback<UserAddressResponse> callback) {
         handleApiResponse(context, getAddress(context, id), callback);
     }
+
+    public CompletableFuture<Void> deleteUserAddress(Context context, int addressId) {
+        return executeCall(context, apiInterface.deleteUserAddress(addressId), "Delete address by ID");
+    }
+    public void deleteUserAddress(Context context, int addressId, BaseApiService.ApiCallback<Void> callback) {
+        handleApiResponse(context, deleteUserAddress(context, addressId), callback);
+    }
+
+
+    public CompletableFuture<Void> createUserAddress(Context context, UserAddressCreateRequest request) {
+        return executeCall(context, apiInterface.createUserAddress(request), "Create new address");
+    }
+    public void createUserAddress(Context context, UserAddressCreateRequest request, BaseApiService.ApiCallback<Void> callback) {
+        handleApiResponse(context, createUserAddress(context, request), callback);
+    }
+
+
+    public CompletableFuture<List<UserAddressResponse>> getUserAddressesByUserId(Context context, int userId) {
+        return executeCall(context, apiInterface.getUserAddressesByUserId(userId), "Get all addresses by userId");
+    }
+    public void getUserAddressesByUserId(Context context, int userId, BaseApiService.ApiCallback<List<UserAddressResponse>> callback) {
+        handleApiResponse(context, getUserAddressesByUserId(context, userId), callback);
+    }
+
 }

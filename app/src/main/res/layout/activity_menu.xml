@@ -128,6 +128,7 @@
             <!-- Dashboard Activity Button -->
 
             <!--Helper Dashboard Activity Button -->
+
             <Button
                 android:id="@+id/btn_dashboard"
                 android:layout_width="match_parent"
@@ -152,6 +153,19 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
+
+            <!-- Customer Dashboard Activity Button -->
+            <Button
+                android:id="@+id/btn_customer_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_primary_bg"
+                android:elevation="4dp"
+                android:text="Customer Dashboard Screen"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <!-- Profile Management Activity Button -->
 
@@ -208,6 +222,22 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:drawableStart="@drawable/ic_notification"
+                android:drawablePadding="8dp"
+                android:gravity="center" />
+
+            <!-- Admin Edit Profile Button -->
+            <Button
+                android:id="@+id/btn_user_edit_profile"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_secondary_bg"
+                android:elevation="4dp"
+                android:text="Cuystomer Edit Profile"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="8dp"
                 android:gravity="center" />
 
@@ -281,6 +311,17 @@
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_primary_bg"
                 android:text="Test Payment"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:elevation="4dp" />
+
+            <Button
+                android:id="@+id/btn_test_search_helper"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_primary_bg"
+                android:text="Test Search Helper"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:elevation="4dp" />

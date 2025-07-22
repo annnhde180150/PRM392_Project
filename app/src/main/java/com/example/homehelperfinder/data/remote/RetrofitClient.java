@@ -8,10 +8,13 @@ import com.example.homehelperfinder.data.remote.Payment.PaymentApiInterface;
 import com.example.homehelperfinder.data.remote.address.AddressApiInterface;
 import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
+import com.example.homehelperfinder.data.remote.profile.EditProfileApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
+import com.example.homehelperfinder.data.remote.serviceRequest.GetAllServiceRequestInterface;
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
 import com.example.homehelperfinder.data.remote.user.UserApiInterface;
+import com.example.homehelperfinder.data.remote.favorite.FavoriteHelperApiInterface;
 import com.example.homehelperfinder.utils.Constants;
 import com.example.homehelperfinder.utils.Logger;
 
@@ -163,6 +166,10 @@ public class RetrofitClient {
         return getAuthenticatedClient().create(AddressApiInterface.class);
     }
 
+    public static FavoriteHelperApiInterface getFavoriteHelperApiService() {
+        return getAuthenticatedClient().create(FavoriteHelperApiInterface.class);
+    }
+
 
     public static com.example.homehelperfinder.data.remote.admin.AdminRequestsApiInterface getAdminRequestsApiService() {
         Logger.d("RetrofitClient", "Creating AdminRequestsApiInterface service with authentication");
@@ -177,6 +184,11 @@ public class RetrofitClient {
     public static com.example.homehelperfinder.data.remote.booking.IBookingApiService getBookingApiService() {
         Logger.d("RetrofitClient", "Creating HelperApplicationsApiInterface service with authentication");
         return getAuthenticatedClient().create(com.example.homehelperfinder.data.remote.booking.IBookingApiService.class);
+    }
+    
+    public static EditProfileApiInterface getEditProfileApiInterface() {
+        Logger.d("RetrofitClient", "Creating EditProfileApiInterface service");
+        return getAuthenticatedClient().create(EditProfileApiInterface.class);
     }
 
     /**
@@ -207,5 +219,9 @@ public class RetrofitClient {
     public static Retrofit getChatClient() {
         Logger.w("RetrofitClient", "getChatClient() is deprecated. Use getAuthenticatedClient()");
         return getAuthenticatedClient();
+    }
+    public static GetAllServiceRequestInterface getAllServiceRequestApiService() {
+        Logger.d("RetrofitClient", "Creating GetAllServiceRequestInterface service");
+        return getAuthenticatedClient().create(GetAllServiceRequestInterface.class);
     }
 }

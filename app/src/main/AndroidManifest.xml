@@ -33,7 +33,7 @@
             android:name=".ui.viewRequests.ViewAvailableRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.HelperBookingListActivity"
+            android:name=".ui.listBooking.HelperBookingListActivity"
             android:exported="false"
             android:theme="@style/Theme.HomeHelperFinder" /> <!-- Google Maps API Key -->
         <meta-data
@@ -110,12 +110,16 @@
             android:exported="false" />
         <activity
             android:name=".ui.LocationPickerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".ui.profileManagement.ProfileManagementActivity"
             android:exported="false" />
         <activity
             android:name=".ui.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CustomerDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".ui.UserTypeActivity"
@@ -127,6 +131,10 @@
             android:name=".ui.chat.ConversationsActivity"
             android:exported="false"
             android:label="Messages" />
+        <activity
+            android:name=".ui.chat.SearchChatActivity"
+            android:exported="false"
+            android:label="Search Chat" />
         <activity
             android:name=".ui.chat.ChatActivity"
             android:exported="false"
@@ -146,6 +154,10 @@
             android:name=".ui.editProfile.HelperEditProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.editProfile.AdminEditProfileActivity"
+            android:exported="false"
+            android:label="Edit Admin Profile" />
+        <activity
             android:name=".ui.admin.HelperApplicationsActivity"
             android:exported="false"
             android:label="Helper Applications" />
@@ -156,6 +168,17 @@
         <activity
             android:name=".ui.HelperWalletActivity"
             android:exported="false" />
+        <activity android:name=".ui.FavoriteHelpersActivity"/>
+        <activity android:name=".ui.HelperWalletActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.helperSearch.HelperSearchActivity"
+            android:exported="false"
+            android:label="Find Helpers" />
+        <activity
+            android:name=".ui.helperSearch.HelperDetailActivity"
+            android:exported="false"
+            android:label="Helper Details" />
     </application>
 
 </manifest>

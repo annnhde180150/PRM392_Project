@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.ui.deleteRequest.DeleteRequestActivity;
+import com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity;
+import com.example.homehelperfinder.ui.listBooking.HelperBookingListActivity;
 import com.example.homehelperfinder.ui.postRequest.PostRequestActivity;
 import com.example.homehelperfinder.ui.putRequest.EditRequestActivity;
 import com.example.homehelperfinder.ui.viewRequests.ViewAvailableRequestActivity;
@@ -36,6 +38,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private Button btn_delete_request;
     private Button btn_view_avail_requests;
+    private Button btn_test_search_helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_edit_request = findViewById(R.id.btn_edit_request);
         btn_delete_request = findViewById(R.id.btn_delete_request);
         btn_view_avail_requests = findViewById(R.id.btn_view_avail_requests);
+        btn_test_search_helper = findViewById(R.id.btn_test_search_helper);
     }
 
     private void setupClickListeners() {
@@ -144,6 +148,17 @@ public class MenuActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
+
+        // Add customer dashboard button
+        Button btnCustomerDashboard = findViewById(R.id.btn_customer_dashboard);
+        if (btnCustomerDashboard != null) {
+            btnCustomerDashboard.setOnClickListener(v -> {
+                Intent intent = new Intent(MenuActivity.this, CustomerDashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            });
+        }
         btn_helper_booking_list.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, HelperBookingListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -170,6 +185,21 @@ public class MenuActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
+        btn_test_search_helper.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, HelperSearchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+
+        // Add admin edit profile button
+        Button btnAdminEditProfile = findViewById(R.id.btn_user_edit_profile);
+        if (btnAdminEditProfile != null) {
+            btnAdminEditProfile.setOnClickListener(v -> {
+                Intent intent = new Intent(MenuActivity.this, com.example.homehelperfinder.ui.editProfile.CustomerEditProfileActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void testUserFlow(String userType) {

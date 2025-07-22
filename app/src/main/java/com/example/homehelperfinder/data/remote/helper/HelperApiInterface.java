@@ -3,8 +3,11 @@ package com.example.homehelperfinder.data.remote.helper;
 import com.example.homehelperfinder.data.model.request.HelperUpdateRequest;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 import com.example.homehelperfinder.data.model.response.HelperResponse;
+import com.example.homehelperfinder.data.model.response.HelperSearchResponse;
 import com.example.homehelperfinder.data.model.response.HelperViewIncomeResponse;
 import com.example.homehelperfinder.data.model.response.ServiceResponse;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -15,25 +18,17 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface HelperApiInterface {/**
- * Get helper profile by ID
- */
-@GET("helper/profile/{helperId}")
-Call<ApiResponse<HelperResponse>> getHelperProfile(@Path("helperId") int helperId);
-
-
+public interface HelperApiInterface {
 
     /**
-     * Update helper profile
+     * Search helpers by service
      */
-    @PUT("helper/profile")
-    Call<ApiResponse<HelperResponse>> updateHelperProfile(@Body HelperUpdateRequest request);
-
-    /**
-     * Update helper profile by ID (admin function)
-     */
-    @PUT("helper/profile/{helperId}")
-    Call<ApiResponse<HelperResponse>> updateHelperProfileById(@Path("helperId") int helperId, @Body HelperUpdateRequest request);
+    @GET("Helper/search")
+    Call<ApiResponse<List<HelperSearchResponse>>> searchHelpers(
+            @Query("serviceId") int serviceId,
+            @Query("page") int page,
+            @Query("pageSize") int pageSize
+    );
 
     /**
      * View helper income by ID
