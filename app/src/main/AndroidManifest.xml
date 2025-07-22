@@ -174,6 +174,10 @@
             android:name=".ui.helperSearch.HelperDetailActivity"
             android:exported="false"
             android:label="Helper Details" />
+        <activity
+            android:name=".ui.reports.CustomerReportsActivity"
+            android:exported="false"
+            android:label="Customer Report" />
     </application>
 
 </manifest>

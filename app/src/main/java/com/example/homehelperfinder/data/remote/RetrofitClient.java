@@ -10,6 +10,7 @@ import com.example.homehelperfinder.data.remote.auth.AuthApiInterface;
 import com.example.homehelperfinder.data.remote.chat.ChatApiInterface;
 import com.example.homehelperfinder.data.remote.profile.EditProfileApiInterface;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiInterface;
+import com.example.homehelperfinder.data.remote.report.CustomerReportApiInterface;
 import com.example.homehelperfinder.data.remote.serviceRequest.GetAllServiceRequestInterface;
 import com.example.homehelperfinder.data.remote.serviceRequest.ServiceRequestApiInterface;
 import com.example.homehelperfinder.data.remote.service.ServiceApiInterface;
@@ -218,5 +219,10 @@ public class RetrofitClient {
     public static GetAllServiceRequestInterface getAllServiceRequestApiService() {
         Logger.d("RetrofitClient", "Creating GetAllServiceRequestInterface service");
         return getAuthenticatedClient().create(GetAllServiceRequestInterface.class);
+    }
+
+    public static CustomerReportApiInterface getCustomerReportApiService() {
+        Logger.d("RetrofitClient", "Creating CustomerReportApiInterface service with authentication");
+        return getAuthenticatedClient().create(CustomerReportApiInterface.class);
     }
 }

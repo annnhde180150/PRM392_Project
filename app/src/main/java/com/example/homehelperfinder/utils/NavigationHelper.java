@@ -107,6 +107,13 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to ProfileManagement");
     }
 
+    // Navigate to Customer Reports
+    public static void navigateToCustomerReports(Context context) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.reports.CustomerReportsActivity.class);
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Customer Reports");
+    }
+
     // Navigate to Notifications
     public static void navigateToNotifications(Context context) {
         Intent intent = new Intent(context, NotificationActivity.class);
