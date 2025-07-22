@@ -32,7 +32,7 @@ public class HelperDashboardActivity extends BaseActivity {
     private SharedPrefsHelper sharedPrefsHelper;
     private TextView tv_greeting;
     private ImageButton btnNotification;
-    private CardView btn_view_income;
+    private CardView btn_view_income,btn_view_wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,10 @@ public class HelperDashboardActivity extends BaseActivity {
             Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
             startActivity(intent);
         });
+        btn_view_wallet.setOnClickListener(v -> {
+            Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.HelperWalletActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initViews() {
@@ -138,5 +142,6 @@ public class HelperDashboardActivity extends BaseActivity {
         tv_greeting = findViewById(R.id.tv_greeting);
         tv_greeting.setText("Hello " + sharedPrefsHelper.getUserName());
         btn_view_income = findViewById(R.id.card_manage_view_income);
+        btn_view_wallet = findViewById(R.id.card_manage_view_Wallet);
     }
 }
