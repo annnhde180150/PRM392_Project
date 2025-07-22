@@ -160,6 +160,10 @@ class BookHelperActivity : AppCompatActivity() {
             onSubmit()
         }
 
+        binding.btnClose.setOnClickListener {
+            finish()
+        }
+
         setupDatePicker()
         setupServiceRVAdapters()
         setupAddressSpAdapters()
