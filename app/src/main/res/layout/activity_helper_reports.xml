@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_light"
-    android:layout_marginTop="40dp"
     tools:context=".ui.reports.helper.HelperReportsActivity">
 
     <!-- Header -->
