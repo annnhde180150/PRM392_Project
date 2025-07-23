@@ -174,7 +174,7 @@ public class MakePaymentActivity extends AppCompatActivity {
         });
         Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
         // Chuyển về màn hình chính
-        Intent intent = new Intent(MakePaymentActivity.this, MenuActivity.class);
+        Intent intent = new Intent(MakePaymentActivity.this, CustomerDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -209,7 +209,7 @@ public class MakePaymentActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Thanh toán thất bại!", Toast.LENGTH_SHORT).show();
         // Chuyển về màn hình chính
-        Intent intent = new Intent(MakePaymentActivity.this, MenuActivity.class);
+        Intent intent = new Intent(MakePaymentActivity.this, CustomerDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

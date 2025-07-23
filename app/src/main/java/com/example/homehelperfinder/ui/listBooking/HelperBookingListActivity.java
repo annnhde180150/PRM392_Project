@@ -117,8 +117,7 @@ public class HelperBookingListActivity extends AppCompatActivity implements Book
         }
         
         UserManager userManager = UserManager.getInstance(this);
-//        int helperId = userManager.getCurrentUserId();
-        int helperId = 1; //implement for test
+        int helperId = userManager.getCurrentUserId();
         if (helperId == -1) {
             showLoading(false);
             swipeRefreshLayout.setRefreshing(false);
