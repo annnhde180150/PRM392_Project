@@ -239,6 +239,5 @@
         </LinearLayout>
 </ScrollView>
     <!-- Menu FAB -->
-    <include layout="@layout/layout_menu_fab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

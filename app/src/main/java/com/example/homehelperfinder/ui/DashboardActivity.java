@@ -13,24 +13,13 @@ import com.example.homehelperfinder.R;
 import com.example.homehelperfinder.ui.base.BaseActivity;
 
 public class DashboardActivity extends BaseActivity {
-
-    // Header
-    private TextView tvDashboardTitle;
-    private ImageView ivProfile;
     private ImageView ivNotifications;
 
-    // Statistics Cards
-    private CardView cardUsers, cardOrders, cardRevenue, cardHelpers;
-    private TextView tvUsersCount, tvUsersGrowth;
-    private TextView tvOrdersCount, tvOrdersGrowth;
-    private TextView tvRevenueCount, tvRevenueGrowth;
-    private TextView tvHelpersCount, tvHelpersGrowth;
-
     // Management Cards
-    private CardView cardManageUsers, cardManageOrders, cardManagePayments, cardManageSupport, cardManageHelperApplications;
+    private CardView cardManageUsers, cardManageHelperApplications, cardMangeBooking;
 
     // Bottom Navigation
-    private LinearLayout navHome, navOrders, navMessages, navProfile, navFindHelper;
+    private LinearLayout navHome, navOrders, navProfile;
     private TextView tvNavHome, tvNavOrders, tvNavMessages, tvNavProfile;
     private ImageView ivNavHome, ivNavOrders, ivNavMessages, ivNavProfile;
 
@@ -47,41 +36,19 @@ public class DashboardActivity extends BaseActivity {
         initViews();
         setupClickListeners();
         setupMenuNavigation();
-        loadDashboardData();
     }
 
     private void initViews() {
-        // Header
-        tvDashboardTitle = findViewById(R.id.tv_dashboard_title);
-        ivProfile = findViewById(R.id.iv_profile);
         ivNotifications = findViewById(R.id.iv_notifications);
-
-        // Statistics Cards
-        cardUsers = findViewById(R.id.card_users);
-        cardOrders = findViewById(R.id.card_orders);
-        cardRevenue = findViewById(R.id.card_revenue);
-        cardHelpers = findViewById(R.id.card_helpers);
-
-        tvUsersCount = findViewById(R.id.tv_users_count);
-        tvUsersGrowth = findViewById(R.id.tv_users_growth);
-        tvOrdersCount = findViewById(R.id.tv_orders_count);
-        tvOrdersGrowth = findViewById(R.id.tv_orders_growth);
-        tvRevenueCount = findViewById(R.id.tv_revenue_count);
-        tvRevenueGrowth = findViewById(R.id.tv_revenue_growth);
-        tvHelpersCount = findViewById(R.id.tv_helpers_count);
-        tvHelpersGrowth = findViewById(R.id.tv_helpers_growth);
 
         // Management Cards
         cardManageUsers = findViewById(R.id.card_manage_users);
-        cardManageOrders = findViewById(R.id.card_manage_orders);
-        cardManagePayments = findViewById(R.id.card_manage_payments);
-        cardManageSupport = findViewById(R.id.card_manage_support);
         cardManageHelperApplications = findViewById(R.id.card_manage_helper_applications);
+        cardMangeBooking = findViewById(R.id.card_manage_bookings);
 
         // Bottom Navigation
         navHome = findViewById(R.id.nav_home);
         navOrders = findViewById(R.id.nav_orders);
-        navMessages = findViewById(R.id.nav_messages);
         navProfile = findViewById(R.id.nav_profile);
 
         tvNavHome = findViewById(R.id.tv_nav_home);
@@ -93,17 +60,9 @@ public class DashboardActivity extends BaseActivity {
         ivNavOrders = findViewById(R.id.iv_nav_orders);
         ivNavMessages = findViewById(R.id.iv_nav_messages);
         ivNavProfile = findViewById(R.id.iv_nav_profile);
-
-        navFindHelper = findViewById(R.id.nav_find_helper);
-
     }
 
     private void setupClickListeners() {
-        // Profile click
-        ivProfile.setOnClickListener(v -> {
-            // TODO: Navigate to profile settings
-        });
-
         // Notifications click
         ivNotifications.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.notification.NotificationActivity.class);
@@ -112,24 +71,17 @@ public class DashboardActivity extends BaseActivity {
 
         // Management Cards
         cardManageUsers.setOnClickListener(v -> {
-            // TODO: Navigate to user management
-        });
-
-        cardManageOrders.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.AdminRequestsActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.profileManagement.ProfileManagementActivity.class);
             startActivity(intent);
-        });
-
-        cardManagePayments.setOnClickListener(v -> {
-            // TODO: Navigate to payment management
-        });
-
-        cardManageSupport.setOnClickListener(v -> {
-            // TODO: Navigate to support management
         });
 
         cardManageHelperApplications.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.HelperApplicationsActivity.class);
+            startActivity(intent);
+        });
+
+        cardMangeBooking.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.AdminRequestsActivity.class);
             startActivity(intent);
         });
 
@@ -141,13 +93,7 @@ public class DashboardActivity extends BaseActivity {
 
         navOrders.setOnClickListener(v -> {
             setBottomNavSelected(1);
-            // TODO: Navigate to orders screen
-        });
-
-        navMessages.setOnClickListener(v -> {
-            setBottomNavSelected(2);
-            // Navigate to conversations screen
-            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.chat.ConversationsActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.AdminRequestsActivity.class);
             startActivity(intent);
         });
 
@@ -156,28 +102,6 @@ public class DashboardActivity extends BaseActivity {
             Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.editProfile.AdminEditProfileActivity.class);
             startActivity(intent);
         });
-        navFindHelper.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.helperSearch.HelperSearchActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    private void loadDashboardData() {
-        // Load statistics data (mock data for now)
-        tvUsersCount.setText("1,234");
-        tvUsersGrowth.setText("+10%");
-
-        tvOrdersCount.setText("56");
-        tvOrdersGrowth.setText("+5%");
-
-        tvRevenueCount.setText("$12,345");
-        tvRevenueGrowth.setText("+15%");
-
-        tvHelpersCount.setText("234");
-        tvHelpersGrowth.setText("+8%");
-
-        // Set Home as selected by default
-        setBottomNavSelected(0);
     }
 
     @Override
@@ -227,7 +151,6 @@ public class DashboardActivity extends BaseActivity {
 
         navHome.setBackgroundResource(android.R.color.transparent);
         navOrders.setBackgroundResource(android.R.color.transparent);
-        navMessages.setBackgroundResource(android.R.color.transparent);
         navProfile.setBackgroundResource(android.R.color.transparent);
     }
 

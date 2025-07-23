@@ -418,6 +418,5 @@
 </ScrollView>
 
 <!-- Menu FAB -->
-<include layout="@layout/layout_menu_fab" />
 
 </FrameLayout>

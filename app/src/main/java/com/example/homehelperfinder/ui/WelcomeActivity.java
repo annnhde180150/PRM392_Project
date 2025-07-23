@@ -10,7 +10,6 @@ import com.example.homehelperfinder.ui.base.BaseActivity;
 public class WelcomeActivity extends BaseActivity {
 
     private Button btnGetStarted;
-    private Button btnMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,6 @@ public class WelcomeActivity extends BaseActivity {
 
     private void initViews() {
         btnGetStarted = findViewById(R.id.btn_get_started);
-        btnMenu = findViewById(R.id.btn_menu);
     }
 
     private void setupClickListeners() {
@@ -38,12 +36,6 @@ public class WelcomeActivity extends BaseActivity {
             Intent intent = new Intent(WelcomeActivity.this, UserTypeActivity.class);
             startActivity(intent);
             finish(); // Close welcome screen
-        });
-
-        btnMenu.setOnClickListener(v -> {
-            // Navigate to developer menu
-            Intent intent = new Intent(WelcomeActivity.this, MenuActivity.class);
-            startActivity(intent);
         });
     }
 }

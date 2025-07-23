@@ -69,7 +69,8 @@ public class HelperDashboardActivity extends BaseActivity {
                 return true;
             }
             if (item.getItemId()== R.id.nav_messages){
-                //Implement intent message activity
+                Intent intent = new Intent(HelperDashboardActivity.this, com.example.homehelperfinder.ui.chat.ConversationsActivity.class);
+                startActivity(intent);
                 return true;
             }
             return false;

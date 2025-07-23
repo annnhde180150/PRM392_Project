@@ -310,29 +310,29 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_approve"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginEnd="4dp"
-            android:text="Approve"
-            android:backgroundTint="@color/status_approved_bg" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Approve" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_reject"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="4dp"
-            android:text="Reject"
-            android:backgroundTint="@color/status_rejected_bg" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent_color"
+            android:text="Reject" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_request_revision"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginStart="4dp"
-            android:text="Request Revision"
-            android:backgroundTint="@color/status_revision_bg" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/info_color"
+            android:text="Request Revision" />
 
     </LinearLayout>
 
