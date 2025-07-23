@@ -149,6 +149,20 @@ public class NavigationHelper {
         Logger.d("NavigationHelper", "Navigated to Admin Edit Profile");
     }
 
+    // Navigate to Admin Analytics Dashboard
+    public static void navigateToAdminAnalytics(Context context) {
+        navigateToAdminAnalytics(context, false);
+    }
+
+    public static void navigateToAdminAnalytics(Context context, boolean clearStack) {
+        Intent intent = new Intent(context, com.example.homehelperfinder.ui.admin.AdminAnalyticsActivity.class);
+        if (clearStack) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        context.startActivity(intent);
+        Logger.d("NavigationHelper", "Navigated to Admin Analytics Dashboard");
+    }
+
     // Navigate to Menu (for testing)
     public static void navigateToMenu(Context context) {
         navigateToMenu(context, false);
@@ -251,7 +265,7 @@ public class NavigationHelper {
                     navigateToHelperDashboard(context, true);
                     break;
                 case Constants.USER_TYPE_ADMIN:
-                    navigateToMenu(context, true);
+                    navigateToAdminAnalytics(context, true);
                     break;
                 default:
                     Logger.w("NavigationHelper", "Unknown user type: " + userType);

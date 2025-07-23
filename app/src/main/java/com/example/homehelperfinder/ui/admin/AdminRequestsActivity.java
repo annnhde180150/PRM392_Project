@@ -24,6 +24,7 @@ import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.admin.AdminRequestsApiService;
 import com.example.homehelperfinder.ui.admin.adapter.RequestAdapter;
 import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.ui.base.BaseAdminActivity;
 import com.example.homehelperfinder.utils.Logger;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -38,7 +39,7 @@ import java.util.Locale;
 /**
  * Activity for managing admin requests with filtering and pagination
  */
-public class AdminRequestsActivity extends BaseActivity implements RequestAdapter.OnRequestClickListener {
+public class AdminRequestsActivity extends BaseAdminActivity implements RequestAdapter.OnRequestClickListener {
 
     private static final String TAG = "AdminRequestsActivity";
 
@@ -108,6 +109,11 @@ public class AdminRequestsActivity extends BaseActivity implements RequestAdapte
 
         // Load initial data
         loadRequests();
+    }
+
+    @Override
+    protected AdminPage getCurrentPage() {
+        return AdminPage.REQUESTS;
     }
 
     private void initViews() {

@@ -390,8 +390,8 @@ public class LoginActivity extends BaseActivity {
                 NavigationHelper.navigateToHelperDashboard(this);
                 break;
             case Constants.USER_TYPE_ADMIN:
-                // Navigate to admin dashboard - you may need to implement this
-                NavigationHelper.navigateToDashboard(this);
+                // Navigate to admin analytics dashboard
+                NavigationHelper.navigateToAdminAnalytics(this);
                 break;
         }
         finish(); // Close login activity

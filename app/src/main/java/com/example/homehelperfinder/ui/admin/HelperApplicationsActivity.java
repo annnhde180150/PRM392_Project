@@ -18,6 +18,7 @@ import com.example.homehelperfinder.data.model.response.HelperApplicationsRespon
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.admin.HelperApplicationsApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.ui.base.BaseAdminActivity;
 import com.example.homehelperfinder.utils.Logger;
 import com.google.android.material.button.MaterialButton;
 
@@ -28,7 +29,7 @@ import java.util.Locale;
 /**
  * Activity for managing helper applications
  */
-public class HelperApplicationsActivity extends BaseActivity implements HelperApplicationAdapter.OnApplicationClickListener {
+public class HelperApplicationsActivity extends BaseAdminActivity implements HelperApplicationAdapter.OnApplicationClickListener {
 
     private static final String TAG = "HelperApplicationsActivity";
 
@@ -74,6 +75,11 @@ public class HelperApplicationsActivity extends BaseActivity implements HelperAp
 
         // Load initial data
         loadApplications();
+    }
+
+    @Override
+    protected AdminPage getCurrentPage() {
+        return AdminPage.APPLICATIONS;
     }
 
     private void initViews() {

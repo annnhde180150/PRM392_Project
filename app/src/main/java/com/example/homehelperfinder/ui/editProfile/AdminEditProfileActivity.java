@@ -27,6 +27,7 @@ import com.example.homehelperfinder.ui.DashboardActivity;
 import com.example.homehelperfinder.ui.LoginActivity;
 import com.example.homehelperfinder.ui.WelcomeActivity;
 import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.ui.base.BaseAdminActivity;
 
 import com.example.homehelperfinder.utils.ValidationUtils;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,7 +41,7 @@ import com.example.homehelperfinder.data.model.request.ChangePasswordRequest;
 import com.example.homehelperfinder.data.remote.user.UserApiService;
 import com.example.homehelperfinder.data.model.response.ApiResponse;
 
-public class AdminEditProfileActivity extends BaseActivity {
+public class AdminEditProfileActivity extends BaseAdminActivity {
     private Toolbar toolbar;
 
     private TextInputEditText etUsername, etFullName, etEmail, etRole;
@@ -78,6 +79,11 @@ public class AdminEditProfileActivity extends BaseActivity {
 
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnChangePassword.setOnClickListener(v -> showChangePasswordDialog());
+    }
+
+    @Override
+    protected AdminPage getCurrentPage() {
+        return AdminPage.PROFILE;
     }
 
     private void setupToolbar() {

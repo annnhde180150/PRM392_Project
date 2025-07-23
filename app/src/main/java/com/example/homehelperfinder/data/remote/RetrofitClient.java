@@ -242,4 +242,9 @@ public class RetrofitClient {
         Logger.d("RetrofitClient", "Creating ReviewApiInterface service with authentication");
         return getAuthenticatedClient().create(ReviewApiInterface.class);
     }
+
+    public static com.example.homehelperfinder.data.remote.admin.AdminReportApiInterface getAdminReportApiService() {
+        Logger.d("RetrofitClient", "Creating AdminReportApiInterface service with authentication");
+        return getAuthenticatedClient().create(com.example.homehelperfinder.data.remote.admin.AdminReportApiInterface.class);
+    }
 }

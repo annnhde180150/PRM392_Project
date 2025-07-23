@@ -187,6 +187,10 @@
             android:exported="false"
             android:label="Application Detail" />
         <activity
+            android:name=".ui.admin.AdminAnalyticsActivity"
+            android:exported="false"
+            android:label="Analytics Dashboard" />
+        <activity
             android:name=".ui.HelperWalletActivity"
             android:exported="false" />
 

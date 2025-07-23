@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Admin Bottom Navigation Layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color"
+    android:orientation="vertical">
+
+    <!-- Top border -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/card_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
+
+        <!-- Analytics -->
+        <LinearLayout
+            android:id="@+id/nav_analytics"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_nav_analytics"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Analytics Dashboard"
+                    android:src="@drawable/ic_money" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_nav_analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Analytics"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <!-- Users -->
+        <LinearLayout
+            android:id="@+id/nav_users"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_nav_users"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Manage Users"
+                    android:src="@drawable/ic_profile" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_nav_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Users"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <!-- Applications -->
+        <LinearLayout
+            android:id="@+id/nav_applications"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_nav_applications"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Helper Applications"
+                    android:src="@drawable/ic_orders" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_nav_applications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apps"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <!-- Requests -->
+        <LinearLayout
+            android:id="@+id/nav_requests"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_nav_requests"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Admin Requests"
+                    android:src="@drawable/ic_home" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_nav_requests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Requests"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <!-- Profile -->
+        <LinearLayout
+            android:id="@+id/nav_admin_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_nav_admin_profile"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Admin Profile"
+                    android:src="@drawable/ic_profile" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_nav_admin_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

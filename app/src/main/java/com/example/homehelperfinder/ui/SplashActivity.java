@@ -113,8 +113,8 @@ public class SplashActivity extends AppCompatActivity {
                     NavigationHelper.navigateToHelperDashboard(this, true);
                     break;
                 case Constants.USER_TYPE_ADMIN:
-                    Logger.d(TAG, "Navigating to admin menu");
-                    NavigationHelper.navigateToDashboard(this, true);
+                    Logger.d(TAG, "Navigating to admin analytics dashboard");
+                    NavigationHelper.navigateToAdminAnalytics(this, true);
                     break;
                 default:
                     Logger.w(TAG, "Unknown user type: " + userType + ", navigating to customer dashboard");

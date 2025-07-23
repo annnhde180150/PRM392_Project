@@ -16,12 +16,12 @@ public class DashboardActivity extends BaseActivity {
     private ImageView ivNotifications;
 
     // Management Cards
-    private CardView cardManageUsers, cardManageHelperApplications, cardMangeBooking;
+    private CardView cardManageUsers, cardManageHelperApplications, cardMangeBooking, cardAnalytics;
 
     // Bottom Navigation
     private LinearLayout navHome, navOrders, navProfile;
-    private TextView tvNavHome, tvNavOrders, tvNavMessages, tvNavProfile;
-    private ImageView ivNavHome, ivNavOrders, ivNavMessages, ivNavProfile;
+    private TextView tvNavHome, tvNavOrders, tvNavProfile;
+    private ImageView ivNavHome, ivNavOrders, ivNavProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class DashboardActivity extends BaseActivity {
         cardManageUsers = findViewById(R.id.card_manage_users);
         cardManageHelperApplications = findViewById(R.id.card_manage_helper_applications);
         cardMangeBooking = findViewById(R.id.card_manage_bookings);
+        cardAnalytics = findViewById(R.id.card_analytics);
 
         // Bottom Navigation
         navHome = findViewById(R.id.nav_home);
@@ -53,12 +54,10 @@ public class DashboardActivity extends BaseActivity {
 
         tvNavHome = findViewById(R.id.tv_nav_home);
         tvNavOrders = findViewById(R.id.tv_nav_orders);
-        tvNavMessages = findViewById(R.id.tv_nav_messages);
         tvNavProfile = findViewById(R.id.tv_nav_profile);
 
         ivNavHome = findViewById(R.id.iv_nav_home);
         ivNavOrders = findViewById(R.id.iv_nav_orders);
-        ivNavMessages = findViewById(R.id.iv_nav_messages);
         ivNavProfile = findViewById(R.id.iv_nav_profile);
     }
 
@@ -82,6 +81,11 @@ public class DashboardActivity extends BaseActivity {
 
         cardMangeBooking.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.AdminRequestsActivity.class);
+            startActivity(intent);
+        });
+
+        cardAnalytics.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, com.example.homehelperfinder.ui.admin.AdminAnalyticsActivity.class);
             startActivity(intent);
         });
 
@@ -125,11 +129,7 @@ public class DashboardActivity extends BaseActivity {
                 tvNavOrders.setTextColor(getResources().getColor(R.color.text_primary));
                 ivNavOrders.setColorFilter(getResources().getColor(R.color.text_primary));
                 break;
-            case 2: // Messages
-                tvNavMessages.setTextColor(getResources().getColor(R.color.text_primary));
-                ivNavMessages.setColorFilter(getResources().getColor(R.color.text_primary));
-                break;
-            case 3: // Profile
+            case 2: // Profile
                 tvNavProfile.setTextColor(getResources().getColor(R.color.text_primary));
                 ivNavProfile.setColorFilter(getResources().getColor(R.color.text_primary));
                 break;
@@ -141,12 +141,10 @@ public class DashboardActivity extends BaseActivity {
 
         tvNavHome.setTextColor(defaultColor);
         tvNavOrders.setTextColor(defaultColor);
-        tvNavMessages.setTextColor(defaultColor);
         tvNavProfile.setTextColor(defaultColor);
 
         ivNavHome.setColorFilter(defaultColor);
         ivNavOrders.setColorFilter(defaultColor);
-        ivNavMessages.setColorFilter(defaultColor);
         ivNavProfile.setColorFilter(defaultColor);
 
         navHome.setBackgroundResource(android.R.color.transparent);

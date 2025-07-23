@@ -20,6 +20,7 @@ import com.example.homehelperfinder.data.model.response.ProfileResponse;
 import com.example.homehelperfinder.data.remote.BaseApiService;
 import com.example.homehelperfinder.data.remote.profile.ProfileManagementApiService;
 import com.example.homehelperfinder.ui.base.BaseActivity;
+import com.example.homehelperfinder.ui.base.BaseAdminActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Activity for managing and displaying profiles (active and banned)
  */
-public class ProfileManagementActivity extends BaseActivity implements ProfileManagementAdapter.OnProfileActionListener {
+public class ProfileManagementActivity extends BaseAdminActivity implements ProfileManagementAdapter.OnProfileActionListener {
     private static final String TAG = "ProfileManagement";
 
     private TabLayout tabLayout;
@@ -59,6 +60,11 @@ public class ProfileManagementActivity extends BaseActivity implements ProfileMa
         setupBulkActions();
         setupMenuNavigation();
         loadActiveProfiles(); // Load active profiles by default
+    }
+
+    @Override
+    protected AdminPage getCurrentPage() {
+        return AdminPage.USERS;
     }
 
     private void initViews() {
