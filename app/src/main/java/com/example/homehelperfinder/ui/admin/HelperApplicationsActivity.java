@@ -36,8 +36,6 @@ public class HelperApplicationsActivity extends BaseAdminActivity implements Hel
     // UI Components
     private Toolbar toolbar;
     private AutoCompleteTextView spinnerStatus;
-    private MaterialButton btnClearFilters;
-    private MaterialButton btnApplyFilters;
     private RecyclerView rvApplications;
     private LinearLayout layoutEmptyState;
     private ProgressBar progressBar;
@@ -69,7 +67,6 @@ public class HelperApplicationsActivity extends BaseAdminActivity implements Hel
         setupRecyclerView();
         setupFilters();
         setupPagination();
-        setupClickListeners();
 
         apiService = new HelperApplicationsApiService();
 
@@ -85,8 +82,6 @@ public class HelperApplicationsActivity extends BaseAdminActivity implements Hel
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         spinnerStatus = findViewById(R.id.spinner_status);
-        btnClearFilters = findViewById(R.id.btn_clear_filters);
-        btnApplyFilters = findViewById(R.id.btn_apply_filters);
         rvApplications = findViewById(R.id.rv_applications);
         layoutEmptyState = findViewById(R.id.layout_empty_state);
         progressBar = findViewById(R.id.progress_bar);
@@ -138,12 +133,6 @@ public class HelperApplicationsActivity extends BaseAdminActivity implements Hel
                 loadApplications();
             }
         });
-    }
-
-    private void setupClickListeners() {
-        btnApplyFilters.setOnClickListener(v -> applyFilters());
-
-        btnClearFilters.setOnClickListener(v -> clearFilters());
     }
 
     private void applyFilters() {

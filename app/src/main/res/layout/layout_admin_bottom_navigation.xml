@@ -124,7 +124,7 @@
                 android:id="@+id/tv_nav_applications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apps"
+                android:text="Applications"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
                 android:textStyle="normal" />
